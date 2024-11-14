@@ -1,6 +1,8 @@
 package com.example.eventplanner.activities.home;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.fragments.ChatDialogFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,5 +25,13 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ImageView chatBubble= findViewById(R.id.chat_icon);
+        chatBubble.setOnClickListener(v -> {
+            // Otvaranje Chat dijaloga
+            ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
+            chatDialog.show(getSupportFragmentManager(), "ChatDialog");
+        });
+
     }
 }

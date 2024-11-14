@@ -5,4 +5,7 @@
     <string name="event_title">Event/Service/Product</string>
     <string name="service_product_title">Service/product</string>
     <string name="card_description">Description</string>
+    <string name="person_chat">Person</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
