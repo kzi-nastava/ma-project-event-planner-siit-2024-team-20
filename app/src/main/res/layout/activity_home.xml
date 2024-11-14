@@ -58,7 +58,7 @@
 
                     <!-- Kartica proizvoda 1 -->
                     <include
-                        android:id="@+id/product_card_1"
+                        android:id="@+id/event5_card_1"
                         layout="@layout/event_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 
                     <!-- Kartica proizvoda 2 -->
                     <include
-                        android:id="@+id/product_card_2"
+                        android:id="@+id/event5_card_2"
                         layout="@layout/event_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
 
                     <!-- Kartica proizvoda 3 -->
                     <include
-                        android:id="@+id/product_card_3"
+                        android:id="@+id/event5_card_3"
                         layout="@layout/event_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
 
                     <!-- Kartica proizvoda 4 -->
                     <include
-                        android:id="@+id/product_card_4"
+                        android:id="@+id/event5_card_4"
                         layout="@layout/event_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,39 +90,51 @@
 
                     <!-- Kartica proizvoda 5 -->
                     <include
-                        android:id="@+id/product_card_5"
+                        android:id="@+id/event5_card_5"
                         layout="@layout/event_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp" />
-
                 </LinearLayout>
             </HorizontalScrollView>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:padding="2dp">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
-                    android:layout_width="256dp"
+                <ImageView
+                    android:id="@+id/filter_events"
+                    android:layout_width="29dp"
                     android:layout_height="29dp"
-                    android:layout_marginStart="72dp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    android:layout_marginStart="68dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_filter" />
+
+                <!-- ImageView -->
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view_events"
+                    android:layout_width="270dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/filter_events"
                     app:layout_constraintTop_toTopOf="parent">
 
                 </androidx.appcompat.widget.SearchView>
 
                 <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="29dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_filter" />
+                        android:id="@+id/sort_events"
+                        android:layout_width="67dp"
+                        android:layout_height="28dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_drop_down" />
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,6 +255,230 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_top5_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/top_5_services_products"
+                android:textColorLink="@color/text_color"
+                android:textSize="34sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Kartica proizvoda 1 -->
+                    <include
+                        android:id="@+id/product5_card_1"
+                        layout="@layout/event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp" />
+
+                    <!-- Kartica proizvoda 2 -->
+                    <include
+                        android:id="@+id/product5_card_2"
+                        layout="@layout/event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp" />
+
+                    <!-- Kartica proizvoda 3 -->
+                    <include
+                        android:id="@+id/product5_card_3"
+                        layout="@layout/event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp" />
+
+                    <!-- Kartica proizvoda 4 -->
+                    <include
+                        android:id="@+id/product5_card_4"
+                        layout="@layout/event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp" />
+
+                    <!-- Kartica proizvoda 5 -->
+                    <include
+                        android:id="@+id/product5_card_5"
+                        layout="@layout/event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:padding="2dp">
+
+                <ImageView
+                    android:id="@+id/filter_products"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:layout_marginStart="68dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_filter" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view_products"
+                    android:layout_width="270dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="28dp"
+                    app:layout_constraintStart_toEndOf="@+id/filter_products"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.appcompat.widget.SearchView>
+                <!-- ImageView -->
+                <ImageView
+                    android:id="@+id/sort_products"
+                    android:layout_width="67dp"
+                    android:layout_height="28dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_drop_down" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Kartica proizvoda 1 -->
+                <include
+                    android:id="@+id/product_card_1"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Kartica proizvoda 2 -->
+                <include
+                    android:id="@+id/product_card_2"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_1" />
+
+                <!-- Kartica proizvoda 3 -->
+                <include
+                    android:id="@+id/product_card_3"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_2" />
+
+                <!-- Kartica proizvoda 4 -->
+                <include
+                    android:id="@+id/product_card_4"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_3" />
+
+                <!-- Kartica proizvoda 5 -->
+                <include
+                    android:id="@+id/product_card_5"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_4" />
+
+                <!-- Kartica proizvoda 6 -->
+                <include
+                    android:id="@+id/product_card_6"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_5" />
+
+                <!-- Kartica proizvoda 7 -->
+                <include
+                    android:id="@+id/product_card_7"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_6" />
+
+                <!-- Kartica proizvoda 8 -->
+                <include
+                    android:id="@+id/product_card_8"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_7" />
+
+                <!-- Kartica proizvoda 9 -->
+                <include
+                    android:id="@+id/product_card_9"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_8" />
+
+                <!-- Kartica proizvoda 10 -->
+                <include
+                    android:id="@+id/product_card_10"
+                    layout="@layout/event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_card_9" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -2,7 +2,7 @@
     <string name="app_name">EventPlanner</string>
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
-    <string name="event_title">Event</string>
+    <string name="event_title">Event/Service/Product</string>
     <string name="service_product_title">Service/product</string>
     <string name="card_description">Description</string>
 </resources>
