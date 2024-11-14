@@ -1,3 +1,9 @@
 <resources>
+    <!--- login -->
     <string name="app_name">EventPlanner</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="login">Log In</string>
+    <string name="login2">Do not have an account?</string>
+    <string name="login3">Register</string>
 </resources>
