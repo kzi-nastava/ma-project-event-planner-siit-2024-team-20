@@ -6,6 +6,12 @@
     <string name="service_product_title">Service/product</string>
     <string name="card_description">Description</string>
     <string name="person_chat">Person</string>
+    <string name="close_description">Close chats</string>
+    <string name="back_description">Back from chat</string>
+    <string name="scroll_chat_description">Chat with messages</string>
+    <string name="chat">Chat</string>
+    <string name="send_button">Send</string>
+    <string name="input_message">Type a message</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
