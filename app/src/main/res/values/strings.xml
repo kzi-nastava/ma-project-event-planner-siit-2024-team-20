@@ -25,7 +25,7 @@
     <string name="rf1_password">Password</string>
     <string name="rf1_confirm_password">Confirm password</string>
     <!-- registration fragment 2 [rf2] -->
-    <string name="rf2_title">Service and product provider</string>
+    <string name="rf2_title">Service and product provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
 </resources>

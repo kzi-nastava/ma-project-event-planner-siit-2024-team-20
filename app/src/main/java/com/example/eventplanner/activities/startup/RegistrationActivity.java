@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.startup.EoRegistrationFragment;
+import com.example.eventplanner.fragments.startup.SppRegistrationFragment;
 import com.example.eventplanner.helpers.FragmentsTool;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -35,6 +36,13 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentsTool.to(new EoRegistrationFragment(), RegistrationActivity.this);
+            }
+        });
+        Button btnSPPreg = findViewById(R.id.btnSPP);
+        btnSPPreg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentsTool.to(new SppRegistrationFragment(), RegistrationActivity.this);
             }
         });
     }
