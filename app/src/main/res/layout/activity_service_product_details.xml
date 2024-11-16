@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.event.EventDetailsActivity">
+    tools:context=".activities.service_product.ServiceProductDetailsActivity">
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="418dp"
@@ -39,7 +39,7 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/event_name"
+                android:text="@string/service_product_name"
                 android:textColor="@color/text_color"
                 android:textSize="24sp"
                 android:fontFamily="sans-serif-medium"
@@ -57,14 +57,8 @@
                 android:layout_marginBottom="24dp"/>
 
             <!-- Prazna slika -->
-            <ImageView
-                android:id="@+id/empty_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="24dp"
-                android:src="@android:color/darker_gray" />
 
-            <!-- Ikone: Srce, Zvezda, Komentar, Download -->
+            <!-- Ikone: Srce, Zvezda, Komentar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,28 +90,20 @@
                     android:src="@drawable/ic_comment"
                     android:layout_marginEnd="16dp" />
 
-                <!-- Download Icon -->
                 <ImageView
-                    android:id="@+id/download_icon"
+                    android:id="@+id/shop_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_download"
-                    android:layout_marginEnd="16dp" />
-
-                <ImageView
-                    android:id="@+id/book_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_book"
+                    android:src="@drawable/ic_shop"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
 
             <!-- Chat with organizer link -->
             <TextView
-                android:id="@+id/chat_with_organizer"
+                android:id="@+id/chat_with_provider"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="@string/organizer_chat"
+                android:text="@string/provider_chat"
                 android:textColor="@color/text_color"
                 android:textSize="16sp"
                 android:layout_gravity="center"
@@ -166,6 +152,7 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+
         </LinearLayout>
     </ScrollView>
     <ImageView

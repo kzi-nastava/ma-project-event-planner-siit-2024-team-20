@@ -13,4 +13,7 @@
     <string name="send_button">Send</string>
     <string name="input_message">Type a message</string>
     <string name="organizer_chat">Chat with organizer</string>
+    <string name="provider_chat">Chat with provider</string>
+    <string name="event_name">Event name</string>
+    <string name="service_product_name">Service/Product name</string>
 </resources>
