@@ -22,6 +22,10 @@
                         android:title="@string/nb_favorite"
                         android:icon="@drawable/heart_icon"/>
                     <item
+                        android:id="@+id/nav_notification"
+                        android:title="@string/nb_notifications"
+                        android:icon="@drawable/bell_icon"/>
+                    <item
                         android:id="@+id/nav_logout"
                         android:title="@string/nb_logout"
                         android:icon="@drawable/logout_icon"/>

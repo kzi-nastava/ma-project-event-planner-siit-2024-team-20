@@ -36,6 +36,8 @@
     <string name="nb_favorite">Favorite</string>
     <string name="nb_open">Open navigation drawer</string>
     <string name="nb_close">Close navigation drawer</string>
+    <string name="nb_notifications">Notifications</string>
+
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
