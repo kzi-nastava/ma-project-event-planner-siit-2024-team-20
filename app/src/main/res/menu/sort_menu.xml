@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Opcije za sortiranje sa radio dugmićima -->
+    <item
+        android:id="@+id/option_sort_asc"
+        android:title="Sort Ascending"
+        android:checkable="true"
+        android:radioButton="true"
+        android:checked="true" /> <!-- Sort Ascending je podrazumevano -->
+
+    <item
+        android:id="@+id/option_sort_desc"
+        android:title="Sort Descending"
+        android:checkable="true"
+        android:radioButton="true" />
+
+    <!-- Ostale stavke sa checkbox-ovima -->
+    <item
+        android:id="@+id/option_check_1"
+        android:title="Item 1"
+        android:checkable="true" />
+
+    <item
+        android:id="@+id/option_check_2"
+        android:title="Item 2"
+        android:checkable="true" />
+
+    <item
+        android:id="@+id/option_check_3"
+        android:title="Item 3"
+        android:checkable="true" />
+</menu>
