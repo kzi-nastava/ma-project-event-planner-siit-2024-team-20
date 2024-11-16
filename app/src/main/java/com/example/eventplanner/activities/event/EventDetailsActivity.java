@@ -1,5 +1,6 @@
 package com.example.eventplanner.activities.event;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -15,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.home.HomeActivity;
+import com.example.eventplanner.activities.profiles.EoProfileActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
@@ -64,6 +67,16 @@ public class EventDetailsActivity extends AppCompatActivity implements Navigatio
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        if(item.getItemId() == R.id.nav_home){
+            intent = new Intent(this, HomeActivity.class);
+        } else if (item.getItemId() == R.id.nav_profile) {
+            intent = new Intent(this, EoProfileActivity.class);
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
+        startActivity(intent);
+        finish();
         return true;
     }
 }
