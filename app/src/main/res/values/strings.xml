@@ -16,4 +16,6 @@
     <string name="provider_chat">Chat with provider</string>
     <string name="event_name">Event name</string>
     <string name="service_product_name">Service/Product name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

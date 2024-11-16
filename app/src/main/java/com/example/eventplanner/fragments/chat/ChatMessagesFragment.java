@@ -1,4 +1,4 @@
-package com.example.eventplanner.fragments;
+package com.example.eventplanner.fragments.chat;
 
 import android.app.Dialog;
 import android.os.Bundle;
