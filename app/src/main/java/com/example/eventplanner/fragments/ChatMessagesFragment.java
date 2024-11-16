@@ -49,7 +49,16 @@ public class ChatMessagesFragment extends DialogFragment {
 
         // Postavljanje funkcionalnosti dugmadi
         backButton.setOnClickListener(v -> dismiss());  // Zatvoriti chat
-        closeButton.setOnClickListener(v -> dismiss());  // Zatvoriti chat
+        closeButton.setOnClickListener(v -> {
+            // Zatvori trenutni fragment
+            dismiss();
+
+            // Zatvori prethodni fragment
+            if (getParentFragment() != null) {
+                dismiss();
+            }
+        });
+        // Zatvoriti chat
         sendButton.setOnClickListener(v -> sendMessage());
 
         return rootView;
