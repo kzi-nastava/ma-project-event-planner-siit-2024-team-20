@@ -16,13 +16,13 @@
             android:id="@+id/radio_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service" />
+            android:text="@string/service" />
 
         <RadioButton
             android:id="@+id/radio_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product" />
+            android:text="@string/product" />
     </RadioGroup>
     <!-- Opcije za sortiranje (ASC/DESC) -->
     <RadioGroup
@@ -34,13 +34,13 @@
             android:id="@+id/radio_sort_asc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ascending" />
+            android:text="@string/asc" />
 
         <RadioButton
             android:id="@+id/radio_sort_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descending" />
+            android:text="@string/desc" />
     </RadioGroup>
 
     <!-- Opcije za višestruki izbor -->
@@ -68,5 +68,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sort" />
+        android:text="@string/sort" />
 </LinearLayout>

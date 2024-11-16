@@ -15,13 +15,13 @@
             android:id="@+id/radio_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service" />
+            android:text="@string/service" />
 
         <RadioButton
             android:id="@+id/radio_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product" />
+            android:text="@string/product" />
     </RadioGroup>
     <!-- Stavka koja otvara listu sa checkbox opcijama -->
     <LinearLayout
@@ -38,13 +38,14 @@
             android:id="@+id/filter_option_1_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Option 1" />
+            android:text="@string/option" />
 
         <ImageView
             android:id="@+id/filter_option_1_arrow"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_more" />
+            android:src="@android:drawable/ic_menu_more"
+            android:contentDescription="@string/option"/>
     </LinearLayout>
 
     <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
@@ -59,26 +60,26 @@
             android:id="@+id/check_option_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sub Option 1" />
+            android:text="Option 1" />
 
         <CheckBox
             android:id="@+id/check_option_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sub Option 2" />
+            android:text="Option 2" />
 
         <CheckBox
             android:id="@+id/check_option_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sub Option 3" />
+            android:text="Option 3" />
     </LinearLayout>
 
     <!-- Dugme za povratak -->
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/btn_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Filter"
+        android:text="@string/filter"
         android:layout_marginTop="16dp" />
 </LinearLayout>

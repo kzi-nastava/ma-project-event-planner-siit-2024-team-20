@@ -17,13 +17,13 @@
             android:id="@+id/radio_sort_asc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ascending" />
+            android:text="@string/asc" />
 
         <RadioButton
             android:id="@+id/radio_sort_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descending" />
+            android:text="@string/desc" />
     </RadioGroup>
 
     <!-- Opcije za višestruki izbor -->
@@ -43,7 +43,7 @@
         android:id="@+id/check_option_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Option 3" />
+        android:text="@string/option" />
 
     <!-- Dugme za potvrdu -->
     <Button
@@ -51,5 +51,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sort" />
+        android:text="@string/sort" />
 </LinearLayout>
