@@ -30,6 +30,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.service_product.ServiceProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.event.EventDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.home.HomeActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
