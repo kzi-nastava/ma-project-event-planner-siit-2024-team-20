@@ -1,6 +1,6 @@
 <resources>
     <!-- login -->
-    <string name="app_name">EventPlanner</string>
+    <string name="app_name">Event Planner</string>
     <string name="hint_email">Enter your email</string>
     <string name="hint_password">Enter your password</string>
     <string name="login">Log In</string>
@@ -28,4 +28,12 @@
     <string name="rf2_title">Service and product provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
+    <!-- nav bar -->
+    <string name="nb_home">Home</string>
+    <string name="nb_profile">Profile</string>
+    <string name="nb_logout">Log out</string>
+    <string name="nb_calendar">My calendar</string>
+    <string name="nb_favorite">Favorite</string>
+    <string name="nb_open">Open navigation drawer</string>
+    <string name="nb_close">Close navigation drawer</string>
 </resources>

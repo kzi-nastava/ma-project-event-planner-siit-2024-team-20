@@ -5,4 +5,5 @@
     <color name="background_color">#F3EEE9</color>
     <color name="text_color">#3C2956</color>
     <color name="link_color">#2784F5</color>
+    <color name="nav_bar_color">#E8C9F2</color>
 </resources>

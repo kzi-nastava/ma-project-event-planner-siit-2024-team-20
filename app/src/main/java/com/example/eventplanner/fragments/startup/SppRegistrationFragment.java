@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.startup.LoginActivity;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SppRegistrationFragment#newInstance} factory method to
