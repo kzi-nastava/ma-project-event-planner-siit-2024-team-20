@@ -27,10 +27,12 @@ public class SortMenuManager {
             // Konvertovanje dp u px za širinu
             int widthInPx = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 250, context.getResources().getDisplayMetrics());
+            int heightInPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 300, context.getResources().getDisplayMetrics());
             // Kreiranje PopupWindow
             PopupWindow popupWindow = new PopupWindow(popupView,
                     widthInPx,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    heightInPx,
                     true); // Daje mogućnost da se zatvori klikom van prozora
 
             // Pozicioniranje PopupWindow ispod dugmeta
@@ -50,7 +52,7 @@ public class SortMenuManager {
             CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
 
             // Dugme za potvrdu
-            Button confirmButton = popupView.findViewById(R.id.btn_sort_confirm);
+            Button confirmButton = popupView.findViewById(R.id.btn_sort);
             confirmButton.setOnClickListener(view -> {
                 /* Provera šta je selektovano
                 String sortOrder = radioAsc.isChecked() ? "Ascending" : "Descending";
@@ -67,10 +69,12 @@ public class SortMenuManager {
             // Konvertovanje dp u px za širinu
             int widthInPx = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 250, context.getResources().getDisplayMetrics());
+            int heightInPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 300, context.getResources().getDisplayMetrics());
             // Kreiranje PopupWindow
             PopupWindow popupWindow = new PopupWindow(popupView,
                     widthInPx,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    heightInPx,
                     true); // Daje mogućnost da se zatvori klikom van prozora
 
             // Pozicioniranje PopupWindow ispod dugmeta
@@ -92,7 +96,7 @@ public class SortMenuManager {
             CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
 
             // Dugme za potvrdu
-            Button confirmButton = popupView.findViewById(R.id.btn_sort_confirm);
+            Button confirmButton = popupView.findViewById(R.id.btn_sort);
             confirmButton.setOnClickListener(view -> {
                 popupWindow.dismiss();
             });

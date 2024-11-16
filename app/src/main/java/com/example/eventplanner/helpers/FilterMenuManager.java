@@ -29,10 +29,12 @@ public class FilterMenuManager {
         View popupView = LayoutInflater.from(context).inflate(R.layout.filter_events_menu, null);
         int widthInPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 250, context.getResources().getDisplayMetrics());
+        int heightInPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 300, context.getResources().getDisplayMetrics());
         // Kreiranje PopupWindow
         PopupWindow popupWindow = new PopupWindow(popupView,
                 widthInPx,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                heightInPx,
                 true); // Daje mogućnost da se zatvori klikom van prozora
 
         // Pozicioniranje PopupWindow ispod dugmeta
@@ -60,7 +62,7 @@ public class FilterMenuManager {
         CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
 
         // Dugme za povratak (zatvaranje pop-up prozora)
-        Button btnFilter= popupView.findViewById(R.id.btn_back);
+        Button btnFilter= popupView.findViewById(R.id.btn_filter);
         btnFilter.setOnClickListener(view -> {
             // Kada klikneš na dugme, zatvaraš popup
             popupWindow.dismiss();
@@ -71,10 +73,12 @@ public class FilterMenuManager {
         View popupView = LayoutInflater.from(context).inflate(R.layout.filter_services_products_menu, null);
         int widthInPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 250, context.getResources().getDisplayMetrics());
+        int heightInPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 300, context.getResources().getDisplayMetrics());
         // Kreiranje PopupWindow
         PopupWindow popupWindow = new PopupWindow(popupView,
                 widthInPx,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                heightInPx,
                 true); // Daje mogućnost da se zatvori klikom van prozora
 
         // Pozicioniranje PopupWindow ispod dugmeta
@@ -104,7 +108,7 @@ public class FilterMenuManager {
         RadioButton product=popupView.findViewById(R.id.radio_product);
         service.setChecked(true);
         // Dugme za povratak (zatvaranje pop-up prozora)
-        Button btnFilter = popupView.findViewById(R.id.btn_back);
+        Button btnFilter = popupView.findViewById(R.id.btn_filter);
         btnFilter.setOnClickListener(view -> {
             // Kada klikneš na dugme, zatvaraš popup
             popupWindow.dismiss();
