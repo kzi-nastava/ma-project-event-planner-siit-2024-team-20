@@ -1,5 +1,41 @@
 <resources>
-    <string name="app_name">EventPlanner</string>
+    <!-- login -->
+    <string name="app_name">Event Planner</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="login">Log In</string>
+    <string name="login2">Do not have an account? </string>
+    <string name="login3">Register</string>
+    <!-- registration -->
+    <string name="registration_title">Registration</string>
+    <string name="register">Register</string>
+    <string name="btn1">event organizer</string>
+    <string name="btn2">service and product provider</string>
+    <string name="register2">Already have an account? </string>
+    <string name="register3">Log In</string>
+    <!-- registration fragment 1 [rf1] -->
+    <string name="rf1_title">Event organizer Registration</string>
+    <string name="rf1_name">Name</string>
+    <string name="rf1_lastname">Lastname</string>
+    <string name="rf1_email">Email</string>
+    <string name="rf1_address">Address</string>
+    <string name="rf1_address_number">num</string>
+    <string name="rf1_city">City</string>
+    <string name="rf1_phone_number">Phone number</string>
+    <string name="rf1_password">Password</string>
+    <string name="rf1_confirm_password">Confirm password</string>
+    <!-- registration fragment 2 [rf2] -->
+    <string name="rf2_title">Service and product provider Registration</string>
+    <string name="rf2_company_name">Company name</string>
+    <string name="rf2_company_description">Company description</string>
+    <!-- nav bar -->
+    <string name="nb_home">Home</string>
+    <string name="nb_profile">Profile</string>
+    <string name="nb_logout">Log out</string>
+    <string name="nb_calendar">My calendar</string>
+    <string name="nb_favorite">Favorite</string>
+    <string name="nb_open">Open navigation drawer</string>
+    <string name="nb_close">Close navigation drawer</string>
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>

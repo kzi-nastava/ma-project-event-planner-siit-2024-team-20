@@ -13,6 +13,24 @@
         android:theme="@style/Theme.EventPlanner"
         tools:targetApi="31">
         <activity
+            android:name=".activities.startup.MainActivity2"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.startup.RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.startup.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.startup.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.service_product.ServiceProductDetailsActivity"
             android:exported="false" />
         <activity
@@ -21,15 +39,6 @@
         <activity
             android:name=".activities.home.HomeActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
