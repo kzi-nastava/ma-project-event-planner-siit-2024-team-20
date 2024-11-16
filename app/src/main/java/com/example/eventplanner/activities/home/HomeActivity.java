@@ -3,6 +3,7 @@ package com.example.eventplanner.activities.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,6 +23,8 @@ import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.helpers.FilterMenuManager;
+import com.example.eventplanner.helpers.SortMenuManager;
 
 public class HomeActivity extends AppCompatActivity {
     @Override
@@ -37,8 +40,31 @@ public class HomeActivity extends AppCompatActivity {
 
         openChat();
         eventDetails();
-        showEventSortMenu();
-        showServicesProductsSortMenu();
+        SortMenuManager sortMenuManager=new SortMenuManager(HomeActivity.this);
+        ImageView sortEventsButton= findViewById(R.id.sort_events);
+        sortEventsButton.setOnClickListener(v -> {
+            // Prikazivanje filter menija
+            sortMenuManager.showEventSortMenu(sortEventsButton);
+        });
+
+        ImageView sortServicesProductsButton= findViewById(R.id.sort_products);
+        sortServicesProductsButton.setOnClickListener(v -> {
+            // Prikazivanje filter menija
+            sortMenuManager.showServicesProductsSortMenu(sortServicesProductsButton);
+        });
+
+        FilterMenuManager filterMenuManager = new FilterMenuManager(HomeActivity.this);
+        ImageView filterEventsButton= findViewById(R.id.filter_events);
+        filterEventsButton.setOnClickListener(v -> {
+            // Prikazivanje filter menija
+            filterMenuManager.showFilterEventsMenu(filterEventsButton);
+        });
+
+        ImageView filterServicesProductsButton= findViewById(R.id.filter_products);
+        filterServicesProductsButton.setOnClickListener(v -> {
+            // Prikazivanje filter menija
+            filterMenuManager.showFilterServicesProductsMenu(filterServicesProductsButton);
+        });
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
@@ -80,92 +106,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-    private void showEventSortMenu(){
-        // Poveži dugme koje će otvoriti PopupWindow
-        ImageView sortButton = findViewById(R.id.sort_events);
 
-        sortButton.setOnClickListener(v -> {
-            // Inflating layout za PopupWindow
-            View popupView = getLayoutInflater().inflate(R.layout.sort_events_menu, null);
-            // Konvertovanje dp u px za širinu
-            int widthInPx = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
-            // Kreiranje PopupWindow
-            PopupWindow popupWindow = new PopupWindow(popupView,
-                    widthInPx,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    true); // Daje mogućnost da se zatvori klikom van prozora
 
-            // Pozicioniranje PopupWindow ispod dugmeta
-            popupWindow.showAsDropDown(v, 0, 0);  // Pozicionira PopupWindow odmah ispod dugmeta
-
-            // Logika za sortiranje (ASC/DESC)
-            RadioGroup radioGroup = popupView.findViewById(R.id.sort_radio_group);
-            RadioButton radioAsc = popupView.findViewById(R.id.radio_sort_asc);
-            RadioButton radioDesc = popupView.findViewById(R.id.radio_sort_desc);
-
-            // Setovanje početne selekcije (ako je potrebno)
-            radioAsc.setChecked(true);  // Ako je podrazumevani ASC
-
-            // Logika za višestruki izbor (CheckBox)
-            CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
-            CheckBox checkOption2 = popupView.findViewById(R.id.check_option_2);
-            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
-
-            // Dugme za potvrdu
-            Button confirmButton = popupView.findViewById(R.id.btn_sort_confirm);
-            confirmButton.setOnClickListener(view -> {
-                /* Provera šta je selektovano
-                String sortOrder = radioAsc.isChecked() ? "Ascending" : "Descending";
-                String selectedOptions = "";
-                if (checkOption1.isChecked()) selectedOptions += "Option 1, ";
-                if (checkOption2.isChecked()) selectedOptions += "Option 2, ";
-                if (checkOption3.isChecked()) selectedOptions += "Option 3, ";
-                // Zatvori PopupWindow*/
-                popupWindow.dismiss();
-            });
-        });
-        }
-    private void showServicesProductsSortMenu(){
-        // Poveži dugme koje će otvoriti PopupWindow
-        ImageView sortButton = findViewById(R.id.sort_products);
-
-        sortButton.setOnClickListener(v -> {
-            // Inflating layout za PopupWindow
-            View popupView = getLayoutInflater().inflate(R.layout.sort_services_products_menu, null);
-            // Konvertovanje dp u px za širinu
-            int widthInPx = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 250, getResources().getDisplayMetrics());
-            // Kreiranje PopupWindow
-            PopupWindow popupWindow = new PopupWindow(popupView,
-                    widthInPx,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    true); // Daje mogućnost da se zatvori klikom van prozora
-
-            // Pozicioniranje PopupWindow ispod dugmeta
-            popupWindow.showAsDropDown(v, 0, 0);  // Pozicionira PopupWindow odmah ispod dugmeta
-
-            // Logika za sortiranje (ASC/DESC)
-            RadioGroup radioGroup = popupView.findViewById(R.id.sort_radio_group);
-            RadioButton radioAsc = popupView.findViewById(R.id.radio_sort_asc);
-            RadioButton radioDesc = popupView.findViewById(R.id.radio_sort_desc);
-            RadioGroup choose=popupView.findViewById(R.id.choose_group);
-            RadioButton radioService = popupView.findViewById(R.id.radio_service);
-            RadioButton radioProduct = popupView.findViewById(R.id.radio_product);
-            // Setovanje početne selekcije (ako je potrebno)
-            radioAsc.setChecked(true);  // Ako je podrazumevani ASC
-            radioService.setChecked(true);
-            // Logika za višestruki izbor (CheckBox)
-            CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
-            CheckBox checkOption2 = popupView.findViewById(R.id.check_option_2);
-            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
-
-            // Dugme za potvrdu
-            Button confirmButton = popupView.findViewById(R.id.btn_sort_confirm);
-            confirmButton.setOnClickListener(view -> {
-                popupWindow.dismiss();
-            });
-        });
-    }
-    }
-
+}

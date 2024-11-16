@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:elevation="4dp">
+
+    <!-- Stavka koja otvara listu sa checkbox opcijama -->
+    <LinearLayout
+        android:id="@+id/filter_option_1_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/filter_option_1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 1" />
+
+        <ImageView
+            android:id="@+id/filter_option_1_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_more" />
+    </LinearLayout>
+
+    <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
+    <LinearLayout
+        android:id="@+id/filter_option_1_checkbox_list"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/check_option_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sub Option 1" />
+
+        <CheckBox
+            android:id="@+id/check_option_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sub Option 2" />
+
+        <CheckBox
+            android:id="@+id/check_option_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sub Option 3" />
+    </LinearLayout>
+
+    <!-- Dugme za povratak -->
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
+

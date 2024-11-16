@@ -6,7 +6,7 @@
     android:elevation="4dp"
     android:orientation="vertical"
     android:padding="16dp">
-    <!-- Opcije za sortiranje (ASC/DESC) -->
+
     <RadioGroup
         android:id="@+id/choose_group"
         android:layout_width="match_parent"
