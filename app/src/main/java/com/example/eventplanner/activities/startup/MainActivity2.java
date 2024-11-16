@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.fragments.ToolbarFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.google.android.material.navigation.NavigationView;
 
@@ -41,9 +42,14 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
         });
         drawerLayout = findViewById(R.id.main2);
         navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
+        ToolbarFragment toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView2);
+        if (toolbarFragment != null) {
+            toolbar = toolbarFragment.getView() != null ? toolbarFragment.getView().findViewById(R.id.toolbar) : null;
 
-        DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
+            if (toolbar != null) {
+                DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
+            }
+        }
         navigationView.setNavigationItemSelectedListener(this);
 
     }

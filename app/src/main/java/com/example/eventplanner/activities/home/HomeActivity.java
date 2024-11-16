@@ -27,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
+import com.example.eventplanner.fragments.ToolbarFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FilterMenuManager;
