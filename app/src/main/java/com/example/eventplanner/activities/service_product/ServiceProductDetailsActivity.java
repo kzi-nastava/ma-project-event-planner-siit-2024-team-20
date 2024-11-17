@@ -31,6 +31,9 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ImageView returnBack = findViewById(R.id.return_back);
+        returnBack.setOnClickListener(v -> onBackPressed());
+
         openChat();
         String eventId = getIntent().getStringExtra("product_id");
     }
