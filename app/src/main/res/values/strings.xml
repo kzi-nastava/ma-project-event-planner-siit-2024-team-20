@@ -1,0 +1,71 @@
+<resources>
+    <!-- login -->
+    <string name="app_name">Event Planner</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="login">Log In</string>
+    <string name="login2">Do not have an account? </string>
+    <string name="login3">Register</string>
+    <!-- registration -->
+    <string name="registration_title">Registration</string>
+    <string name="register">Register</string>
+    <string name="btn1">event organizer</string>
+    <string name="btn2">service and product provider</string>
+    <string name="register2">Already have an account? </string>
+    <string name="register3">Log In</string>
+    <!-- registration fragment 1 [rf1] -->
+    <string name="rf1_title">Event organizer Registration</string>
+    <string name="rf1_name">Name</string>
+    <string name="rf1_lastname">Lastname</string>
+    <string name="rf1_email">Email</string>
+    <string name="rf1_address">Address</string>
+    <string name="rf1_address_number">num</string>
+    <string name="rf1_city">City</string>
+    <string name="rf1_phone_number">Phone number</string>
+    <string name="rf1_password">Password</string>
+    <string name="rf1_confirm_password">Confirm password</string>
+    <!-- registration fragment 2 [rf2] -->
+    <string name="rf2_title">Provider Registration</string>
+    <string name="rf2_company_name">Company name</string>
+    <string name="rf2_company_description">Company description</string>
+    <!-- nav bar -->
+    <string name="nb_home">Home</string>
+    <string name="nb_profile">Profile</string>
+    <string name="nb_logout">Log out</string>
+    <string name="nb_calendar">My calendar</string>
+    <string name="nb_favorite">Favorite</string>
+    <string name="nb_open">Open navigation drawer</string>
+    <string name="nb_close">Close navigation drawer</string>
+    <string name="nb_notifications">Notifications</string>
+
+    <string name="top_5_events">Top 5 events</string>
+    <string name="top_5_services_products">Top 5 services and products</string>
+    <string name="event_title">Event/Service/Product</string>
+    <string name="service_product_title">Service/product</string>
+    <string name="card_description">Description</string>
+    <string name="person_chat">Person</string>
+    <string name="close_description">Close chats</string>
+    <string name="back_description">Back from chat</string>
+    <string name="scroll_chat_description">Chat with messages</string>
+    <string name="chat">Chat</string>
+    <string name="send_button">Send</string>
+    <string name="input_message">Type a message</string>
+    <string name="organizer_chat">Chat with organizer</string>
+    <string name="provider_chat">Chat with provider</string>
+    <string name="event_name">Event name</string>
+    <string name="service_product_name">Service/Product name</string>
+    <string name="filter_menu">Filter menu</string>
+    <string name="sort_menu">Sort menu</string>
+    <string name="comment">Comment</string>
+    <string name="like">Heart</string>
+    <string name="review">Review</string>
+    <string name="shop">Shop</string>
+    <string name="image">Image</string>
+    <string name="option">Option</string>
+    <string name="service">Service</string>
+    <string name="product">Product</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
+    <string name="asc">Ascending</string>
+    <string name="desc">Descending</string>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/nb_home"
+            android:icon="@drawable/home_icon"/>
+    </group>
+        <item android:title="@string/nb_profile">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_profile"
+                        android:title="@string/nb_profile"
+                        android:icon="@drawable/profile_icon"/>
+                    <item
+                        android:id="@+id/nav_calendar"
+                        android:title="@string/nb_calendar"
+                        android:icon="@drawable/calendar_icon"/>
+                    <item
+                        android:id="@+id/nav_favorite"
+                        android:title="@string/nb_favorite"
+                        android:icon="@drawable/heart_icon"/>
+                    <item
+                        android:id="@+id/nav_notification"
+                        android:title="@string/nb_notifications"
+                        android:icon="@drawable/bell_icon"/>
+                    <item
+                        android:id="@+id/nav_logout"
+                        android:title="@string/nb_logout"
+                        android:icon="@drawable/logout_icon"/>
+                </group>
+            </menu>
+        </item>
+
+</menu>
