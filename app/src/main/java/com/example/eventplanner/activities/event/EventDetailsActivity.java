@@ -32,7 +32,6 @@ public class EventDetailsActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        StatusLineTool.hideStatusBar(this);
         setContentView(R.layout.activity_event_details);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.event_details_activity), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

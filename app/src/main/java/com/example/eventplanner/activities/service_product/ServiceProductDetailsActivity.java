@@ -29,7 +29,6 @@ public class ServiceProductDetailsActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        StatusLineTool.hideStatusBar(this);
         setContentView(R.layout.activity_service_product_details);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.service_product_details_activity), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
