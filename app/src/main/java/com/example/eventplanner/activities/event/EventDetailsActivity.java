@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
 import com.example.eventplanner.activities.profiles.EoProfileActivity;
+import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
@@ -72,7 +73,9 @@ public class EventDetailsActivity extends AppCompatActivity implements Navigatio
             intent = new Intent(this, HomeActivity.class);
         } else if (item.getItemId() == R.id.nav_profile) {
             intent = new Intent(this, EoProfileActivity.class);
-        }else {
+        }else if (item.getItemId() == R.id.nav_logout){
+            intent = new Intent(this, LoginActivity.class);
+        } else {
             return super.onOptionsItemSelected(item);
         }
         startActivity(intent);
