@@ -35,14 +35,14 @@ public class RegistrationActivity extends AppCompatActivity {
         btnEOreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentsTool.to(new EoRegistrationFragment(), RegistrationActivity.this);
+                FragmentsTool.to(new EoRegistrationFragment(), RegistrationActivity.this, false);
             }
         });
         Button btnSPPreg = findViewById(R.id.btnSPP);
         btnSPPreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentsTool.to(new SppRegistrationFragment(), RegistrationActivity.this);
+                FragmentsTool.to(new SppRegistrationFragment(), RegistrationActivity.this, false);
             }
         });
     }
