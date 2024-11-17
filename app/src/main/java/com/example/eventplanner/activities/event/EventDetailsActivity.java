@@ -17,17 +17,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
-import com.example.eventplanner.activities.profiles.EoProfileActivity;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
 import com.google.android.material.navigation.NavigationView;
 
-public class EventDetailsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
+public class EventDetailsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +34,9 @@ public class EventDetailsActivity extends AppCompatActivity implements Navigatio
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        drawerLayout = findViewById(R.id.event_details_activity);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
+        ImageView returnBack = findViewById(R.id.return_back);
+        returnBack.setOnClickListener(v -> onBackPressed());
 
-        DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
-        navigationView.setNavigationItemSelectedListener(this);
         openChat();
         // Preuzimanje podataka
         String eventId = getIntent().getStringExtra("event_id");
@@ -55,30 +48,5 @@ public class EventDetailsActivity extends AppCompatActivity implements Navigatio
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
-    }
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent = null;
-        if(item.getItemId() == R.id.nav_home){
-            intent = new Intent(this, HomeActivity.class);
-        } else if (item.getItemId() == R.id.nav_profile) {
-            intent = new Intent(this, EoProfileActivity.class);
-        }else if (item.getItemId() == R.id.nav_logout){
-            intent = new Intent(this, LoginActivity.class);
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-        startActivity(intent);
-        finish();
-        return true;
     }
 }
