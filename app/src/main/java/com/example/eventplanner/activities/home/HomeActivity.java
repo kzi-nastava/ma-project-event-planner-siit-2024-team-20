@@ -2,17 +2,9 @@ package com.example.eventplanner.activities.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -23,22 +15,28 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.ActivityNavigator;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
+import com.example.eventplanner.fragments.ProfileFragment;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
-import com.example.eventplanner.fragments.ToolbarFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
-import com.example.eventplanner.helpers.FilterMenuManager;
-import com.example.eventplanner.helpers.SortMenuManager;
-import com.example.eventplanner.helpers.StatusLineTool;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,32 +56,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         openChat();
-        eventDetails();
-        SortMenuManager sortMenuManager=new SortMenuManager(HomeActivity.this);
-        ImageView sortEventsButton= findViewById(R.id.sort_events);
-        sortEventsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            sortMenuManager.showEventSortMenu(sortEventsButton);
-        });
-
-        ImageView sortServicesProductsButton= findViewById(R.id.sort_products);
-        sortServicesProductsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            sortMenuManager.showServicesProductsSortMenu(sortServicesProductsButton);
-        });
-
-        FilterMenuManager filterMenuManager = new FilterMenuManager(HomeActivity.this);
-        ImageView filterEventsButton= findViewById(R.id.filter_events);
-        filterEventsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            filterMenuManager.showFilterEventsMenu(filterEventsButton);
-        });
-
-        ImageView filterServicesProductsButton= findViewById(R.id.filter_products);
-        filterServicesProductsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            filterMenuManager.showFilterServicesProductsMenu(filterServicesProductsButton);
-        });
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
@@ -136,7 +108,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onNavigationItemSelected(MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
     
