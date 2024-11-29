@@ -68,4 +68,5 @@
     <string name="sort">Sort</string>
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
+    <string name="quick_registration">Quick registration</string>
 </resources>
