@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
 import com.google.android.material.navigation.NavigationView;
@@ -37,12 +38,11 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
-        String role = "organizer";
-        if ("organizer".equals(role)) {
-            findViewById(R.id.shop_icon).setVisibility(View.VISIBLE);
-            bookService();
-        } else {
-            findViewById(R.id.shop_icon).setVisibility(View.GONE);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new ServiceProductDetailFragment())
+                    .commit();
         }
         String eventId = getIntent().getStringExtra("product_id");
     }
@@ -53,13 +53,5 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
-    }
-    private void bookService(){
-        ImageView bookIcon = findViewById(R.id.shop_icon);
-        bookIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BookingActivity.class);
-            startActivity(intent);
-        });
-
     }
 }
