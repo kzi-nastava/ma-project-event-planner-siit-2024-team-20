@@ -40,13 +40,8 @@ public class EventDetailsActivity extends AppCompatActivity{
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
-        String role = "organizer"; // Pretpostavljamo da postoji polje "role"
-        if ("organizer".equals(role)) {
-            findViewById(R.id.book_icon).setVisibility(View.VISIBLE);
-            bookService();
-        } else {
-            findViewById(R.id.book_icon).setVisibility(View.GONE);
-        }
+         // Pretpostavljamo da postoji polje "role"
+
         // Preuzimanje podataka
         String eventId = getIntent().getStringExtra("event_id");
     }
@@ -58,12 +53,5 @@ public class EventDetailsActivity extends AppCompatActivity{
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
     }
-    private void bookService(){
-        ImageView bookIcon = findViewById(R.id.book_icon);
-        bookIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BookingActivity.class);
-            startActivity(intent);
-        });
 
-    }
 }

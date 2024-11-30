@@ -1,7 +1,9 @@
 package com.example.eventplanner.activities.service_product;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +37,13 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
+        String role = "organizer";
+        if ("organizer".equals(role)) {
+            findViewById(R.id.shop_icon).setVisibility(View.VISIBLE);
+            bookService();
+        } else {
+            findViewById(R.id.shop_icon).setVisibility(View.GONE);
+        }
         String eventId = getIntent().getStringExtra("product_id");
     }
     private void openChat(){
@@ -44,5 +53,13 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
+    }
+    private void bookService(){
+        ImageView bookIcon = findViewById(R.id.shop_icon);
+        bookIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BookingActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
