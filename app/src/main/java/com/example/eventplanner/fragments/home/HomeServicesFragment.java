@@ -1,5 +1,6 @@
 package com.example.eventplanner.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.helpers.FilterMenuManager;
 import com.example.eventplanner.helpers.SortMenuManager;
 
@@ -79,6 +81,19 @@ public class HomeServicesFragment extends Fragment {
         filterServicesProductsButton.setOnClickListener(v -> {
             // Prikazivanje filter menija
             filterMenuManager.showFilterServicesProductsMenu(filterServicesProductsButton);
+        });
+        View productCard1 = view.findViewById(R.id.product_card_1);
+        View productTopCard1 = view.findViewById(R.id.product5_card_1);
+        productCard1.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), ServiceProductDetailsActivity.class);
+            intent.putExtra("product_id", "1"); // Dodaj potrebne podatke
+            startActivity(intent);
+        });
+
+        productTopCard1.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), ServiceProductDetailsActivity.class);
+            intent.putExtra("product_id", "1"); // Dodaj potrebne podatke
+            startActivity(intent);
         });
     }
     @Override

@@ -1,7 +1,9 @@
 package com.example.eventplanner.fragments.home;
+import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.helpers.SortMenuManager;
 import com.example.eventplanner.helpers.FilterMenuManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -60,6 +62,25 @@ public class HomeEventsFragment extends Fragment {
             // Prikazivanje filter menija
             filterMenuManager.showFilterEventsMenu(filterEventsButton);
         });
+
+        // Pronađi view-ove unutar layout-a fragmenta
+        View eventCard1 = view.findViewById(R.id.event_card_1);
+        View eventTopCard1 = view.findViewById(R.id.event5_card_1);
+
+        // Postavi click listenere za svaki view
+        eventCard1.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), EventDetailsActivity.class);
+            intent.putExtra("event_id", "1"); // Dodaj potrebne podatke
+            startActivity(intent);
+        });
+
+        eventTopCard1.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), EventDetailsActivity.class);
+            intent.putExtra("event_id", "1"); // Dodaj potrebne podatke
+            startActivity(intent);
+        });
+
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
