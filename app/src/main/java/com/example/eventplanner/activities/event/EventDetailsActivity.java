@@ -3,6 +3,7 @@ package com.example.eventplanner.activities.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
+import com.example.eventplanner.activities.service_product.BookingActivity;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
@@ -38,6 +40,13 @@ public class EventDetailsActivity extends AppCompatActivity{
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
+        String role = "organizer"; // Pretpostavljamo da postoji polje "role"
+        if ("organizer".equals(role)) {
+            findViewById(R.id.book_icon).setVisibility(View.VISIBLE);
+            bookService();
+        } else {
+            findViewById(R.id.book_icon).setVisibility(View.GONE);
+        }
         // Preuzimanje podataka
         String eventId = getIntent().getStringExtra("event_id");
     }
@@ -48,5 +57,13 @@ public class EventDetailsActivity extends AppCompatActivity{
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
+    }
+    private void bookService(){
+        ImageView bookIcon = findViewById(R.id.book_icon);
+        bookIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BookingActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
