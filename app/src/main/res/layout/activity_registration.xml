@@ -11,45 +11,56 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="246dp"
-        android:layout_height="81dp"
+        android:layout_width="206dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07"
+        app:layout_constraintVertical_bias="0.024"
         app:srcCompat="@drawable/logo" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="351dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="388dp"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.703"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
-        <Button
-            android:id="@+id/btnEO"
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleGroup"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/btn1" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:singleSelection="true">
 
-        <Button
-            android:id="@+id/btnSPP"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/btn2" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/option1"
+                android:layout_width="188dp"
+                android:layout_height="match_parent"
+                android:text="@string/btn1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/option2"
+                android:layout_width="201dp"
+                android:layout_height="match_parent"
+                android:text="@string/btn2"
+                android:textAllCaps="false" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="410dp"
-        android:layout_height="531dp"
+        android:layout_height="550dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +73,7 @@
             android:name="com.example.eventplanner.fragments.startup.EoRegistrationFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

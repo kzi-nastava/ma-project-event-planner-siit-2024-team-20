@@ -9,8 +9,8 @@
     <!-- registration -->
     <string name="registration_title">Registration</string>
     <string name="register">Register</string>
-    <string name="btn1">event organizer</string>
-    <string name="btn2">service and product provider</string>
+    <string name="btn1">organizer</string>
+    <string name="btn2">provider</string>
     <string name="register2">Already have an account? </string>
     <string name="register3">Log In</string>
     <!-- registration fragment 1 [rf1] -->
@@ -25,7 +25,7 @@
     <string name="rf1_password">Password</string>
     <string name="rf1_confirm_password">Confirm password</string>
     <!-- registration fragment 2 [rf2] -->
-    <string name="rf2_title">Provider Registration</string>
+    <string name="rf2_title">Service and product \n provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
     <!-- nav bar -->
