@@ -3,10 +3,13 @@ package com.example.eventplanner.fragments.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.example.eventplanner.R;
 
@@ -60,7 +63,26 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Begin the fragment transaction
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            // Replace the FrameLayout with ProfileImageFragment
+            transaction.replace(R.id.profileImageContainer, new ProfileImageFragment());
+            transaction.commit();
+        }
+        Switch switchChangePassword = rootView.findViewById(R.id.switchChangePassword);
+        LinearLayout passwordFieldsContainer = rootView.findViewById(R.id.passwordFieldsContainer);
+
+        switchChangePassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                passwordFieldsContainer.setVisibility(View.VISIBLE);
+            } else {
+                passwordFieldsContainer.setVisibility(View.GONE);
+            }
+        });
+
+        return rootView;
     }
 }
