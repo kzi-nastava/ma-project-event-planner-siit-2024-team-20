@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.admin.AddEventTypeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:text="@string/aet_title"
+                android:textSize="35sp"
+                android:textColor="@color/text_color"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/editTextText8"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="30dp"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="@string/aet_name"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color" />
+
+            <EditText
+                android:id="@+id/editTextText9"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="@string/aet_description"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:text="@string/aed_spt"
+                android:drawableEnd="@drawable/arrow_drop_down"
+                android:drawablePadding="8dp"
+                android:textAlignment="center"/>
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/aed_create"
+                android:layout_marginTop="200dp"
+                android:layout_marginStart="150dp"
+                android:layout_marginEnd="150dp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

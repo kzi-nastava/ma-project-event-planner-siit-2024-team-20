@@ -19,8 +19,11 @@ import androidx.navigation.NavController;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
+import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.home.HomeEventsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
+import com.example.eventplanner.helpers.FragmentsTool;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +71,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.nav_home){
+            FragmentsTool.to(new HomeEventsFragment(), HomeActivity.this, false);
+        }
+        if (item.getItemId() == R.id.nav_add) {
+            FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

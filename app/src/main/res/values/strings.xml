@@ -30,6 +30,7 @@
     <string name="rf2_company_description">Company description</string>
     <!-- nav bar -->
     <string name="nb_home">Home</string>
+    <string name="nb_add">Add</string>
     <string name="nb_profile">Profile</string>
     <string name="nb_logout">Log out</string>
     <string name="nb_calendar">My calendar</string>
@@ -37,7 +38,14 @@
     <string name="nb_open">Open navigation drawer</string>
     <string name="nb_close">Close navigation drawer</string>
     <string name="nb_notifications">Notifications</string>
-
+    <!-- add event type-->
+    <string name="aet_title">Add new event type</string>
+    <string name="aet_name">Event type name</string>
+    <string name="aet_description">Event type description</string>
+    <string name="aed_spt">service / product \n types</string>
+    <string name="aed_create">Create</string>
+    
+    
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
