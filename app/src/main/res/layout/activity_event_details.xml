@@ -67,7 +67,6 @@
                 android:textColor="@color/text_color"
                 android:textSize="24sp" />
 
-            <!-- Opis (Description) -->
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"

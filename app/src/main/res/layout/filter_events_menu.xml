@@ -24,27 +24,33 @@
             <!-- Stavka koja otvara listu sa checkbox opcijama -->
             <LinearLayout
                 android:id="@+id/filter_option_1_layout"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/filter_option_1_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/option" />
+                    android:text="Event type" />
 
                 <ImageView
                     android:id="@+id/filter_option_1_arrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_more"
-                    android:contentDescription="@string/option"/>
+                    android:contentDescription="@string/option"
+                    android:src="@android:drawable/ic_menu_more" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/filter_by_date_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
             <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
             <LinearLayout

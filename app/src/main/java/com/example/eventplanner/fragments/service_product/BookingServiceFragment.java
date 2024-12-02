@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 import com.example.eventplanner.R;
@@ -59,32 +60,7 @@ public class BookingServiceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         fillDropdown(view);
-
-        EditText timeFrom = view.findViewById(R.id.time_from);
-        EditText timeTo = view.findViewById(R.id.time_to);
-
-        timeFrom.setOnEditorActionListener((v, actionId, event) -> {
-            String timeFromText = timeFrom.getText().toString();
-            if (!timeFromText.isEmpty()) {
-                String timeToCalculated = calculateEndTime(timeFromText);
-                timeTo.setText(timeToCalculated);
-            }
-            return false;
-        });
     }
-
-    private String calculateEndTime(String timeFromText) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        try {
-            Date startTime = sdf.parse(timeFromText);
-            long endTimeMillis = startTime.getTime() + (2 * 60 * 60 * 1000); // Dodaj 2 sata
-            return sdf.format(new Date(endTimeMillis));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
     private void fillDropdown(View view) {
         Spinner eventSpinner = view.findViewById(R.id.event_spinner);
 
@@ -110,7 +86,39 @@ public class BookingServiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_booking_service, container, false);
+        // Inflate layout za fragment
+        View view = inflater.inflate(R.layout.fragment_booking_service, container, false);
+
+        // Inicijalizacija "From" NumberPicker-a
+        NumberPicker fromHourPicker = view.findViewById(R.id.fromHourPicker);
+        NumberPicker fromMinutePicker = view.findViewById(R.id.fromMinutePicker);
+
+        // Inicijalizacija "To" NumberPicker-a
+        NumberPicker toHourPicker = view.findViewById(R.id.toHourPicker);
+        NumberPicker toMinutePicker = view.findViewById(R.id.toMinutePicker);
+
+        // Podešavanje opsega za sate i minute
+        setupNumberPicker(fromHourPicker, 0, 23);
+        setupNumberPicker(fromMinutePicker, 0, 59);
+        setupNumberPicker(toHourPicker, 0, 23);
+        setupNumberPicker(toMinutePicker, 0, 59);
+
+        // Listener za promene vrednosti (opciono)
+        fromHourPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            // Logika za "From Hour"
+        });
+
+        toMinutePicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            // Logika za "To Minute"
+        });
+
+        return view;
+    }
+
+    // Pomoćna metoda za postavljanje NumberPicker-a
+    private void setupNumberPicker(NumberPicker picker, int min, int max) {
+        picker.setMinValue(min);
+        picker.setMaxValue(max);
+        picker.setWrapSelectorWheel(true);
     }
 }

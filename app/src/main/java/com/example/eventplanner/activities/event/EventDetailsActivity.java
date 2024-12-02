@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -23,9 +24,12 @@ import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
+import com.example.eventplanner.model.EventHome;
 import com.google.android.material.navigation.NavigationView;
 
 public class EventDetailsActivity extends AppCompatActivity{
+    private TextView eventName;
+    private TextView eventDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +44,16 @@ public class EventDetailsActivity extends AppCompatActivity{
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
-         // Pretpostavljamo da postoji polje "role"
+        eventName = findViewById(R.id.title);
+        eventDescription = findViewById(R.id.description);
 
-        // Preuzimanje podataka
-        String eventId = getIntent().getStringExtra("event_id");
+        Intent intent = getIntent();
+        //promeni tip u onaj za detalje
+        EventHome event = (EventHome) intent.getSerializableExtra("event");
+
+        if (event != null) {
+            // Postavi podatke
+        }
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);

@@ -49,7 +49,6 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
