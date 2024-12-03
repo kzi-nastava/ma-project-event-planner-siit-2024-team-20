@@ -9,6 +9,10 @@
             android:id="@+id/nav_add_event"
             android:title="@string/add_event"
             android:icon="@drawable/ic_add"/>
+        <item
+            android:id="@+id/nav_edit_comments"
+            android:title="@string/edit_comments"
+            android:icon="@drawable/ic_comment"/>
     </group>
         <item android:title="@string/nb_profile">
             <menu>

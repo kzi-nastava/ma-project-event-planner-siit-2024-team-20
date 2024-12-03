@@ -11,15 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.eventplanner.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -31,21 +34,14 @@ import java.util.Locale;
  */
 public class BookingServiceFragment extends Fragment {
 
-
+    private Spinner eventDropdown, dateDropdown;
+    private NumberPicker fromHourPicker, fromMinutePicker, toHourPicker, toMinutePicker;
+    private Button submitButton;
     public BookingServiceFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookingServiceFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookingServiceFragment newInstance(String param1, String param2) {
+    public static BookingServiceFragment newInstance() {
         BookingServiceFragment fragment = new BookingServiceFragment();
         Bundle args = new Bundle();
         return fragment;
@@ -58,67 +54,135 @@ public class BookingServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Initialize views
+        eventDropdown = view.findViewById(R.id.event_spinner);
+        dateDropdown = view.findViewById(R.id.date_spinner);
+        fromHourPicker = view.findViewById(R.id.fromHourPicker);
+        fromMinutePicker = view.findViewById(R.id.fromMinutePicker);
+        toHourPicker = view.findViewById(R.id.toHourPicker);
+        toMinutePicker = view.findViewById(R.id.toMinutePicker);
+        submitButton = view.findViewById(R.id.confirm_booking_button);
 
-        fillDropdown(view);
+        setupNumberPickers();
+        populateEventDropdown();
+        setupDropdownListeners();
+        // Submit button
+        submitButton.setOnClickListener(v -> {
+            if (validateReservation()) {
+                Toast.makeText(getContext(), "Reservation submitted!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    private void fillDropdown(View view) {
-        Spinner eventSpinner = view.findViewById(R.id.event_spinner);
-
-        List<String> events = Arrays.asList("Event 1", "Event 2", "Event 3");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(), android.R.layout.simple_spinner_item, events);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventSpinner.setAdapter(adapter);
-
-        eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void setupDropdownListeners() {
+        eventDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedEvent = events.get(position);
-                // Uradi nešto sa selektovanim događajem
+                String selectedEvent = (String) parent.getItemAtPosition(position);
+                if (selectedEvent != null && !selectedEvent.isEmpty()) {
+                    updateDateDropdown(selectedEvent);
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Ako ništa nije izabrano
+                // Do nothing
             }
         });
     }
+
+    private void updateDateDropdown(String selectedEvent) {
+        List<String> dates = getDatesForEvent(selectedEvent);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dates);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dateDropdown.setAdapter(adapter);
+    }
+    private void populateDateDropdown(String event) {
+        // Dobijamo datume za izabrani događaj
+        List<String> dates = getDatesForEvent(event);
+
+        // Kreiranje adaptera za datume
+        ArrayAdapter<String> dateAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dates);
+        dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Postavljanje adaptera na Spinner sa datumima
+        dateDropdown.setAdapter(dateAdapter);
+    }
+    private void populateEventDropdown() {
+        List<String> events = Arrays.asList("Event 1", "Event 2", "Event 3");
+
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, events);
+        eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        eventDropdown.setAdapter(eventAdapter);
+
+        eventDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedEvent = (String) parentView.getItemAtPosition(position);
+                populateDateDropdown(selectedEvent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Ako ništa nije selektovano
+            }
+        });
+    }
+
+    private List<String> getDatesForEvent(String event) {
+        if (event.equals("Event 1")) {
+            return Arrays.asList("2024-12-05", "2024-12-06");
+        } else if (event.equals("Event 2")) {
+            return Arrays.asList("2024-12-07", "2024-12-08");
+        }
+        return Collections.emptyList();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate layout za fragment
         View view = inflater.inflate(R.layout.fragment_booking_service, container, false);
 
-        // Inicijalizacija "From" NumberPicker-a
-        NumberPicker fromHourPicker = view.findViewById(R.id.fromHourPicker);
-        NumberPicker fromMinutePicker = view.findViewById(R.id.fromMinutePicker);
-
-        // Inicijalizacija "To" NumberPicker-a
-        NumberPicker toHourPicker = view.findViewById(R.id.toHourPicker);
-        NumberPicker toMinutePicker = view.findViewById(R.id.toMinutePicker);
-
-        // Podešavanje opsega za sate i minute
-        setupNumberPicker(fromHourPicker, 0, 23);
-        setupNumberPicker(fromMinutePicker, 0, 59);
-        setupNumberPicker(toHourPicker, 0, 23);
-        setupNumberPicker(toMinutePicker, 0, 59);
-
-        // Listener za promene vrednosti (opciono)
-        fromHourPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            // Logika za "From Hour"
-        });
-
-        toMinutePicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            // Logika za "To Minute"
-        });
-
         return view;
     }
 
-    // Pomoćna metoda za postavljanje NumberPicker-a
-    private void setupNumberPicker(NumberPicker picker, int min, int max) {
-        picker.setMinValue(min);
-        picker.setMaxValue(max);
-        picker.setWrapSelectorWheel(true);
+    private void setupNumberPickers() {
+        fromHourPicker.setMinValue(0);
+        fromHourPicker.setMaxValue(23);
+        fromMinutePicker.setMinValue(0);
+        fromMinutePicker.setMaxValue(59);
+
+        toHourPicker.setMinValue(0);
+        toHourPicker.setMaxValue(23);
+        toMinutePicker.setMinValue(0);
+        toMinutePicker.setMaxValue(59);
     }
+    private boolean validateReservation() {
+        if (eventDropdown.getSelectedItem() == null || eventDropdown.getSelectedItem().toString().isEmpty()) {
+            Toast.makeText(getContext(), "Please select an event.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (dateDropdown.getSelectedItem() == null || dateDropdown.getSelectedItem().toString().isEmpty()) {
+            Toast.makeText(getContext(), "Please select a date.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        int fromHour = fromHourPicker.getValue();
+        int fromMinute = fromMinutePicker.getValue();
+        int toHour = toHourPicker.getValue();
+        int toMinute = toMinutePicker.getValue();
+
+        int fromTimeInMinutes = fromHour * 60 + fromMinute;
+        int toTimeInMinutes = toHour * 60 + toMinute;
+
+        if (toTimeInMinutes <= fromTimeInMinutes) {
+            Toast.makeText(getContext(), "Invalid time range: 'To' must be after 'From'", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
 }

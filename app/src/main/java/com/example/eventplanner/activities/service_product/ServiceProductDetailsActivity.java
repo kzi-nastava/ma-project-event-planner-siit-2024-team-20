@@ -2,6 +2,7 @@ package com.example.eventplanner.activities.service_product;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,9 @@ import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
+import com.example.eventplanner.model.BaseItem;
+import com.example.eventplanner.model.Product;
+import com.example.eventplanner.model.Service;
 import com.google.android.material.navigation.NavigationView;
 
 public class ServiceProductDetailsActivity extends AppCompatActivity {
@@ -38,13 +42,32 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
+
+        BaseItem baseItem = getIntent().getParcelableExtra("baseItem");
+        if (baseItem == null) {
+            Log.e("ServiceProductDetails", "BaseItem je null!");
+        } else {
+            Log.d("ServiceProductDetails", "BaseItem: " + baseItem.toString());
+        }
+        if (baseItem != null) {
+            if (baseItem instanceof Service) {
+                Service service = (Service) baseItem;
+            } else if (baseItem instanceof Product) {
+                Product product = (Product) baseItem;
+            }
+        }
         if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("baseItem", baseItem);
+
+            ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
+            fragment.setArguments(bundle);
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new ServiceProductDetailFragment())
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
         }
-        String eventId = getIntent().getStringExtra("product_id");
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);

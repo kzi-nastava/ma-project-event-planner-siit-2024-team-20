@@ -20,7 +20,11 @@ import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.home.HomeEventsFragment;
+import com.example.eventplanner.fragments.home.HomeFragment;
+import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
+import com.example.eventplanner.helpers.FragmentsTool;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +56,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
@@ -68,6 +71,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.nav_home){
+            FragmentsTool.to(new HomeFragment(),HomeActivity.this);
+        }
+        else if(item.getItemId()==R.id.nav_notification){
+            FragmentsTool.to(new NotificationFragment(),HomeActivity.this);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

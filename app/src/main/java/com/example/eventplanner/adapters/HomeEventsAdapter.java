@@ -66,7 +66,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
     public static class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView eventName, eventDescription, eventType, eventDate, eventLocation;
-
+        ImageView eventImage;
         public EventViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
@@ -74,6 +74,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             eventType = itemView.findViewById(R.id.event_type);
             eventDate = itemView.findViewById(R.id.event_date);
             eventLocation = itemView.findViewById(R.id.event_location);
+            eventImage=itemView.findViewById(R.id.event_image);
         }
     }
 }
