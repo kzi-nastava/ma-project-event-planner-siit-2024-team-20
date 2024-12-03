@@ -69,6 +69,6 @@
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
     <string name="quick_registration">Quick registration</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_event">Add event</string>
+    <string name="filter_category">Category</string>
 </resources>

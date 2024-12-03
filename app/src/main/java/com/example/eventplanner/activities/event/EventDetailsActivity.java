@@ -3,7 +3,9 @@ package com.example.eventplanner.activities.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -17,13 +19,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
+import com.example.eventplanner.activities.service_product.BookingActivity;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
+import com.example.eventplanner.model.EventHome;
 import com.google.android.material.navigation.NavigationView;
 
 public class EventDetailsActivity extends AppCompatActivity{
+    private TextView eventName;
+    private TextView eventDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +44,16 @@ public class EventDetailsActivity extends AppCompatActivity{
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
-        // Preuzimanje podataka
-        String eventId = getIntent().getStringExtra("event_id");
+        eventName = findViewById(R.id.title);
+        eventDescription = findViewById(R.id.description);
+
+        Intent intent = getIntent();
+        //promeni tip u onaj za detalje
+        EventHome event = (EventHome) intent.getSerializableExtra("event");
+
+        if (event != null) {
+            // Postavi podatke
+        }
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
@@ -49,4 +63,5 @@ public class EventDetailsActivity extends AppCompatActivity{
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
     }
+
 }

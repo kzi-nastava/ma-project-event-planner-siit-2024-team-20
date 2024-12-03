@@ -1,53 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/event_details_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.event.EventDetailsActivity"
-    tools:openDrawer="start">
-
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/nav_bar_color"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/return_back"
-        android:layout_width="47dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
-        app:layout_constraintStart_toStartOf="@+id/materialToolbar"
-        app:layout_constraintTop_toTopOf="@+id/materialToolbar"
-        app:srcCompat="@drawable/ic_back" />
-
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="168dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/materialToolbar"
-        app:srcCompat="@drawable/logo" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:paddingBottom="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,10 +28,11 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="@string/event_name"
+                android:text="@string/service_product_name"
                 android:textColor="@color/text_color"
                 android:textSize="24sp" />
 
+            <!-- Opis (Description) -->
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
@@ -77,14 +43,8 @@
                 android:textSize="16sp" />
 
             <!-- Prazna slika -->
-            <ImageView
-                android:id="@+id/map_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="24dp"
-                android:src="@android:color/darker_gray" />
 
-            <!-- Ikone: Srce, Zvezda, Komentar, Download -->
+            <!-- Ikone: Srce, Zvezda, Komentar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,6 +58,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/like"
                     android:src="@drawable/ic_favorite" />
 
                 <!-- Star Icon -->
@@ -106,6 +67,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/review"
                     android:src="@drawable/ic_review" />
 
                 <!-- Comment Icon -->
@@ -114,27 +76,21 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/comment"
                     android:src="@drawable/ic_comment" />
 
-                <!-- Download Icon -->
                 <ImageView
-                    android:id="@+id/download_icon"
+                    android:id="@+id/shop_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_download" />
-
-                <ImageView
-                    android:id="@+id/book_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_book" />
+                    android:contentDescription="@string/shop"
+                    android:src="@drawable/ic_shop" />
             </LinearLayout>
 
             <!-- Chat with organizer link -->
             <TextView
-                android:id="@+id/chat_with_organizer"
+                android:id="@+id/chat_with_provider"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
@@ -142,7 +98,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:text="@string/organizer_chat"
+                android:text="@string/provider_chat"
                 android:textColor="@color/text_color"
                 android:textSize="16sp" />
 
@@ -153,7 +109,7 @@
                 android:layout_marginTop="24dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -163,7 +119,7 @@
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 1"
+                        android:contentDescription="@string/image"
                         android:src="@android:color/darker_gray" />
 
                     <!-- Image 2 -->
@@ -172,7 +128,7 @@
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 2"
+                        android:contentDescription="@string/image"
                         android:src="@android:color/darker_gray" />
 
                     <!-- Image 3 -->
@@ -181,22 +137,12 @@
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 3"
+                        android:contentDescription="@string/image"
                         android:src="@android:color/darker_gray" />
 
                 </LinearLayout>
             </HorizontalScrollView>
+
         </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/chat_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/chat"
-        android:src="@drawable/ic_chat_bubble"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

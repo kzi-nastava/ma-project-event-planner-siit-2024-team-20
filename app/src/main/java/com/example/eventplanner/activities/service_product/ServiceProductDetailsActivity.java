@@ -1,7 +1,9 @@
 package com.example.eventplanner.activities.service_product;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
 import com.google.android.material.navigation.NavigationView;
@@ -35,12 +38,17 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         returnBack.setOnClickListener(v -> onBackPressed());
 
         openChat();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new ServiceProductDetailFragment())
+                    .commit();
+        }
         String eventId = getIntent().getStringExtra("product_id");
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
