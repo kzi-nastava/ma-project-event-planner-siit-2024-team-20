@@ -46,11 +46,7 @@
                     android:src="@android:drawable/ic_menu_more" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/filter_by_date_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+
 
             <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
             <LinearLayout
@@ -78,6 +74,18 @@
                     android:layout_height="wrap_content"
                     android:text="Option 3" />
             </LinearLayout>
+            <Button
+                android:id="@+id/filter_by_date_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"/>
 
         </LinearLayout>
     </android.widget.ScrollView>

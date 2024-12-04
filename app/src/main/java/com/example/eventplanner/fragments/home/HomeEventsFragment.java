@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.EventHome;
@@ -37,7 +38,7 @@ import java.util.List;
  *
  */
 public class HomeEventsFragment extends Fragment {
-    private RecyclerView topEventsRecyclerView, otherEventsRecyclerView;
+    private RecyclerView topEventsRecyclerView,otherEventsRecyclerView;
     private HomeEventsAdapter topEventsAdapter;
     private HomeEventsAdapter otherEventsAdapter;
     private List<EventHome> topEventsList, otherEventsList;
@@ -75,21 +76,7 @@ public class HomeEventsFragment extends Fragment {
         filterEventsButton.setOnClickListener(v -> {
             filterMenuManager.showFilterEventsMenu(filterEventsButton);
         });
-        Button filterByDateButton = view.findViewById(R.id.filter_by_date_button);
 
-        filterByDateButton.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    requireContext(),
-                    (view1, year, month, dayOfMonth) -> {
-                        LocalDateTime selectedDate = LocalDateTime.of(year, month + 1, dayOfMonth, 0, 0);
-                        //filterEventsByDate(selectedDate, selectedDate.plusDays(1));
-                    },
-                    LocalDate.now().getYear(),
-                    LocalDate.now().getMonthValue() - 1,
-                    LocalDate.now().getDayOfMonth()
-            );
-            datePickerDialog.show();
-        });
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,18 +100,18 @@ public class HomeEventsFragment extends Fragment {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         // Dodavanje top događaja
-        topEventsList.add(new EventHome(1L, "Event 1", "Description 1", "Type 1", "New York", "image.jpg", LocalDateTime.parse("12/12/2024 09:00", formatter), LocalDateTime.parse("12/12/2024 12:00", formatter)));
-        topEventsList.add(new EventHome(2L, "Event 2", "Description 2", "Type 2", "Los Angeles", "image.jpg", LocalDateTime.parse("14/12/2024 10:00", formatter), LocalDateTime.parse("14/12/2024 14:00", formatter)));
-        topEventsList.add(new EventHome(3L, "Event 3", "Description 3", "Type 3", "Chicago", "image.jpg", LocalDateTime.parse("16/12/2024 15:00", formatter), LocalDateTime.parse("16/12/2024 18:00", formatter)));
-        topEventsList.add(new EventHome(4L, "Event 4", "Description 4", "Type 4", "Miami", "image.jpg", LocalDateTime.parse("18/12/2024 11:00", formatter), LocalDateTime.parse("18/12/2024 13:00", formatter)));
-        topEventsList.add(new EventHome(5L, "Event 5", "Description 5", "Type 5", "San Francisco", "image.jpg", LocalDateTime.parse("20/12/2024 09:00", formatter), LocalDateTime.parse("20/12/2024 12:00", formatter)));
+        topEventsList.add(new EventHome(1L, "Event 1", "Description 1", "Type 1", "New York", "image.jpeg", LocalDateTime.parse("12/12/2024 09:00", formatter), LocalDateTime.parse("12/12/2024 12:00", formatter)));
+        topEventsList.add(new EventHome(2L, "Event 2", "Description 2", "Type 2", "Los Angeles", "image.jpeg", LocalDateTime.parse("14/12/2024 10:00", formatter), LocalDateTime.parse("14/12/2024 14:00", formatter)));
+        topEventsList.add(new EventHome(3L, "Event 3", "Description 3", "Type 3", "Chicago", "image.jpeg", LocalDateTime.parse("16/12/2024 15:00", formatter), LocalDateTime.parse("16/12/2024 18:00", formatter)));
+        topEventsList.add(new EventHome(4L, "Event 4", "Description 4", "Type 4", "Miami", "image.jpeg", LocalDateTime.parse("18/12/2024 11:00", formatter), LocalDateTime.parse("18/12/2024 13:00", formatter)));
+        topEventsList.add(new EventHome(5L, "Event 5", "Description 5", "Type 5", "San Francisco", "image.jpeg", LocalDateTime.parse("20/12/2024 09:00", formatter), LocalDateTime.parse("20/12/2024 12:00", formatter)));
 
         // Dodavanje drugih događaja
-        otherEventsList.add(new EventHome(6L, "Event 6", "Description 6", "Type 6", "Dallas", "image.jpg", LocalDateTime.parse("22/12/2024 10:00", formatter), LocalDateTime.parse("22/12/2024 13:00", formatter)));
-        otherEventsList.add(new EventHome(7L, "Event 7", "Description 7", "Type 7", "Las Vegas", "image.jpg", LocalDateTime.parse("24/12/2024 16:00", formatter), LocalDateTime.parse("24/12/2024 19:00", formatter)));
-        otherEventsList.add(new EventHome(8L, "Event 8", "Description 8", "Type 8", "Seattle", "image.jpg", LocalDateTime.parse("26/12/2024 14:00", formatter), LocalDateTime.parse("26/12/2024 17:00", formatter)));
-        otherEventsList.add(new EventHome(9L, "Event 9", "Description 9", "Type 9", "Austin", "image.jpg", LocalDateTime.parse("28/12/2024 09:00", formatter), LocalDateTime.parse("28/12/2024 12:00", formatter)));
-        otherEventsList.add(new EventHome(10L, "Event 10", "Description 10", "Type 10", "Houston", "image.jpg", LocalDateTime.parse("30/12/2024 13:00", formatter), LocalDateTime.parse("30/12/2024 16:00", formatter)));
+        otherEventsList.add(new EventHome(6L, "Event 6", "Description 6", "Type 6", "Dallas", "image.jpeg", LocalDateTime.parse("22/12/2024 10:00", formatter), LocalDateTime.parse("22/12/2024 13:00", formatter)));
+        otherEventsList.add(new EventHome(7L, "Event 7", "Description 7", "Type 7", "Las Vegas", "image.jpeg", LocalDateTime.parse("24/12/2024 16:00", formatter), LocalDateTime.parse("24/12/2024 19:00", formatter)));
+        otherEventsList.add(new EventHome(8L, "Event 8", "Description 8", "Type 8", "Seattle", "image.jpeg", LocalDateTime.parse("26/12/2024 14:00", formatter), LocalDateTime.parse("26/12/2024 17:00", formatter)));
+        otherEventsList.add(new EventHome(9L, "Event 9", "Description 9", "Type 9", "Austin", "image.jpeg", LocalDateTime.parse("28/12/2024 09:00", formatter), LocalDateTime.parse("28/12/2024 12:00", formatter)));
+        otherEventsList.add(new EventHome(10L, "Event 10", "Description 10", "Type 10", "Houston", "image.jpeg", LocalDateTime.parse("30/12/2024 13:00", formatter), LocalDateTime.parse("30/12/2024 16:00", formatter)));
 
 
         // Kreiranje adaptera

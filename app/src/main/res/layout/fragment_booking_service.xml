@@ -33,7 +33,7 @@
 
             <!-- Unos vremena od/do -->
             <Spinner
-                android:id="@+id/event_spinner2"
+                android:id="@+id/date_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
@@ -85,7 +85,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Grupa za "To" -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,6 +129,7 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
+            <!-- Grupa za "To" -->
 
             <!-- Dugme za potvrdu rezervacije -->
             <Button

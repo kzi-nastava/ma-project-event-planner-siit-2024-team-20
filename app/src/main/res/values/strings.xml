@@ -71,4 +71,7 @@
     <string name="quick_registration">Quick registration</string>
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
+    <string name="edit_comments">Edit comments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
