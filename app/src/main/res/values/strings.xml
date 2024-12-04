@@ -9,8 +9,8 @@
     <!-- registration -->
     <string name="registration_title">Registration</string>
     <string name="register">Register</string>
-    <string name="btn1">event organizer</string>
-    <string name="btn2">service and product provider</string>
+    <string name="btn1">organizer</string>
+    <string name="btn2">provider</string>
     <string name="register2">Already have an account? </string>
     <string name="register3">Log In</string>
     <!-- registration fragment 1 [rf1] -->
@@ -25,7 +25,7 @@
     <string name="rf1_password">Password</string>
     <string name="rf1_confirm_password">Confirm password</string>
     <!-- registration fragment 2 [rf2] -->
-    <string name="rf2_title">Provider Registration</string>
+    <string name="rf2_title">Service and product \n provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
     <!-- nav bar -->
@@ -38,6 +38,7 @@
     <string name="nb_open">Open navigation drawer</string>
     <string name="nb_close">Close navigation drawer</string>
     <string name="nb_notifications">Notifications</string>
+
     <!-- add event type-->
     <string name="aet_title">Add new event type</string>
     <string name="aet_name">Event type name</string>
@@ -46,8 +47,15 @@
     <string name="aed_create">Create</string>
     <string name="aed_existing">Existing event types</string>
     <string name="aed_see">See existing types</string>
-    
-    
+
+    <!-- fragment registration-->
+    <string name="password_change"> Change password</string>
+    <string name="oldp">Current password</string>
+    <string name="newp">New password</string>
+    <string name="newpc">Confirm new password</string>
+    <string name="deactivate">Deactivate account</string>
+    <string name="change">Confirm changes</string>
+
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
@@ -79,6 +87,9 @@
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
     <string name="quick_registration">Quick registration</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="add_event">Add event</string>
+    <string name="filter_category">Category</string>
+    <string name="edit_comments">Edit comments</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

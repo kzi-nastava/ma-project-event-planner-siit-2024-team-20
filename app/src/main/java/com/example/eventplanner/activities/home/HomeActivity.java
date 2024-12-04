@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
@@ -22,9 +23,19 @@ import com.example.eventplanner.activities.service_product.ServiceProductDetails
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.home.HomeEventsFragment;
+import com.example.eventplanner.activities.startup.LoginActivity;
+import com.example.eventplanner.activities.startup.RegistrationActivity;
+import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.home.HomeEventsFragment;
+import com.example.eventplanner.fragments.home.ProfileFragment;
+import com.example.eventplanner.fragments.startup.EoRegistrationFragment;
+import com.example.eventplanner.fragments.home.HomeFragment;
+import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
 import com.google.android.material.navigation.NavigationView;
+
+import org.jetbrains.annotations.NotNull;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -50,12 +61,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         openChat();
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
@@ -70,15 +81,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+
+    public boolean onNavigationItemSelected(@NotNull MenuItem item) {
+
         if(item.getItemId() == R.id.nav_home){
             FragmentsTool.to(new HomeEventsFragment(), HomeActivity.this, false);
         }
-        if (item.getItemId() == R.id.nav_add) {
+        else if (item.getItemId() == R.id.nav_profile) {
+            FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_notification) {
+            FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
+        }
+        else if (item.getItemId() == R.id.nav_add) {
             FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
     }
-    
 }

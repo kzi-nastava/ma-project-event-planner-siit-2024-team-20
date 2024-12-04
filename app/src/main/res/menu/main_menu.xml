@@ -6,10 +6,20 @@
             android:title="@string/nb_home"
             android:icon="@drawable/home_icon"/>
         <item
+<<<<<<< HEAD
             android:id="@+id/nav_add"
             android:title="@string/nb_add"
             android:icon="@drawable/add"/>
 
+=======
+            android:id="@+id/nav_add_event"
+            android:title="@string/add_event"
+            android:icon="@drawable/ic_add"/>
+        <item
+            android:id="@+id/nav_edit_comments"
+            android:title="@string/edit_comments"
+            android:icon="@drawable/ic_comment"/>
+>>>>>>> 26798d815579d7a7a375d79a5d7ec7364dad19ea
     </group>
         <item android:title="@string/nb_profile">
             <menu>

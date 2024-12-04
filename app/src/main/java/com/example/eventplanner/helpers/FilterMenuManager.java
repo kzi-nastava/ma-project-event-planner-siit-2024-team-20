@@ -1,18 +1,25 @@
 package com.example.eventplanner.helpers;
 
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.eventplanner.R;
+
+import java.time.LocalDate;
+import java.util.Locale;
 
 public class FilterMenuManager {
 
@@ -67,6 +74,25 @@ public class FilterMenuManager {
             // Kada klikneš na dugme, zatvaraš popup
             popupWindow.dismiss();
         });
+        Button filterByDateButton = popupView.findViewById(R.id.filter_by_date_button);
+        TextView dateText=popupView.findViewById(R.id.date_text);
+        filterByDateButton.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    popupView.getContext(),
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            // Ovdje možete upisati datum u TextView ili neko drugo polje
+                            String selectedDate = String.format(Locale.ENGLISH, "%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year);
+                            dateText.setText(selectedDate);
+                        }
+                    },
+                    LocalDate.now().getYear(),
+                    LocalDate.now().getMonthValue() - 1,
+                    LocalDate.now().getDayOfMonth()
+            );
+            datePickerDialog.show();
+        });
     }
     public void showFilterServicesProductsMenu(View anchorView) {
         // Inflating custom layout za PopupWindow
@@ -86,7 +112,7 @@ public class FilterMenuManager {
 
         // Inicijalizacija stavki za filtriranje
         LinearLayout filterOption1Layout = popupView.findViewById(R.id.filter_option_1_layout);
-        final LinearLayout filterOption1CheckboxList = popupView.findViewById(R.id.filter_option_1_checkbox_list);
+        final LinearLayout filterOption1CheckboxList = popupView.findViewById(R.id.filter_category_checkbox_list);
         final ImageView filterOption1Arrow = popupView.findViewById(R.id.filter_option_1_arrow);
 
         // Kada korisnik klikne na opciju, otvoriće se lista sa checkbox-ovima
@@ -113,5 +139,6 @@ public class FilterMenuManager {
             // Kada klikneš na dugme, zatvaraš popup
             popupWindow.dismiss();
         });
+
     }
 }

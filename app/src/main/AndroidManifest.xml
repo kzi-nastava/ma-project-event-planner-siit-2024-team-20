@@ -13,6 +13,12 @@
         android:theme="@style/Theme.EventPlanner"
         tools:targetApi="31">
         <activity
+            android:name=".activities.service_product.BookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.home.HomeEoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.startup.QuickRegistrationActivity"
             android:exported="false" />
         <activity

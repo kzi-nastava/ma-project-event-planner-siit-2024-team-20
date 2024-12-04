@@ -39,35 +39,54 @@
                     android:layout_height="wrap_content"
                     android:text="@string/product" />
             </RadioGroup>
+            <LinearLayout
+                android:id="@+id/filter_price"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:padding="8dp">
 
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/price_range_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="10"
+                    android:valueFrom="0"
+                    android:valueTo="1000"
+                    android:contentDescription="slider"/>
+
+            </LinearLayout>
             <!-- Stavka koja otvara listu sa checkbox opcijama -->
             <LinearLayout
                 android:id="@+id/filter_option_1_layout"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/filter_option_1_text"
+                    android:id="@+id/filter_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/option" />
+                    android:text="@string/filter_category" />
 
                 <ImageView
                     android:id="@+id/filter_option_1_arrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_more"
-                    android:contentDescription="@string/option"/>
+                    android:contentDescription="@string/option"
+                    android:src="@android:drawable/ic_menu_more" />
+
+
             </LinearLayout>
+
 
             <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
             <LinearLayout
-                android:id="@+id/filter_option_1_checkbox_list"
+                android:id="@+id/filter_category_checkbox_list"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:text="Option 3" />
             </LinearLayout>
+
 
         </LinearLayout>
     </android.widget.ScrollView>
