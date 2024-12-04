@@ -26,6 +26,8 @@ import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.home.HomeEventsFragment;
 import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.startup.EoRegistrationFragment;
+import com.example.eventplanner.fragments.home.HomeFragment;
+import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
 import com.google.android.material.navigation.NavigationView;
@@ -62,7 +64,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
@@ -82,10 +83,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if(item.getItemId() == R.id.nav_home){
             FragmentsTool.to(new HomeEventsFragment(), HomeActivity.this, false);
         }
-        if (item.getItemId() == R.id.nav_profile) {
+        else if (item.getItemId() == R.id.nav_profile) {
             FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_notification) {
+            FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
     }
 }

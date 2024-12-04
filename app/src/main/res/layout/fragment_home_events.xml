@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
@@ -15,244 +15,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="@string/top_5_events"
-            android:textColor="@color/text_color"
-            android:textSize="34sp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- Kartica proizvoda 1 -->
-                <include
-                    android:id="@+id/event5_card_1"
-                    layout="@layout/event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:src="@android:color/darker_gray" />
-
-                <!-- Kartica proizvoda 2 -->
-                <include
-                    android:id="@+id/event5_card_2"
-                    layout="@layout/event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:src="@android:color/darker_gray" />
-
-                <!-- Kartica proizvoda 3 -->
-                <include
-                    android:id="@+id/event5_card_3"
-                    layout="@layout/event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:src="@android:color/darker_gray" />
-
-                <!-- Kartica proizvoda 4 -->
-                <include
-                    android:id="@+id/event5_card_4"
-                    layout="@layout/event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:src="@android:color/darker_gray" />
-
-                <!-- Kartica proizvoda 5 -->
-                <include
-                    android:id="@+id/event5_card_5"
-                    layout="@layout/event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:src="@android:color/darker_gray" />
-            </LinearLayout>
-        </HorizontalScrollView>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp">
-
-            <ImageView
-                android:id="@+id/filter_events"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="34dp"
-                android:contentDescription="@string/filter_menu"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_filter" />
-
-            <!-- ImageView -->
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view_events"
-                android:layout_width="0dp"
-                android:layout_height="34dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/filter_events"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </androidx.appcompat.widget.SearchView>
-
-            <ImageView
-                android:id="@+id/sort_events"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:contentDescription="@string/sort_menu"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_sort" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!-- Kartica proizvoda 1 -->
-            <include
-                android:id="@+id/event_card_1"
-                layout="@layout/event_card"
+            <!-- Naziv liste -->
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/top_5_events"
+                android:textColor="@color/text_color"
+                android:textSize="34sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- Kartica proizvoda 2 -->
-            <include
-                android:id="@+id/event_card_2"
-                layout="@layout/event_card"
+                app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+            <!-- Horizontalni RecyclerView za prvih 5 kartica -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topEventsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_1" />
+                app:layout_constraintTop_toBottomOf="@id/textView2"
+                android:orientation="horizontal" />
 
-            <!-- Kartica proizvoda 3 -->
-            <include
-                android:id="@+id/event_card_3"
-                layout="@layout/event_card"
+            <!-- Filter, Search, and Sort Controls -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_2" />
+                android:padding="2dp">
 
-            <!-- Kartica proizvoda 4 -->
-            <include
-                android:id="@+id/event_card_4"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_3" />
+                <!-- Filter Icon -->
+                <ImageView
+                    android:id="@+id/filter_events"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="34dp"
+                    android:contentDescription="@string/filter_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_filter" />
 
-            <!-- Kartica proizvoda 5 -->
-            <include
-                android:id="@+id/event_card_5"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_4" />
+                <!-- Search View -->
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view_events"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/filter_events"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Kartica proizvoda 6 -->
-            <include
-                android:id="@+id/event_card_6"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_5" />
+                <!-- Sort Icon -->
+                <ImageView
+                    android:id="@+id/sort_events"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:contentDescription="@string/sort_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_sort" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Kartica proizvoda 7 -->
-            <include
-                android:id="@+id/event_card_7"
-                layout="@layout/event_card"
+            <!-- Vertikalni RecyclerView za ostale kartice -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/otherEventsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="1000dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_6" />
-
-            <!-- Kartica proizvoda 8 -->
-            <include
-                android:id="@+id/event_card_8"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_7" />
-
-            <!-- Kartica proizvoda 9 -->
-            <include
-                android:id="@+id/event_card_9"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_8" />
-
-            <!-- Kartica proizvoda 10 -->
-            <include
-                android:id="@+id/event_card_10"
-                layout="@layout/event_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:src="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_card_9" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+                android:nestedScrollingEnabled="false"/>
+        </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
