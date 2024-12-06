@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NotNull MenuItem item) {
 
         if(item.getItemId() == R.id.nav_home){
-            FragmentsTool.to(new HomeEventsFragment(), HomeActivity.this, false);
+            FragmentsTool.to(new HomeFragment(), HomeActivity.this, false);
         }
         else if (item.getItemId() == R.id.nav_profile) {
             FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
