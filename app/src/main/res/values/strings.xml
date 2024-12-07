@@ -48,6 +48,21 @@
     <string name="aed_existing">Existing event types</string>
     <string name="aed_see">See existing types</string>
 
+    <!-- create product fragment -->
+    <string name="cpf_title">Create new product</string>
+    <string name="cpf_help">Select category</string>
+    <string name="cpf_new">New Category</string>
+    <string name="cpf_help2">Enter new category name</string>
+    <string name="cpf_name">Product name</string>
+    <string name="cpf_description">Product description</string>
+    <string name="cpf_price">Product price (EUR)</string>
+    <string name="cpf_discount">Product discount (%)</string>
+    <string name="cpf_button">Upload images</string>
+    <string name="cpf_checkbox">Select related event types</string>
+    <string name="cpf_visibility">Visibility</string>
+    <string name="cpf_availability">Availability</string>
+    <string name="cpf_create">Create</string>
+
     <!-- fragment registration-->
     <string name="password_change"> Change password</string>
     <string name="oldp">Current password</string>
@@ -91,5 +106,6 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
