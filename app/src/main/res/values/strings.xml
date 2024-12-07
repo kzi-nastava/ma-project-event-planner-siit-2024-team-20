@@ -56,6 +56,11 @@
     <string name="deactivate">Deactivate account</string>
     <string name="change">Confirm changes</string>
 
+    <!-- event -->
+    <string name="buttonpdf">download pdf stat</string>
+    <string name="grades">Graphical display of event grades</string>
+    <string name="attendance">Graphical display of event attendance</string>
+
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>

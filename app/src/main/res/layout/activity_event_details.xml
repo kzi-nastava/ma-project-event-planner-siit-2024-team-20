@@ -143,6 +143,7 @@
                 android:textSize="16sp" />
 
             <!-- Horizontal image slider -->
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,6 +191,13 @@
                 android:layout_marginBottom="24dp"
                 android:paddingTop="20dp"
                 android:src="@android:color/darker_gray" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView3"
+                android:name="com.example.eventplanner.fragments.event.AdditionalInformationFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </ScrollView>
 
