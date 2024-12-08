@@ -28,6 +28,10 @@ public class DateTimePickerFragment extends Fragment {
     private Button timeButton;
     private int hour, minute;
 
+    private Button timeEndButton;
+    private int hourEnd, minuteEnd;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +56,15 @@ public class DateTimePickerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openTimePicker(v);
+            }
+        });
+        timeEndButton = rootView.findViewById(R.id.timePickerButton2);
+        timeEndButton.setText(getCurrentTime());
+
+        timeEndButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimeEndPicker(v);
             }
         });
         return rootView;
@@ -122,6 +135,22 @@ public class DateTimePickerFragment extends Fragment {
         int style = AlertDialog.THEME_HOLO_DARK;
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), style, onTimeSetListener, hour, minute, true);
+        timePickerDialog.setTitle("Select time");
+        timePickerDialog.show();
+    }
+
+    public void openTimeEndPicker(View view) {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+                hourEnd = selectedHour;
+                minuteEnd = selectedMinute;
+                timeEndButton.setText(String.format(Locale.getDefault(), "%02d:%02d", hourEnd, minuteEnd));
+            }
+        };
+        int style = AlertDialog.THEME_HOLO_DARK;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), style, onTimeSetListener, hourEnd, minuteEnd, true);
         timePickerDialog.setTitle("Select time");
         timePickerDialog.show();
     }
