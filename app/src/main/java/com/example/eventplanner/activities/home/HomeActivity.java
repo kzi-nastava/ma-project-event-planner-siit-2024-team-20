@@ -22,6 +22,7 @@ import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
 import com.example.eventplanner.fragments.home.HomeEventsFragment;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.activities.startup.RegistrationActivity;
@@ -94,7 +95,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
         }
         else if (item.getItemId() == R.id.nav_add) {
-            FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+            //FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+            FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
