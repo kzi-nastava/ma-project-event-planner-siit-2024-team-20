@@ -10,9 +10,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +33,11 @@ public class CreateEventFragment extends Fragment {
     String[] item = {"option1", "option2"}; //all dodatno
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItems;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private Switch switchPrivateEvent;
+    private LinearLayout emailInputContainer;
+    private EditText email1;
+    private Button btnAddEmail;
+    private int emailCount = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -49,8 +59,6 @@ public class CreateEventFragment extends Fragment {
     public static CreateEventFragment newInstance(String param1, String param2) {
         CreateEventFragment fragment = new CreateEventFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +67,6 @@ public class CreateEventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -88,7 +94,43 @@ public class CreateEventFragment extends Fragment {
                     .replace(R.id.fragmentContainerView3, fragment) // zamjenjuje sadržaj FragmentContainerView-a
                     .commit();
         });
+        // Dodaj listener za Switch
+        switchPrivateEvent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // Ako je Switch uključen, prikazujemo polja za unos e-mail adresa
+                emailInputContainer.setVisibility(View.VISIBLE);
+                btnAddEmail.setVisibility(View.VISIBLE);
+            } else {
+                // Ako je Switch isključen, sakrivamo polja za unos
+                emailInputContainer.setVisibility(View.GONE);
+                btnAddEmail.setVisibility(View.GONE);
+            }
+        });
+
+        // Dodavanje novih polja za e-mail adrese
+        btnAddEmail.setOnClickListener(v -> {
+            emailCount++;
+            EditText newEmailInput = new EditText(getContext());
+            newEmailInput.setHint("E-mail adress " + emailCount);
+            newEmailInput.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            emailInputContainer.addView(newEmailInput);
+        });
 
         return rootView;
+    }
+
+    // Funkcija za sakupljanje unetih e-mail adresa
+    public List<String> collectEmailAddresses() {
+        List<String> emailList = new ArrayList<>();
+        for (int i = 0; i < emailInputContainer.getChildCount(); i++) {
+            View child = emailInputContainer.getChildAt(i);
+            if (child instanceof EditText) {
+                String email = ((EditText) child).getText().toString().trim();
+                if (!email.isEmpty()) {
+                    emailList.add(email);
+                }
+            }
+        }
+        return emailList;
     }
 }
