@@ -20,6 +20,7 @@ import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
+import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
 import com.google.android.material.navigation.NavigationView;
@@ -81,6 +82,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(item.getItemId()==R.id.nav_notification) {
             FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
+        }
+        else if(item.getItemId()==R.id.nav_belongings){
+            FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
         }
         else if (item.getItemId() == R.id.nav_add) {
             //FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);

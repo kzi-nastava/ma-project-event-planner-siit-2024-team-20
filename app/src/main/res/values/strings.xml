@@ -32,6 +32,7 @@
     <string name="nb_home">Home</string>
     <string name="nb_add">Add</string>
     <string name="nb_profile">Profile</string>
+    <string name="nb_belongings">Belongings</string>
     <string name="nb_logout">Log out</string>
     <string name="nb_calendar">My calendar</string>
     <string name="nb_favorite">Favorite</string>
@@ -62,6 +63,14 @@
     <string name="cpf_visibility">Visibility</string>
     <string name="cpf_availability">Availability</string>
     <string name="cpf_create">Create</string>
+
+    <!-- see my products fragment-->
+    <string name="smp_title">My Products</string>
+    <string name="smp_col1">Name</string>
+    <string name="smp_col2">Description</string>
+    <string name="smp_col3">Price</string>
+    <string name="smp_col4">Visible</string>
+    <string name="smp_col5">Available</string>
 
     <!-- fragment registration-->
     <string name="password_change"> Change password</string>
