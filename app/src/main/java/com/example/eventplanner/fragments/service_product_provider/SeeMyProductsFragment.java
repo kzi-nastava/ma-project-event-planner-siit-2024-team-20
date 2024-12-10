@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -36,6 +37,20 @@ public class SeeMyProductsFragment extends Fragment {
         for (SeeMyProductTable product : productList) {
             addProductRow(product);
         }
+        SearchView searchView = rootView.findViewById(R.id.search_my_products);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchProductsByName(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return rootView;
     }
 
@@ -119,5 +134,19 @@ public class SeeMyProductsFragment extends Fragment {
             }
         }
         return null;
+    }
+
+    private void searchProductsByName(String query) {
+        for (int i = productTable.getChildCount() - 1; i > 0; i--) {
+            productTable.removeViewAt(i);
+        }
+        List<SeeMyProductTable> productList = fetchProductsFromDatabase();
+
+
+        for (SeeMyProductTable product : productList) {
+            if (product.getName().toLowerCase().contains(query.toLowerCase())) {
+                addProductRow(product);
+            }
+        }
     }
 }

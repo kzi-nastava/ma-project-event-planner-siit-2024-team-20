@@ -65,6 +65,7 @@
     <string name="cpf_create">Create</string>
     <string name="cpf_notFound">Product not found</string>
 
+
     <!-- see my products fragment-->
     <string name="smp_title">My Products</string>
     <string name="smp_col1">Name</string>
@@ -75,6 +76,7 @@
     <string name="smp_category">Category name</string>
     <string name="smp_save">Save changes</string>
     <string name="smp_delete">Delete product</string>
+    <string name="smp_search">Search products by name</string>
 
     <!-- fragment registration-->
     <string name="password_change"> Change password</string>

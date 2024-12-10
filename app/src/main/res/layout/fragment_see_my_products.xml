@@ -29,6 +29,14 @@
                 android:textSize="30sp"
                 android:textColor="@color/text_color" />
 
+            <SearchView
+                android:id="@+id/search_my_products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:queryHint="@string/smp_search"
+                android:background="@drawable/searchview_border"/>
+
             <TableLayout
                 android:id="@+id/product_table"
                 android:layout_width="match_parent"
