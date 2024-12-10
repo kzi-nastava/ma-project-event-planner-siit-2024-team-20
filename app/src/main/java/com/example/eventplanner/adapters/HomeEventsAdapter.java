@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.eventplanner.model.Event;
 import com.example.eventplanner.model.EventHome;
 import com.example.eventplanner.R;
 
@@ -38,7 +39,11 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         this.eventsList = eventsList;
         this.listener = listener;
     }
-
+    public void updateData(List<EventHome> newEvents) {
+        this.eventsList.clear();
+        this.eventsList.addAll(newEvents);
+        notifyDataSetChanged();
+    }
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card, parent, false);
@@ -66,7 +71,6 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
     public static class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView eventName, eventDescription, eventType, eventDate, eventLocation;
-        ImageView eventImage;
         public EventViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
@@ -74,7 +78,6 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             eventType = itemView.findViewById(R.id.event_type);
             eventDate = itemView.findViewById(R.id.event_date);
             eventLocation = itemView.findViewById(R.id.event_location);
-            eventImage=itemView.findViewById(R.id.event_image);
         }
     }
 }

@@ -18,8 +18,6 @@ public class Event {
 
     private Location location;
 
-    private Set<String> images;
-
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
@@ -45,7 +43,6 @@ public class Event {
         this.isPrivate = isPrivate;
         this.maxParticipants = maxParticipants;
         this.location = location;
-        this.images=images;
         this.startDate = startDate;
         this.endDate = endDate;
         this.organizer = organizer;
@@ -106,13 +103,6 @@ public class Event {
         this.location = location;
     }
 
-    public Set<String> getImages() {
-        return images;
-    }
-
-    public void setImages(Set<String> images) {
-        this.images = images;
-    }
 
     public LocalDateTime getStartDate() {
         return startDate;

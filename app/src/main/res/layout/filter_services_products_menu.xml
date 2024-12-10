@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
-    android:layout_height="300dp"
+    android:layout_height="350dp"
     android:background="@color/background_color"
     android:elevation="4dp">
 
@@ -11,54 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/btn_filter"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:padding="16dp">
 
-        <!-- LinearLayout unutar ScrollView za vertikalno pozicioniranje sadržaja -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- RadioGroup za izbor (service / product) -->
+            android:orientation="vertical"
+            android:padding="16dp">
+            <!-- RadioGroup za izbor između Service i Product -->
             <RadioGroup
-                android:id="@+id/choose_group"
+                android:id="@+id/filter_type_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp">
 
                 <RadioButton
                     android:id="@+id/radio_service"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/service" />
+                    android:text="Service" />
 
                 <RadioButton
                     android:id="@+id/radio_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/product" />
+                    android:text="Product" />
             </RadioGroup>
+            <!-- Sekcija za kategorije -->
             <LinearLayout
-                android:id="@+id/filter_price"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:padding="8dp">
-
-                <com.google.android.material.slider.RangeSlider
-                    android:id="@+id/price_range_slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:stepSize="10"
-                    android:valueFrom="0"
-                    android:valueTo="1000"
-                    android:contentDescription="slider"/>
-
-            </LinearLayout>
-            <!-- Stavka koja otvara listu sa checkbox opcijama -->
-            <LinearLayout
-                android:id="@+id/filter_option_1_layout"
+                android:id="@+id/filter_category_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -68,51 +52,59 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/filter_category"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/filter_category_text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/filter_category" />
 
                 <ImageView
-                    android:id="@+id/filter_option_1_arrow"
+                    android:id="@+id/filter_category_arrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:contentDescription="@string/option"
-                    android:src="@android:drawable/ic_menu_more" />
-
-
+                    android:src="@drawable/ic_drop_down" />
             </LinearLayout>
 
-
-            <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
+            <!-- Dinamički generisane opcije za kategorije -->
             <LinearLayout
                 android:id="@+id/filter_category_checkbox_list"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:orientation="vertical"
+                android:visibility="gone" />
 
-                <CheckBox
-                    android:id="@+id/check_option_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 1" />
+            <!-- Sekcija za cenu -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Max Price:" />
 
-                <CheckBox
-                    android:id="@+id/check_option_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 2" />
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/price_max_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="10"
+                android:valueFrom="0"
+                android:valueTo="1000" />
 
-                <CheckBox
-                    android:id="@+id/check_option_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 3" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Min Price:" />
 
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/price_min_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="10"
+                android:valueFrom="0"
+                android:valueTo="1000" />
 
         </LinearLayout>
+
     </android.widget.ScrollView>
 
     <!-- Dugme za filter, fiksirano na dnu -->

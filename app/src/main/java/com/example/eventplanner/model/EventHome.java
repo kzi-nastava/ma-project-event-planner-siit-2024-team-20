@@ -12,7 +12,6 @@ public class EventHome implements Parcelable {
     private String description;
     private String eventType;
     private String location;
-    private String image;
 
     private LocalDateTime startDate;
 
@@ -22,13 +21,12 @@ public class EventHome implements Parcelable {
     public EventHome() {}
 
     // Konstruktor sa svim poljima
-    public EventHome(Long id, String name, String description, String eventType, String location, String image, LocalDateTime startDate, LocalDateTime endDate) {
+    public EventHome(Long id, String name, String description, String eventType, String location,LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.eventType = eventType;
         this.location = location;
-        this.image = image;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -44,7 +42,6 @@ public class EventHome implements Parcelable {
         description = in.readString();
         eventType = in.readString();
         location = in.readString();
-        image = in.readString();
         startDate = (LocalDateTime) in.readSerializable();
         endDate = (LocalDateTime) in.readSerializable();
     }
@@ -61,7 +58,6 @@ public class EventHome implements Parcelable {
         dest.writeString(description);
         dest.writeString(eventType);
         dest.writeString(location);
-        dest.writeString(image);
         dest.writeSerializable(startDate);
         dest.writeSerializable(endDate);
     }
@@ -124,14 +120,6 @@ public class EventHome implements Parcelable {
         this.location = location;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public LocalDateTime getStartDate() {
         return startDate;
     }
@@ -156,7 +144,6 @@ public class EventHome implements Parcelable {
                 ", description='" + description + '\'' +
                 ", eventType='" + eventType + '\'' +
                 ", location='" + location + '\'' +
-                ", image='" + image + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

@@ -1,9 +1,7 @@
 package com.example.eventplanner.activities.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,22 +12,13 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.activities.event.EventDetailsActivity;
-import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
-import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
+import com.example.eventplanner.fragments.admin.CommentManagementFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
-import com.example.eventplanner.fragments.home.HomeEventsFragment;
-import com.example.eventplanner.activities.startup.LoginActivity;
-import com.example.eventplanner.activities.startup.RegistrationActivity;
-import com.example.eventplanner.fragments.chat.ChatDialogFragment;
-import com.example.eventplanner.fragments.home.HomeEventsFragment;
 import com.example.eventplanner.fragments.home.ProfileFragment;
-import com.example.eventplanner.fragments.startup.EoRegistrationFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
@@ -92,11 +81,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
         }
         else if(item.getItemId()==R.id.nav_notification) {
-            FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
+            FragmentsTool.to(new NotificationFragment(), HomeActivity.this,false);
         }
         else if (item.getItemId() == R.id.nav_add) {
             //FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
             FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_edit_comments) {
+            FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

@@ -1,5 +1,7 @@
 package com.example.eventplanner.model;
 
+import com.example.eventplanner.model.enumeration.GradeValue;
+
 public class Grade {
     private Long id;
 
