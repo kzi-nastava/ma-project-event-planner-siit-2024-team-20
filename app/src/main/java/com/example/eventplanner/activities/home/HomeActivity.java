@@ -20,6 +20,7 @@ import androidx.navigation.NavController;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
+import com.example.eventplanner.fragments.CommentManagementFragment;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
@@ -92,11 +93,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
         }
         else if(item.getItemId()==R.id.nav_notification) {
-            FragmentsTool.to(new NotificationFragment(), HomeActivity.this);
+            FragmentsTool.to(new NotificationFragment(), HomeActivity.this,false);
         }
         else if (item.getItemId() == R.id.nav_add) {
             //FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
             FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_edit_comments) {
+            FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

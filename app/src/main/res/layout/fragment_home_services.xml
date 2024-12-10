@@ -85,9 +85,39 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/otherProductsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintStart_toStartOf="parent" />
+            <LinearLayout
+                android:id="@+id/paginator_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:nestedScrollingEnabled="false"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <Button
+                    android:id="@+id/btn_previous_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Previous"
+                    android:visibility="gone" />
+                <TextView
+                    android:id="@+id/current_page_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Page"
+                    android:textSize="16sp" />
+                <Button
+                    android:id="@+id/btn_next_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
