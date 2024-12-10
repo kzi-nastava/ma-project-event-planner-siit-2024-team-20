@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.Product;
+import com.example.eventplanner.model.product.EditProduct;
 import com.example.eventplanner.model.product.SeeMyProductTable;
 
 import java.util.ArrayList;
@@ -60,14 +62,32 @@ public class SeeMyProductsFragment extends Fragment {
         tableRow.addView(descriptionColumn);
         tableRow.addView(priceColumn);
 
+        tableRow.setTag(product.getId());
+
         // Postavljanje klikabilnosti reda
         tableRow.setClickable(true);
-        /*tableRow.setOnClickListener(new View.OnClickListener() {
+        tableRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Long productId = (Long) v.getTag(); // dobijanje id-ja iz taga
+                EditProduct product = fetchProductDetailsFromDatabase(productId);
+                if (product != null) {
+                    // novi fragment
+                    EditProductFragment editProductFragment = new EditProductFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("product", product);
+                    editProductFragment.setArguments(bundle);
 
+                    // Prikazivanje novog fragmenta
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainerView, editProductFragment)
+                            .addToBackStack(null)
+                            .commit();
+                } else {
+                    Toast.makeText(getContext(), "Product not found", Toast.LENGTH_SHORT).show();
+                }
             }
-        });*/
+        });
 
         productTable.addView(tableRow);
     }
@@ -83,5 +103,21 @@ public class SeeMyProductsFragment extends Fragment {
         textView.setTextColor(getResources().getColor(R.color.background_color));
         textView.setTextSize(14);
         return textView;
+    }
+
+    private EditProduct fetchProductDetailsFromDatabase(Long productId) {
+        // simulacija baze
+        List<EditProduct> allProducts = new ArrayList<>();
+        allProducts.add(new EditProduct(1L, "Proizvod 1", "Opis 1", 1000, 50, true, false, null, "Category 1", null));
+        allProducts.add(new EditProduct(2L, "Proizvod 2", "Opis 2", 1000, 50, true, true, null, "Category 2", null));
+        allProducts.add(new EditProduct(3L, "Proizvod 3", "Opis 3", 1000, 50, false, false, null, "Category 3", null));
+
+        // bas taj proizvod
+        for (EditProduct product : allProducts) {
+            if (product.getId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
     }
 }
