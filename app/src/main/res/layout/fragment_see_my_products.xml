@@ -29,13 +29,30 @@
                 android:textSize="30sp"
                 android:textColor="@color/text_color" />
 
-            <SearchView
-                android:id="@+id/search_my_products"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:queryHint="@string/smp_search"
-                android:background="@drawable/searchview_border"/>
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:id="@+id/search_my_products"
+                    android:layout_width="274dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/searchview_border"
+                    android:queryHint="@string/smp_search" />
+
+                <ImageView
+                    android:id="@+id/filter_my_products"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_margin="23dp"
+                    android:contentDescription="@string/filter_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_filter" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:id="@+id/product_table"
