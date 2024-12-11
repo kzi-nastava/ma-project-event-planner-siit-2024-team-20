@@ -71,6 +71,18 @@
     <string name="ce_date2">JAN-01-2001</string>
     <string name="ce_create">Create</string>
 
+    <!--create agenda-->
+    <string name="ca">Agenda</string>
+    <string name="ca_name">Name</string>
+    <string name="ca_description">Description</string>
+    <string name="ca_location">Location</string>
+    <string name="ca_add">Add</string>
+    <string name="ca_col1">Name</string>
+    <string name="ca_col2">Description</string>
+    <string name="ca_col3">From</string>
+    <string name="ca_col4">To</string>
+    <string name="ca_col5">Location</string>
+
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
@@ -106,5 +118,4 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
