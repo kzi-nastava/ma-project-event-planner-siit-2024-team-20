@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.eventplanner.model.BaseItem;
+import com.example.eventplanner.model.entities.BaseItem;
 import com.example.eventplanner.R;
 import java.util.List;
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.adapters.CommentAdapter;
-import com.example.eventplanner.model.Comment;
+import com.example.eventplanner.model.entities.Comment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

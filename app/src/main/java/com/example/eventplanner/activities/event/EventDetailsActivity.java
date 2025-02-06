@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
-import com.example.eventplanner.model.EventHome;
+import com.example.eventplanner.model.entities.EventHome;
 
 public class EventDetailsActivity extends AppCompatActivity{
     private TextView eventName;

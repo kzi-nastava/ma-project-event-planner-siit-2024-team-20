@@ -1,4 +1,8 @@
-package com.example.eventplanner.model;
+package com.example.eventplanner.model.entities;
+
+import com.example.eventplanner.model.entities.EventType;
+import com.example.eventplanner.model.entities.Grade;
+import com.example.eventplanner.model.Location;
 
 import java.time.LocalDateTime;
 import java.util.Set;

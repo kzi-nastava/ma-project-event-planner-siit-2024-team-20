@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,34 +16,80 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
+import com.example.eventplanner.model.login.LoginRequest;
+import com.example.eventplanner.model.login.LoginResponse;
+import com.example.eventplanner.services.IUserService;
+import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
+import com.example.eventplanner.services.spec.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    EditText inputEmail, inputPassword;
+    private Button btnLogin;
+    private TextView btnSwitchToRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        TextView btn1 = findViewById(R.id.switchToRegister);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
 
-            }
-        });
-        Button btn2 = findViewById(R.id.btnlogin);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            }
-        });
 
+        inputEmail = findViewById(R.id.inputEmail);
+        inputPassword = findViewById(R.id.inputPassword);
+        btnLogin = findViewById(R.id.btnlogin);
+        btnSwitchToRegister = findViewById(R.id.switchToRegister);
+
+        btnLogin.setOnClickListener(view -> performLogin());
+
+        btnSwitchToRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+        });
     }
+    private void performLogin() {
+        String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Email and password are required!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        LoginRequest loginRequest = new LoginRequest(email, password);
+
+        IUserService userService = RetrofitClient.getClient(ApiService.BASE_URL)
+                .create(IUserService.class);
+
+        Call<LoginResponse> call = userService.userLogin(loginRequest);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+
+                    AuthService.setToken(loginResponse.getToken());
+                    new AuthService().getMyInfo();
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login failed. Please check email and password.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Error occured! Please try later.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
