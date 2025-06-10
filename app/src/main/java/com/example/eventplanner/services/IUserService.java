@@ -5,6 +5,8 @@ import com.example.eventplanner.model.login.LoginRequest;
 import com.example.eventplanner.model.login.LoginResponse;
 import com.example.eventplanner.model.registration.EoRegistrationRequest;
 import com.example.eventplanner.model.registration.EoRegistrationResponse;
+import com.example.eventplanner.model.registration.SppRegistrationRequest;
+import com.example.eventplanner.model.registration.SppRegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,5 +30,7 @@ public interface IUserService {
     @POST("users/event-organizers/register")
     Call<EoRegistrationResponse> eoRegistration(@Body EoRegistrationRequest request);
 
-
+    @Headers("Content-Type: application/json")
+    @POST("users/sp-providers/register")
+    Call<SppRegistrationResponse> sppRegistration(@Body SppRegistrationRequest request);
 }
