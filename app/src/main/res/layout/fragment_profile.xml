@@ -21,7 +21,7 @@
 
             <!-- Profile Image Section -->
             <FrameLayout
-                android:id="@+id/profileImageContainer"
+                android:id="@+id/profileImageFragmentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -37,7 +37,7 @@
                 android:id="@+id/editTextIme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite ime"
+                android:hint="@string/p_name"
                 android:inputType="textPersonName"
                 android:layout_marginTop="8dp"/>
 
@@ -52,7 +52,7 @@
                 android:id="@+id/editTextPrezime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite prezime"
+                android:hint="@string/p_lastname"
                 android:inputType="textPersonName"
                 android:layout_marginTop="8dp"/>
 
@@ -87,7 +87,7 @@
                 android:id="@+id/editTextGrad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite grad"
+                android:hint="@string/p_city"
                 android:inputType="text"
                 android:layout_marginTop="8dp"/>
 
@@ -102,7 +102,7 @@
                 android:id="@+id/editTextAdresa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite adresu"
+                android:hint="@string/p_address"
                 android:inputType="text"
                 android:layout_marginTop="8dp"/>
 
@@ -117,7 +117,7 @@
                 android:id="@+id/editTextBrojAdrese"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite broj adrese"
+                android:hint="@string/p_address_num"
                 android:inputType="number"
                 android:layout_marginTop="8dp"/>
 
@@ -132,11 +132,49 @@
                 android:id="@+id/editTextTelefon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite broj telefona"
+                android:hint="@string/p_phone"
                 android:inputType="phone"
                 android:layout_marginTop="8dp"/>
 
-            <!-- Change Password Section -->
+            <LinearLayout
+                android:id="@+id/companyFieldsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rf2_company_name"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp" />
+
+                <EditText
+                    android:id="@+id/editTextCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/p_company_name"
+                    android:inputType="text"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rf2_company_description"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp" />
+
+                <EditText
+                    android:id="@+id/editTextCompanyDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/p_company_desc"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:gravity="top"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -183,6 +221,16 @@
                     android:hint="@string/newpc"
                     android:inputType="textPassword"
                     android:layout_marginTop="8dp"/>
+
+                <Button
+                    android:id="@+id/changePasswordButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/text_color"
+                    android:text="@string/password_change"
+                    android:textColor="@color/background_color" />
             </LinearLayout>
 
 
