@@ -1,4 +1,4 @@
-package com.example.eventplanner.model;
+package com.example.eventplanner.model.entities;
 
 import java.util.Set;
 
@@ -14,11 +14,12 @@ public abstract class User {
     private String phoneNumber;
     private String profileImage;
     private boolean isActive;
-    private Set<Event> acceptedEvents;
-    private Set<Event> favouriteEvents;
+    private boolean isDeactivated;
+
+    private Set<Role> roles;
 
     public User(Long id, String name, String lastName, String email, String password, String city, String address,
-                String addressNum, String phoneNumber, String profileImage) {
+                String addressNum, String phoneNumber, String profileImage, boolean isActive, boolean isDeactivated, Set<Role> roles) {
         super();
         this.id = id;
         this.name = name;
@@ -30,5 +31,8 @@ public abstract class User {
         this.addressNum = addressNum;
         this.phoneNumber = phoneNumber;
         this.profileImage = profileImage;
+        this.isActive = isActive;
+        this.isDeactivated = isDeactivated;
+        this.roles = roles;
     }
 }

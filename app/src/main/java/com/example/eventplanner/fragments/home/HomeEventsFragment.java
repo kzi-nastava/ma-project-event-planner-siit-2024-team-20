@@ -1,11 +1,9 @@
 package com.example.eventplanner.fragments.home;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
-import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.adapters.HomeEventsAdapter;
 import com.example.eventplanner.helpers.SortMenuManager;
 import com.example.eventplanner.helpers.FilterMenuManager;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,14 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.model.Event;
-import com.example.eventplanner.model.EventHome;
+import com.example.eventplanner.model.entities.EventHome;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -128,7 +123,7 @@ public class HomeEventsFragment extends Fragment {
         // Ažurirajte RecyclerView adapter sa novim podacima
         HomeEventsAdapter adapter = (HomeEventsAdapter) otherEventsRecyclerView.getAdapter();
         if (adapter != null) {
-            adapter.updateData(events);
+            //adapter.updateData(events);
         }
 
         // Proverite da li postoje još stranice
@@ -184,8 +179,8 @@ public class HomeEventsFragment extends Fragment {
 
 
         // Kreiranje adaptera
-        topEventsAdapter = new HomeEventsAdapter(topEventsList, this::openEventDetailsActivity);
-        otherEventsAdapter = new HomeEventsAdapter(otherEventsList, this::openEventDetailsActivity);
+        //topEventsAdapter = new HomeEventsAdapter(topEventsList, this::openEventDetailsActivity);
+        //otherEventsAdapter = new HomeEventsAdapter(otherEventsList, this::openEventDetailsActivity);
 
         // Postavljanje adaptera za oba RecyclerView-a
         topEventsRecyclerView.setAdapter(topEventsAdapter);

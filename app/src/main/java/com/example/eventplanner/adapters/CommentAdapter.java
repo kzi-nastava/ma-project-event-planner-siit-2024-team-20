@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.model.Comment;
+import com.example.eventplanner.model.entities.Comment;
 import com.example.eventplanner.model.enumeration.StatusType;
 
 import java.util.List;

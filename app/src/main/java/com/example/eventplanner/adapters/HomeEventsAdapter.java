@@ -1,29 +1,15 @@
 package com.example.eventplanner.adapters;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.eventplanner.model.Event;
-import com.example.eventplanner.model.EventHome;
+import com.example.eventplanner.model.entities.EventHome;
 import com.example.eventplanner.R;
 
-import org.w3c.dom.Text;
-
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.EventViewHolder> {

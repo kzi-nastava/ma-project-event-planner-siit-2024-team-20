@@ -47,9 +47,9 @@ public class SortMenuManager {
             radioAsc.setChecked(true);  // Ako je podrazumevani ASC
 
             // Logika za višestruki izbor (CheckBox)
-            CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
+            /*CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
             CheckBox checkOption2 = popupView.findViewById(R.id.check_option_2);
-            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
+            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);*/
 
             // Dugme za potvrdu
             Button confirmButton = popupView.findViewById(R.id.btn_sort);
@@ -91,9 +91,9 @@ public class SortMenuManager {
             radioAsc.setChecked(true);  // Ako je podrazumevani ASC
             radioService.setChecked(true);
             // Logika za višestruki izbor (CheckBox)
-            CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
+            /*CheckBox checkOption1 = popupView.findViewById(R.id.check_option_1);
             CheckBox checkOption2 = popupView.findViewById(R.id.check_option_2);
-            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);
+            CheckBox checkOption3 = popupView.findViewById(R.id.check_option_3);*/
 
             // Dugme za potvrdu
             Button confirmButton = popupView.findViewById(R.id.btn_sort);

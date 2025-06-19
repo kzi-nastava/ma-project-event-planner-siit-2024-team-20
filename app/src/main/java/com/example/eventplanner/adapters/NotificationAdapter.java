@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.eventplanner.model.Notification;
+import com.example.eventplanner.model.entities.Notification;
 import com.example.eventplanner.R;
 import java.util.List;
 
