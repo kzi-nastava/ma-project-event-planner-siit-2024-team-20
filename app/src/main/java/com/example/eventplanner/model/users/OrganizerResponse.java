@@ -1,39 +1,37 @@
-package com.example.eventplanner.model.entities;
+package com.example.eventplanner.model.users;
 
-import java.util.Set;
+import com.example.eventplanner.model.entities.User;
 
-public abstract class User {
+public class OrganizerResponse {
     private Long id;
+
     private String name;
+
     private String lastName;
+
     private String email;
-    private String password;
+
     private String city;
+
     private String address;
+
     private String addressNum;
+
     private String phoneNumber;
+
     private String profileImage;
-    private boolean isActive;
-    private boolean isDeactivated;
 
-    private Set<Role> roles;
-
-    public User(Long id, String name, String lastName, String email, String password, String city, String address,
-                String addressNum, String phoneNumber, String profileImage, boolean isActive, boolean isDeactivated, Set<Role> roles) {
+    public OrganizerResponse(User user) {
         super();
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.city = city;
-        this.address = address;
-        this.addressNum = addressNum;
-        this.phoneNumber = phoneNumber;
-        this.profileImage = profileImage;
-        this.isActive = isActive;
-        this.isDeactivated = isDeactivated;
-        this.roles = roles;
+        this.id = user.getId();
+        this.name = user.getName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.city = user.getCity();
+        this.address = user.getAddress();
+        this.addressNum = user.getAddressNum();
+        this.phoneNumber =user.getPhoneNumber();
+        this.profileImage = user.getProfileImage();
     }
 
     public Long getId() {
@@ -66,14 +64,6 @@ public abstract class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getCity() {
@@ -114,29 +104,5 @@ public abstract class User {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public boolean isDeactivated() {
-        return isDeactivated;
-    }
-
-    public void setDeactivated(boolean deactivated) {
-        isDeactivated = deactivated;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 }

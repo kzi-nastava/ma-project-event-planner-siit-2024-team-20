@@ -1,34 +1,24 @@
-package com.example.eventplanner.model;
+package com.example.eventplanner.model.eventDetails;
 
-public class Location {
+import com.example.eventplanner.model.Location;
+
+public class LocationResponse {
     private Long id;
-
     private String city;
-
     private String street;
-
     private String streetNumber;
-
     private double longitude;
-
     private double latitude;
 
-    public Location(Long id, String city, String street, String streetNumber, double longitude, double latitude) {
-        super();
-        this.id = id;
+    public LocationResponse() {
+    }
+
+    public LocationResponse(String city, String street, String streetNumber, double longitude, double latitude) {
         this.city = city;
         this.street = street;
         this.streetNumber = streetNumber;
         this.longitude = longitude;
         this.latitude = latitude;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCity() {
@@ -69,5 +59,13 @@ public class Location {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+    public LocationResponse(Location location) {
+        this.id = location.getId();
+        this.city = location.getCity();
+        this.street =location.getStreet();
+        this.streetNumber = location.getStreetNumber();
+        this.longitude = location.getLongitude();
+        this.latitude = location.getLatitude();
     }
 }

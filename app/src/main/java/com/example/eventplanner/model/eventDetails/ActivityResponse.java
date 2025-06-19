@@ -1,22 +1,26 @@
-package com.example.eventplanner.model.entities;
+package com.example.eventplanner.model.eventDetails;
 
+import com.example.eventplanner.model.entities.Activity;
 import java.time.LocalTime;
 
-public class Activity {
+public class ActivityResponse {
     private Long id;
-
     private String name;
-
     private String description;
-
     private String place;
-
     private LocalTime startTime;
-
     private LocalTime endTime;
-
-    public Activity(Long id, String name, String description, String place, LocalTime startTime, LocalTime endTime) {
-        super();
+    public ActivityResponse(Activity activity){
+        this.id =activity.getId();
+        this.name = activity.getName();
+        this.description = activity.getDescription();
+        this.place = activity.getPlace();
+        this.startTime = activity.getStartTime();
+        this.endTime = activity.getEndTime();
+    }
+    //response
+    public ActivityResponse(Long id,String name,String description,String place,
+                       LocalTime startTime,LocalTime endTime) {
         this.id = id;
         this.name = name;
         this.description = description;
