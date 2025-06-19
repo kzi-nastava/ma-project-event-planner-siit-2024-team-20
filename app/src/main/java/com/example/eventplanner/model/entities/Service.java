@@ -17,7 +17,7 @@ public class Service extends BaseItem {
     private boolean isAvailable;
     private Set<String> images = new HashSet<>();
     private String specificity;
-    private String category;
+    private Category category;
     private double duration;
     private double minDuration;
     private double maxDuration;
@@ -27,7 +27,7 @@ public class Service extends BaseItem {
     private String provider; // Zajedničko polje
 
     public Service(Long id, String name, String description, double price, int discount, boolean isAvailable,
-                   Set<String> images, String specificity, String category, double duration, double minDuration,
+                   Set<String> images, String specificity, Category category, double duration, double minDuration,
                    double maxDuration, double reservationDeadline, double cancellationDeadline,
                    double reservationConfirmation, String provider) {
         this.id = id;
@@ -68,7 +68,7 @@ public class Service extends BaseItem {
     public boolean isAvailable() { return isAvailable; }
 
     @Override
-    public String getCategory() { return category; }
+    public Category getCategory() { return category; }
     public String getSpecificity(){return specificity;}
     public double getDuration(){ return duration; }
     public double getMaxDuration(){ return maxDuration; }
@@ -76,42 +76,7 @@ public class Service extends BaseItem {
     @Override
     public String getProvider() { return provider; }
 
-    // Parcelable implementacija
-    protected Service(Parcel in) {
-        id = in.readLong();
-        name = in.readString();
-        description = in.readString();
-        price = in.readDouble();
-        discount = in.readInt();
-        isAvailable = in.readByte() != 0;
-        images = new HashSet<>(in.createStringArrayList());
-        specificity = in.readString();
-        category = in.readString();
-        duration = in.readDouble();
-        minDuration = in.readDouble();
-        maxDuration = in.readDouble();
-        reservationDeadline = in.readDouble();
-        cancellationDeadline = in.readDouble();
-        reservationConfirmation = in.readDouble();
-        provider = in.readString();
-    }
 
-    public static final Creator<Service> CREATOR = new Creator<Service>() {
-        @Override
-        public Service createFromParcel(Parcel in) {
-            return new Service(in);
-        }
-
-        @Override
-        public Service[] newArray(int size) {
-            return new Service[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

@@ -47,6 +47,13 @@ public interface IEventService {
             @Query("size") int size,
             @Query("sort") String sort
     );
+    @GET("events/sorted")
+    Call<PagedResponse<EventHomeResponse>> getSortedEvents(
+            @Query("page") int page,
+            @Query("size") int size,
+            @Query("sortCriteria") List<String> sortCriteria,
+            @Query("sortOrder") String sortOrder
+    );
 
 
 
