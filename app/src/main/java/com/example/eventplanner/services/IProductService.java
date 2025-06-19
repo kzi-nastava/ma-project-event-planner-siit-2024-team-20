@@ -21,6 +21,18 @@ public interface IProductService {
     );
     @GET("products/search")
     Call<List<ProductResponse>> searchProductsByName(@Query("name") String name);
+    @GET("products/filter")
+    Call<PagedResponse<ProductResponse>> filterProducts(
+            @Query("category") String category,
+            @Query("eventType") String eventType,
+            @Query("minPrice") Double minPrice,
+            @Query("maxPrice") Double maxPrice,
+            @Query("available") Boolean available,
+            @Query("description") String description,
+            @Query("page") int page,
+            @Query("size") int size,
+            @Query("sort") String sort
+    );
 
 
 

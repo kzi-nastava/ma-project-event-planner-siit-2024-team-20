@@ -1,5 +1,6 @@
 package com.example.eventplanner.model.entities;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,12 +25,17 @@ public class Service extends BaseItem {
     private double reservationDeadline;
     private double cancellationDeadline;
     private double reservationConfirmation;
-    private String provider; // Zajedničko polje
+    private User provider; // Zajedničko polje
+    private LocalTime workingStart;
 
+    private LocalTime workingEnd;
+    private Set<Grade> grades=new HashSet<Grade>();
+
+    private Set<Comment> comments=new HashSet<Comment>();
     public Service(Long id, String name, String description, double price, int discount, boolean isAvailable,
                    Set<String> images, String specificity, Category category, double duration, double minDuration,
                    double maxDuration, double reservationDeadline, double cancellationDeadline,
-                   double reservationConfirmation, String provider) {
+                   double reservationConfirmation,User provider) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -74,27 +80,117 @@ public class Service extends BaseItem {
     public double getMaxDuration(){ return maxDuration; }
     public double getMinDuration(){ return minDuration; }
     @Override
-    public String getProvider() { return provider; }
+    public User getProvider() { return provider; }
 
+    public double getReservationDeadline() {
+        return reservationDeadline;
+    }
 
+    public void setReservationDeadline(double reservationDeadline) {
+        this.reservationDeadline = reservationDeadline;
+    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeDouble(price);
-        dest.writeInt(discount);
-        dest.writeByte((byte) (isAvailable ? 1 : 0));
-        dest.writeStringList(new ArrayList<>(images));
-        dest.writeString(specificity);
-        dest.writeString(category);
-        dest.writeDouble(duration);
-        dest.writeDouble(minDuration);
-        dest.writeDouble(maxDuration);
-        dest.writeDouble(reservationDeadline);
-        dest.writeDouble(cancellationDeadline);
-        dest.writeDouble(reservationConfirmation);
-        dest.writeString(provider);
+    public double getCancellationDeadline() {
+        return cancellationDeadline;
+    }
+
+    public void setCancellationDeadline(double cancellationDeadline) {
+        this.cancellationDeadline = cancellationDeadline;
+    }
+
+    public double getReservationConfirmation() {
+        return reservationConfirmation;
+    }
+
+    public void setReservationConfirmation(double reservationConfirmation) {
+        this.reservationConfirmation = reservationConfirmation;
+    }
+
+    public void setProvider(User provider) {
+        this.provider = provider;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public Set<String> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<String> images) {
+        this.images = images;
+    }
+
+    public void setSpecificity(String specificity) {
+        this.specificity = specificity;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public void setMinDuration(double minDuration) {
+        this.minDuration = minDuration;
+    }
+
+    public void setMaxDuration(double maxDuration) {
+        this.maxDuration = maxDuration;
+    }
+
+    public LocalTime getWorkingStart() {
+        return workingStart;
+    }
+
+    public void setWorkingStart(LocalTime workingStart) {
+        this.workingStart = workingStart;
+    }
+
+    public LocalTime getWorkingEnd() {
+        return workingEnd;
+    }
+
+    public void setWorkingEnd(LocalTime workingEnd) {
+        this.workingEnd = workingEnd;
+    }
+
+    public Set<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<Grade> grades) {
+        this.grades = grades;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

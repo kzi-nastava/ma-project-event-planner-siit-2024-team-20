@@ -10,5 +10,5 @@ public abstract class BaseItem {
     public abstract int getDiscount();
     public abstract boolean isAvailable();
     public abstract Category getCategory();
-    public abstract String getProvider();
+    public abstract User getProvider();
 }
