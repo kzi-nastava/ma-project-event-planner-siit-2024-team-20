@@ -1,9 +1,13 @@
 package com.example.eventplanner.services.spec;
 
+import com.example.eventplanner.helpers.LocalDateAdapter;
+import com.example.eventplanner.helpers.LocalTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -18,6 +22,8 @@ public class RetrofitClient {
 
     private static final Gson gson = new GsonBuilder()
             .setLenient()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .create();
 
     private static OkHttpClient createClient(){

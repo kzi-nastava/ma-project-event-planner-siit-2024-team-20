@@ -1,5 +1,6 @@
 package com.example.eventplanner.services.spec;
 
+import com.example.eventplanner.services.IEventService;
 import com.example.eventplanner.services.IEventTypeService;
 import com.example.eventplanner.services.IUserService;
 
@@ -11,5 +12,8 @@ public class ApiService {
     }
     public static IEventTypeService getEventTypeService(){
         return RetrofitClient.getClient(BASE_URL).create(IEventTypeService.class);
+    }
+    public static IEventService getEventService(){
+        return RetrofitClient.getClient(BASE_URL).create(IEventService.class);
     }
 }

@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -17,112 +19,113 @@ import android.widget.Toast;
 
 import com.example.eventplanner.R;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class DateTimePickerFragment extends Fragment {
 
-    private DatePickerDialog datePickerDialog;
-    private Button dateButton;
+    private Button datePickerButton, timePickerButton;
+    private Button endDatePickerButton, endTimePickerButton;
 
-    private Button timeButton;
-    private int hour, minute;
+    private LocalDate startDate, endDate;
+    private LocalTime startTime, endTime;
 
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_date_time_picker, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_date_time_picker, container, false);
 
-        dateButton = rootView.findViewById(R.id.datePickerButton);
-        dateButton.setText(getTodaysDate());
+        datePickerButton = view.findViewById(R.id.datePickerButton);
+        timePickerButton = view.findViewById(R.id.timePickerButton);
+        endDatePickerButton = view.findViewById(R.id.endDatePickerButton);
+        endTimePickerButton = view.findViewById(R.id.endTimePickerButton);
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDatePicker(v);
-            }
-        });
+        startDate = LocalDate.now();
+        endDate = LocalDate.now();
+        startTime = LocalTime.now().withSecond(0).withNano(0);
+        endTime = LocalTime.now().withSecond(0).withNano(0);
 
-        initDatePicker();
+        updateDateButtonText();
+        updateTimeButtonText();
+        updateEndDateButtonText();
+        updateEndTimeButtonText();
 
-        timeButton = rootView.findViewById(R.id.timePickerButton);
-        timeButton.setText(getCurrentTime());
+        datePickerButton.setOnClickListener(v -> openStartDatePicker());
+        timePickerButton.setOnClickListener(v -> openStartTimePicker());
+        endDatePickerButton.setOnClickListener(v -> openEndDatePicker());
+        endTimePickerButton.setOnClickListener(v -> openEndTimePicker());
 
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openTimePicker(v);
-            }
-        });
-        return rootView;
+        return view;
     }
 
-    private String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
-        return String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+    private void updateDateButtonText() {
+        datePickerButton.setText(startDate.toString());
     }
 
-    private String getTodaysDate() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month + 1, year);
+    private void updateTimeButtonText() {
+        timePickerButton.setText(startTime.toString());
     }
 
-    private void initDatePicker() {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = makeDateString(dayOfMonth, month + 1, year);
-                dateButton.setText(date);
-            }
-        };
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.DAY_OF_MONTH, 1); // sutrasnji dan
-
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        int style = AlertDialog.THEME_HOLO_LIGHT;
-        datePickerDialog = new DatePickerDialog(requireContext(), style, dateSetListener, year, month, day);
-        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+    private void updateEndDateButtonText() {
+        endDatePickerButton.setText(endDate.toString());
     }
 
-    private String makeDateString(int dayOfMonth, int month, int year) {
-        return getMonthFormat(month) + " " + dayOfMonth + " " + year;
+    private void updateEndTimeButtonText() {
+        endTimePickerButton.setText(endTime.toString());
     }
 
-    private String getMonthFormat(int month) {
-        String[] months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-        return months[month - 1];
-    }
-
-    public void openDatePicker(View view) {
+    public void openStartDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    startDate = LocalDate.of(year, month + 1, dayOfMonth);
+                    updateDateButtonText();
+                }, startDate.getYear(), startDate.getMonthValue() - 1, startDate.getDayOfMonth());
         datePickerDialog.show();
     }
 
-    public void openTimePicker(View view) {
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                hour = selectedHour;
-                minute = selectedMinute;
-                timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-            }
-        };
-        int style = AlertDialog.THEME_HOLO_DARK;
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), style, onTimeSetListener, hour, minute, true);
-        timePickerDialog.setTitle("Select time");
+    public void openStartTimePicker() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(),
+                (view, hourOfDay, minute) -> {
+                    startTime = LocalTime.of(hourOfDay, minute);
+                    updateTimeButtonText();
+                }, startTime.getHour(), startTime.getMinute(), true);
         timePickerDialog.show();
+    }
+
+    public void openEndDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    endDate = LocalDate.of(year, month + 1, dayOfMonth);
+                    updateEndDateButtonText();
+                }, endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        datePickerDialog.show();
+    }
+
+    public void openEndTimePicker() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(),
+                (view, hourOfDay, minute) -> {
+                    endTime = LocalTime.of(hourOfDay, minute);
+                    updateEndTimeButtonText();
+                }, endTime.getHour(), endTime.getMinute(), true);
+        timePickerDialog.show();
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
     }
 }

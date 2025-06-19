@@ -20,6 +20,7 @@ import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
 import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
@@ -91,6 +92,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             if (role != null && role.equals("ROLE_ADMIN")) {
                 FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+            }
+            else if(role != null && role.equals("ROLE_EVENT_ORGANIZER")){
+                FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
             }
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {

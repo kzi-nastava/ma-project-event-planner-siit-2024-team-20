@@ -32,4 +32,5 @@ public interface IEventTypeService {
 
     @PUT("users/admins/event-type/{id}/edit")
     Call<EventType> editEventType(@Path("id") Long id,@Body EventTypeEditRequest eventTypeEditRequest);
+
 }
