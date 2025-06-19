@@ -1,24 +1,21 @@
-package com.example.eventplanner.model.entities;
+package com.example.eventplanner.model.eventTypeCreation;
 
-import com.example.eventplanner.model.enumeration.StatusType;
+import java.util.Set;
 
-public class Category {
+public class EventTypeEditRequest {
     private Long id;
-
     private String name;
-
     private String description;
+    private Set<String> categorySuggestions;
 
-    private StatusType status;
-
-    public Category(Long id, String name, String description, StatusType status) {
+    public EventTypeEditRequest(Long id, String name, String description, Set<String> categorySuggestions) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.categorySuggestions = categorySuggestions;
     }
 
-    public Category() {
+    public EventTypeEditRequest() {
     }
 
     public Long getId() {
@@ -45,11 +42,11 @@ public class Category {
         this.description = description;
     }
 
-    public StatusType getStatus() {
-        return status;
+    public Set<String> getCategorySuggestions() {
+        return categorySuggestions;
     }
 
-    public void setStatus(StatusType status) {
-        this.status = status;
+    public void setCategorySuggestions(Set<String> categorySuggestions) {
+        this.categorySuggestions = categorySuggestions;
     }
 }

@@ -7,36 +7,37 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
-                android:layout_height="94dp"
-                android:text="@string/aet_title"
+                android:layout_height="wrap_content"
+                android:text="Add Event Type"
                 android:textSize="35sp"
                 android:textColor="@color/text_color"
                 android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:layout_marginTop="40dp" />
 
             <EditText
                 android:id="@+id/editTextText8"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="@string/aet_name"
+                android:hint="Name"
                 android:textColor="@color/text_color"
-                android:textColorHint="@color/text_color" />
+                android:textColorHint="@color/text_color"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/editTextText9"
@@ -45,91 +46,170 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="@string/aet_description"
+                android:hint="Description"
                 android:textColor="@color/text_color"
-                android:textColorHint="@color/text_color" />
+                android:textColorHint="@color/text_color"
+                android:inputType="text" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
-                android:text="@string/aed_spt"
+                android:text="Select Suggestions"
                 android:drawableEnd="@drawable/arrow_drop_down"
                 android:drawablePadding="8dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/button4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/aed_create"
-                android:layout_marginTop="200dp"
+                android:text="Create"
+                android:layout_marginTop="60dp"
                 android:layout_marginStart="150dp"
-                android:layout_marginEnd="150dp"/>
+                android:layout_marginEnd="150dp" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/aed_existing"
+                android:text="Existing Event Types"
                 android:textColor="@color/text_color"
                 android:textStyle="bold"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:textSize="25sp"/>
+                android:layout_marginTop="40dp"
+                android:textSize="25sp" />
 
-            <TableLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:layout_marginBottom="70dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="30dp"
-                android:divider="@color/text_color"
-                android:showDividers="middle"
-                android:dividerPadding="10dp">
+                android:layout_marginEnd="30dp"
+                android:fillViewport="true">
 
-                <TableRow
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:showDividers="middle"
+                    android:divider="@color/text_color"
+                    android:dividerPadding="10dp" />
+            </HorizontalScrollView>
+
+            <!-- Edit section -->
+            <LinearLayout
+                android:id="@+id/editEventTypeSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="6dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_weight="1"
+                android:elevation="4dp"
+                android:visibility="gone"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:backgroundTint="#3C2956"
+                android:layout_centerInParent="true"
+                android:clipToPadding="false"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:backgroundTintMode="src_in"
+                android:clipChildren="false"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/edit_event_type_background">
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/nav_bar_color"
-                    android:padding="15dp">
+                    android:text="Edit"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="#E8C9F2"
+                    android:layout_marginBottom="20dp" />
 
-                    <TextView
-                        android:id="@+id/type_name1"
-                        android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="20dp">
+
+                    <EditText
+                        android:id="@+id/eventNameEdited"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Tip 1"
-                        android:textColor="@color/text_color"
-                        android:textSize="20sp"/>
+                        android:hint="Event type name"
+                        android:enabled="false"
+                        android:background="@drawable/input_box2_background"
+                        android:textColor="#E8C9F2"
+                        android:textColorHint="#E8C9F2"
+                        android:textSize="18sp"
+                        android:padding="20dp"
+                        android:layout_marginBottom="20dp" />
 
-                    <ImageButton
-                        android:id="@+id/edit_button1"
+                    <EditText
+                        android:id="@+id/eventDescriptionEdited"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit event type description"
+                        android:background="@drawable/input_box2_background"
+                        android:textColor="#E8C9F2"
+                        android:textColorHint="#E8C9F2"
+                        android:textSize="18sp"
+                        android:padding="20dp"
+                        android:layout_marginBottom="20dp"/>
+
+                    <Button
+                        android:id="@+id/toggleCheckbox2Button"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:text="service/product types"
+                        android:textColor="#3C2956"
+                        android:backgroundTint="#E8C9F2"
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/ic_drop_down"
+                        android:drawablePadding="8dp"
+                        android:layout_marginBottom="20dp" />
+
+                    <LinearLayout
+                        android:id="@+id/checkbox2Section"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/pen_solid"
-                        android:contentDescription="Edit"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:layout_marginEnd="30dp"/>
+                        android:orientation="vertical"
+                        android:backgroundTint="#E8C9F2"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:background="@drawable/checkbox2_background">
 
-                    <ImageButton
-                        android:id="@+id/delete_button1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/trash_solid"
-                        android:contentDescription="Delete"
-                        android:background="?android:attr/selectableItemBackground"/>
+                    </LinearLayout>
 
-                </TableRow>
-            </TableLayout>
+                    <Button
+                        android:id="@+id/saveChangesButton"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:text="Save Changes"
+                        android:textColor="#3C2956"
+                        android:backgroundTint="#E8C9F2"
+                        android:textSize="16sp"
+                        android:layout_marginTop="20dp" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,9 +17,9 @@ import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.startup.LoginActivity;
+import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
-import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
 import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
@@ -87,8 +87,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             FragmentsTool.to(new NotificationFragment(), HomeActivity.this,false);
         }
         else if (item.getItemId() == R.id.nav_add) {
-            //FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
-            FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+            String role = AuthService.getRoleFromToken();
+
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+            }
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
             FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
