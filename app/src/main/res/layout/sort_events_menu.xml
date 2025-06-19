@@ -63,7 +63,7 @@
                 android:id="@+id/type_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event type" />
+                android:text="Type" />
 
             <CheckBox
                 android:id="@+id/date_option"

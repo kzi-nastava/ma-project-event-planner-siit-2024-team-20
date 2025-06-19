@@ -1,94 +1,254 @@
 package com.example.eventplanner.fragments.event.create_event;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.home.HomeActivity;
+import com.example.eventplanner.model.entities.EventType;
+import com.example.eventplanner.model.eventCreation.AgendaCreationRequest;
+import com.example.eventplanner.model.eventCreation.EventCreationRequest;
+import com.example.eventplanner.services.IEventService;
+import com.example.eventplanner.services.IEventTypeService;
+import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateEventFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CreateEventFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    String[] item = {"option1", "option2"}; //all dodatno
-    AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterItems;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private AutoCompleteTextView autoCompleteTextView;
+    private List<EventType> eventTypes = new ArrayList<>();
+    private SuggestedCategoriesFragment suggestedCategoriesFragment;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CreateEventFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateEventFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateEventFragment newInstance(String param1, String param2) {
-        CreateEventFragment fragment = new CreateEventFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+
+        autoCompleteTextView = view.findViewById(R.id.auto_complete_txt);
+
+        suggestedCategoriesFragment = (SuggestedCategoriesFragment)
+                getChildFragmentManager().findFragmentById(R.id.fragmentContainerView3);
+
+        fetchEventTypes();
+        Button createEventButton = view.findViewById(R.id.button_create_event);
+        createEventButton.setOnClickListener(v -> createEvent());
+
+
+        return view;
+    }
+
+    private void fetchEventTypes() {
+        IEventTypeService service = ApiService.getEventTypeService();
+        service.getAllEventTypes().enqueue(new Callback<List<EventType>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<EventType>> call, @NonNull Response<List<EventType>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    eventTypes = response.body();
+
+                    List<String> eventTypeNames = new ArrayList<>();
+                    eventTypeNames.add("All");
+
+                    for (EventType type : eventTypes) {
+                        eventTypeNames.add(type.getName());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            requireContext(),
+                            android.R.layout.simple_dropdown_item_1line,
+                            eventTypeNames
+                    );
+                    autoCompleteTextView.setAdapter(adapter);
+
+                    setupDropdownSelection();
+                } else {
+                    Toast.makeText(getContext(), "Failed to load event types", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<EventType>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setupDropdownSelection() {
+        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedName = (String) parent.getItemAtPosition(position);
+
+            if (selectedName.equals("All")) {
+                if (suggestedCategoriesFragment != null) {
+                    suggestedCategoriesFragment.setCategories(List.of("None"));
+                }
+                return;
+            }
+
+            for (EventType type : eventTypes) {
+                if (type.getName().equals(selectedName)) {
+                    fetchSuggestedCategories(type.getId());
+                    break;
+                }
+            }
+        });
+    }
+
+    private void fetchSuggestedCategories(Long eventTypeId) {
+        IEventService service = ApiService.getEventService();
+        service.getSuggestedCategoriesForType(eventTypeId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<String>> call, @NonNull Response<List<String>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> categories = response.body();
+                    if (categories.isEmpty()) {
+                        categories.add("None");
+                    }
+
+                    if (suggestedCategoriesFragment != null) {
+                        suggestedCategoriesFragment.setCategories(categories);
+                    }
+                } else {
+                    showNoneFallback();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
+                showNoneFallback();
+            }
+
+            private void showNoneFallback() {
+                if (suggestedCategoriesFragment != null) {
+                    suggestedCategoriesFragment.setCategories(List.of("None"));
+                }
+            }
+        });
+    }
+    private double[] getLocationFromAddress(String city, String address, String num) {
+        String fullAddress = address + " " + num + ", " + city;
+        Geocoder geocoder = new Geocoder(getContext());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(fullAddress, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address location = addresses.get(0);
+                return new double[]{location.getLongitude(), location.getLatitude()};
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Failed to get location: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+        return new double[]{0.0, 0.0};
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_create_event, container, false);
-        autoCompleteTextView = rootView.findViewById(R.id.auto_complete_txt);
-        adapterItems = new ArrayAdapter<String>(requireContext(), R.layout.list_item, item);
+    private void createEvent() {
+        DateTimePickerFragment dateTimePickerFragment = (DateTimePickerFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fragmentContainerView4);
 
-        autoCompleteTextView.setAdapter(adapterItems);
+        if (dateTimePickerFragment == null) {
+            Toast.makeText(getContext(), "Date/time picker not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        autoCompleteTextView.setOnItemClickListener((parent, view1, position, id) -> {
-            String selectedType = parent.getItemAtPosition(position).toString();
+        LocalDate startDate = dateTimePickerFragment.getStartDate();
+        LocalTime startTime = dateTimePickerFragment.getStartTime();
+        LocalDate endDate = dateTimePickerFragment.getEndDate();
+        LocalTime endTime = dateTimePickerFragment.getEndTime();
 
-            // Prosleđivanje odabranog tipa u SuggestedCategoriesFragment
-            Bundle bundle = new Bundle();
-            bundle.putString("event_type", selectedType);
+        if (endDate.isBefore(startDate) || (endDate.isEqual(startDate) && endTime.isBefore(startTime))) {
+            Toast.makeText(getContext(), "End date/time must be after start date/time", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-            SuggestedCategoriesFragment fragment = new SuggestedCategoriesFragment();
-            fragment.setArguments(bundle);
+        String selectedTypeName = autoCompleteTextView.getText().toString();
+        Long eventTypeId = null;
+        if (!selectedTypeName.equals("All")) {
+            for (EventType type : eventTypes) {
+                if (type.getName().equals(selectedTypeName)) {
+                    eventTypeId = type.getId();
+                    break;
+                }
+            }
+            if (eventTypeId == null) {
+                Toast.makeText(getContext(), "Please select a valid event type", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else {
+            eventTypeId = null;
+        }
 
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerView3, fragment) // zamjenjuje sadržaj FragmentContainerView-a
-                    .commit();
+        String name = ((EditText) getView().findViewById(R.id.editTextText10)).getText().toString();
+        String description = ((EditText) getView().findViewById(R.id.editTextText11)).getText().toString();
+        String city = ((EditText) getView().findViewById(R.id.editTextText14)).getText().toString();
+        String address = ((EditText) getView().findViewById(R.id.editTextText12)).getText().toString();
+        String num = ((EditText) getView().findViewById(R.id.editTextText13)).getText().toString();
+        int numOfGuests = Integer.parseInt(((EditText) getView().findViewById(R.id.editTextNumber)).getText().toString());
+        boolean isPrivate = ((Switch) getView().findViewById(R.id.switch1)).isChecked();
+
+        List<String> guestEmails = new ArrayList<>();
+
+        double[] location = getLocationFromAddress(city, address, num);
+        double longitude = location[0];
+        double latitude = location[1];
+        Long creatorId = (long) AuthService.getUserIdFromToken();
+
+        List<AgendaCreationRequest> agenda = new ArrayList<>();
+
+        EventCreationRequest eventRequest = new EventCreationRequest(
+                name, description, city, address, num,
+                numOfGuests, isPrivate, guestEmails,
+                startDate, startTime, endDate, endTime,
+                eventTypeId, longitude, latitude, creatorId,
+                agenda
+        );
+
+        IEventService eventService = ApiService.getEventService();
+        eventService.createEvent(eventRequest).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Event created successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else {
+                    Toast.makeText(getContext(), "Failed to create event", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
         });
 
-        return rootView;
+
     }
+
+
 }

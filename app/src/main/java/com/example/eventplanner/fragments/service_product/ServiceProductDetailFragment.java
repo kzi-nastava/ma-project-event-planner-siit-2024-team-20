@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.model.BaseItem;
-import com.example.eventplanner.model.Product;
-import com.example.eventplanner.model.Service;
+import com.example.eventplanner.model.entities.BaseItem;
+import com.example.eventplanner.model.entities.Product;
+import com.example.eventplanner.model.entities.Service;
 
 /**
  * A simple {@link Fragment} subclass.

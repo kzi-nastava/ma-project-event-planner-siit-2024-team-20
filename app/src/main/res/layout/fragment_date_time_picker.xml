@@ -71,35 +71,60 @@
         app:layout_constraintVertical_bias="0.063" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/textViewEndDateLabel"
         android:layout_width="170dp"
         android:layout_height="52dp"
         android:paddingTop="16dp"
-        android:text="@string/ce_time_end"
+        android:text="@string/ce_end_date"
         android:textAlignment="center"
         android:textColor="@color/text_color"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.1"/>
 
     <Button
-        android:id="@+id/timePickerButton2"
+        android:id="@+id/endDatePickerButton"
         android:layout_width="182dp"
         android:layout_height="52dp"
-        android:onClick="openTimeEndPicker"
+        android:text="@string/ce_date2"
+        android:textColor="@color/background_color"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/textViewEndTimeLabel"
+        android:layout_width="170dp"
+        android:layout_height="52dp"
+        android:paddingTop="16dp"
+        android:text="@string/ce_end_time"
+        android:textAlignment="center"
+        android:textColor="@color/text_color"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEndDateLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintVertical_bias="0.1"/>
+
+    <Button
+        android:id="@+id/endTimePickerButton"
+        android:layout_width="182dp"
+        android:layout_height="52dp"
         android:text="@string/ce_time2"
         android:textColor="@color/background_color"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endDatePickerButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.864"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
