@@ -1,5 +1,6 @@
 package com.example.eventplanner.activities.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
@@ -23,6 +25,7 @@ import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
+import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +92,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
             FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
+        }
+        else if(item.getItemId()==R.id.nav_logout){
+            AuthService.logout();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
