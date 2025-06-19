@@ -61,7 +61,7 @@ public class EoRegistrationFragment extends Fragment {
         if (name.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() ||
                 confirmPassword.isEmpty() || city.isEmpty() || address.isEmpty() || addressNum.isEmpty() ||
                 phoneNumber.isEmpty()) {
-            Toast.makeText(getContext(), "All fields must bi filled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "All fields must be filled.", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!password.equals(confirmPassword)) {
