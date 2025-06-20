@@ -44,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="@string/ca_name"
+                    android:hint="@string/ca_name"
+                    android:textColorHint="@color/background_color"
                     android:textColor="@color/background_color"/>
 
                 <EditText
@@ -53,8 +54,9 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="@string/ca_description"
-                    android:textColor="@color/background_color"/>
+                    android:hint="@string/ca_description"
+                    android:textColor="@color/background_color"
+                    android:textColorHint="@color/background_color"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,7 +69,7 @@
                         android:layout_width="170dp"
                         android:layout_height="52dp"
                         android:paddingTop="16dp"
-                        android:text="@string/ce_time"
+                        android:text="@string/ce_time_start"
                         android:textAlignment="center"
                         android:textColor="@color/background_color"
                         android:textSize="18sp"
@@ -138,7 +140,8 @@
                     android:ems="10"
                     android:inputType="text"
                     android:textColor="@color/background_color"
-                    android:text="@string/ca_location" />
+                    android:textColorHint="@color/background_color"
+                    android:hint="@string/ca_location" />
 
                 <Button
                     android:id="@+id/button"
@@ -166,6 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/text_color"
+                        android:textColor="@color/background_color"
                         android:layout_margin="40dp">
                         <!--HEADER-->
                         <TableRow

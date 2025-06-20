@@ -67,14 +67,11 @@
     <string name="ce_address_num">Address num</string>
     <string name="ce_private">Private event</string>
     <string name="ce_date">Select date</string>
-<<<<<<< HEAD
-    <string name="ce_time">Select start time</string>
-    <string name="ce_time_end">Select end time</string>
-=======
     <string name="ce_time">Select time</string>
     <string name="ce_end_date">End Date</string>
     <string name="ce_end_time">End Time</string>
->>>>>>> 9525b704554bf43902ea7592ca5d5fa594d3692e
+    <string name="ce_time_end">Select end time</string>
+    <string name="ce_time_start">Select start time</string>
     <string name="ce_time2">00:00</string>
     <string name="ce_date2">JAN-01-2001</string>
     <string name="ce_create">Create</string>
@@ -126,10 +123,6 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
-<<<<<<< HEAD
-=======
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- profile-->
     <string name="p_name">Enter your name</string>
     <string name="p_lastname">Enter your last name</string>
@@ -141,5 +134,4 @@
     <string name="p_company_desc">Enter company description</string>
 
     <string name="sp_suggestions">Suggested service/product categories</string>
->>>>>>> 9525b704554bf43902ea7592ca5d5fa594d3692e
 </resources>
