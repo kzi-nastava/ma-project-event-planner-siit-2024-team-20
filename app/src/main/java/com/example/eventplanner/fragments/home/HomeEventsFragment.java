@@ -13,20 +13,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.entities.EventHome;
+import com.example.eventplanner.model.homepage.EventHomeResponse;
+import com.example.eventplanner.model.homepage.PagedResponse;
+import com.example.eventplanner.services.spec.ApiService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,19 +44,18 @@ import java.util.List;
  *
  */
 public class HomeEventsFragment extends Fragment {
-    private RecyclerView topEventsRecyclerView,otherEventsRecyclerView;
+    private RecyclerView topEventsRecyclerView, otherEventsRecyclerView;
     private HomeEventsAdapter topEventsAdapter;
     private HomeEventsAdapter otherEventsAdapter;
-    private List<EventHome> topEventsList, otherEventsList;
-    private int currentPage = 1; // Početna strana
-    private boolean hasMorePages = true; // Pretpostavka da postoje sledeće stranice
+    private List<EventHome> topEventsList = new ArrayList<>();
+    private List<EventHome> otherEventsList = new ArrayList<>();
+    private int currentPage = 1;
+    private boolean hasMorePages = true;
     private Button btnPreviousPage, btnNextPage;
     private TextView currentPageText;
 
     public static HomeEventsFragment newInstance() {
-        HomeEventsFragment fragment = new HomeEventsFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new HomeEventsFragment();
     }
 
     public HomeEventsFragment() {
@@ -55,40 +63,25 @@ public class HomeEventsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_home_events, container, false);
 
-    }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        topEventsRecyclerView = rootView.findViewById(R.id.topEventsRecyclerView);
+        otherEventsRecyclerView = rootView.findViewById(R.id.otherEventsRecyclerView);
+        btnPreviousPage = rootView.findViewById(R.id.btn_previous_page);
+        btnNextPage = rootView.findViewById(R.id.btn_next_page);
+        currentPageText = rootView.findViewById(R.id.current_page_text);
 
-        SortMenuManager sortMenuManager = new SortMenuManager(requireContext());
-        FilterMenuManager filterMenuManager = new FilterMenuManager(requireContext());
+        topEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        otherEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ImageView sortEventsButton = view.findViewById(R.id.sort_events);
-        sortEventsButton.setOnClickListener(v -> {
-            sortMenuManager.showEventSortMenu(sortEventsButton);
-        });
+        topEventsAdapter = new HomeEventsAdapter(topEventsList, this::openEventDetailsActivity);
+        otherEventsAdapter = new HomeEventsAdapter(otherEventsList, this::openEventDetailsActivity);
 
-        // Filter Events Button
-        ImageView filterEventsButton = view.findViewById(R.id.filter_events);
-        filterEventsButton.setOnClickListener(v -> {
-            filterMenuManager.showFilterEventsMenu(filterEventsButton);
-        });
-        // Povezivanje paginatora
-        btnPreviousPage = view.findViewById(R.id.btn_previous_page);
-        btnNextPage = view.findViewById(R.id.btn_next_page);
-        currentPageText = view.findViewById(R.id.current_page_text);
+        topEventsRecyclerView.setAdapter(topEventsAdapter);
+        otherEventsRecyclerView.setAdapter(otherEventsAdapter);
 
-        // Povezivanje RecyclerView-a
-        otherEventsRecyclerView = view.findViewById(R.id.otherEventsRecyclerView);
-
-        // Postavljanje inicijalne strane
-        updatePaginator();
-
-        // Postavljanje događaja za dugmad
+        // Dugmad za paginaciju
         btnPreviousPage.setOnClickListener(v -> {
             if (currentPage > 1) {
                 currentPage--;
@@ -103,95 +96,130 @@ public class HomeEventsFragment extends Fragment {
             }
         });
 
-        // Učitavanje prve stranice
-        loadPage(currentPage);
-    }
-    private void updatePaginator() {
-        // Ažurirajte tekst trenutne strane
-        currentPageText.setText("Page " + currentPage);
-
-        // Sakrij dugme za prethodnu stranu ako je trenutna strana 1
-        btnPreviousPage.setVisibility(currentPage > 1 ? View.VISIBLE : View.GONE);
-
-        // Sakrij dugme za sledeću stranu ako nema više stranica
-        btnNextPage.setVisibility(hasMorePages ? View.VISIBLE : View.GONE);
-    }
-    private void loadPage(int page) {
-        // Ovde biste obično napravili API poziv ili dobili podatke iz lokalnog izvora
-        List<EventHome> events = fetchEventsForPage(page);
-
-        // Ažurirajte RecyclerView adapter sa novim podacima
-        HomeEventsAdapter adapter = (HomeEventsAdapter) otherEventsRecyclerView.getAdapter();
-        if (adapter != null) {
-            //adapter.updateData(events);
-        }
-
-        // Proverite da li postoje još stranice
-        hasMorePages = events.size() == 10; // Pretpostavljate da koristite fiksnu veličinu stranice
-
-        // Ažurirajte paginator
-        updatePaginator();
-    }
-    private List<EventHome> fetchEventsForPage(int page) {
-        // Primer simuliranih podataka
-        List<EventHome> allEvents =new ArrayList<>();//getAllEvents(); // Ovo dobijate iz API-ja ili baze
-        int startIndex = (page - 1) * 10;
-        int endIndex = Math.min(startIndex + 10, allEvents.size());
-
-        if (startIndex >= allEvents.size()) return new ArrayList<>(); // Ako nema više podataka
-        return allEvents.subList(startIndex, endIndex);
+        return rootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home_events, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // Inicijalizacija RecyclerView-a
-        topEventsRecyclerView = rootView.findViewById(R.id.topEventsRecyclerView);
-        otherEventsRecyclerView = rootView.findViewById(R.id.otherEventsRecyclerView);
+        // Sort i filter
+        SortMenuManager sortMenuManager = new SortMenuManager(requireContext());
+        FilterMenuManager filterMenuManager = new FilterMenuManager(requireContext());
 
-        // Postavljanje layout managera
-        topEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        otherEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ImageView sortEventsButton = view.findViewById(R.id.sort_events);
+        sortEventsButton.setOnClickListener(v -> sortMenuManager.showEventSortMenu(sortEventsButton));
 
-        // Priprema podataka (hardcodirani primeri)
-        topEventsList = new ArrayList<>();
-        otherEventsList = new ArrayList<>();
+        ImageView filterEventsButton = view.findViewById(R.id.filter_events);
+        filterEventsButton.setOnClickListener(v -> filterMenuManager.showFilterEventsMenu(filterEventsButton));
 
-        // Kreiramo DateTimeFormatter za formatiranje datuma
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-        // Dodavanje top događaja
-        topEventsList.add(new EventHome(1L, "Event 1", "Description 1", "Type 1", "New York", LocalDateTime.parse("12/12/2024 09:00", formatter), LocalDateTime.parse("12/12/2024 12:00", formatter)));
-        topEventsList.add(new EventHome(2L, "Event 2", "Description 2", "Type 2", "Los Angeles", LocalDateTime.parse("14/12/2024 10:00", formatter), LocalDateTime.parse("14/12/2024 14:00", formatter)));
-        topEventsList.add(new EventHome(3L, "Event 3", "Description 3", "Type 3", "Chicago", LocalDateTime.parse("16/12/2024 15:00", formatter), LocalDateTime.parse("16/12/2024 18:00", formatter)));
-        topEventsList.add(new EventHome(4L, "Event 4", "Description 4", "Type 4", "Miami", LocalDateTime.parse("18/12/2024 11:00", formatter), LocalDateTime.parse("18/12/2024 13:00", formatter)));
-        topEventsList.add(new EventHome(5L, "Event 5", "Description 5", "Type 5", "San Francisco", LocalDateTime.parse("20/12/2024 09:00", formatter), LocalDateTime.parse("20/12/2024 12:00", formatter)));
-
-        // Dodavanje drugih događaja
-        otherEventsList.add(new EventHome(6L, "Event 6", "Description 6", "Type 6", "Dallas", LocalDateTime.parse("22/12/2024 10:00", formatter), LocalDateTime.parse("22/12/2024 13:00", formatter)));
-        otherEventsList.add(new EventHome(7L, "Event 7", "Description 7", "Type 7", "Las Vegas", LocalDateTime.parse("24/12/2024 16:00", formatter), LocalDateTime.parse("24/12/2024 19:00", formatter)));
-        otherEventsList.add(new EventHome(8L, "Event 8", "Description 8", "Type 8", "Seattle", LocalDateTime.parse("26/12/2024 14:00", formatter), LocalDateTime.parse("26/12/2024 17:00", formatter)));
-        otherEventsList.add(new EventHome(9L, "Event 9", "Description 9", "Type 9", "Austin", LocalDateTime.parse("28/12/2024 09:00", formatter), LocalDateTime.parse("28/12/2024 12:00", formatter)));
-        otherEventsList.add(new EventHome(10L, "Event 10", "Description 10", "Type 10", "Houston", LocalDateTime.parse("30/12/2024 13:00", formatter), LocalDateTime.parse("30/12/2024 16:00", formatter)));
-
-
-        // Kreiranje adaptera
-        //topEventsAdapter = new HomeEventsAdapter(topEventsList, this::openEventDetailsActivity);
-        //otherEventsAdapter = new HomeEventsAdapter(otherEventsList, this::openEventDetailsActivity);
-
-        // Postavljanje adaptera za oba RecyclerView-a
-        topEventsRecyclerView.setAdapter(topEventsAdapter);
-        otherEventsRecyclerView.setAdapter(otherEventsAdapter);
-
-        return rootView;
+        // Load data
+        loadTopEvents();
+        loadPage(currentPage);
     }
+
+    private void loadTopEvents() {
+        ApiService.getEventService().getTop5Events().enqueue(new Callback<List<EventHomeResponse>>() {
+            @Override
+            public void onResponse(Call<List<EventHomeResponse>> call, Response<List<EventHomeResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<EventHome> events = new ArrayList<>();
+                    for (EventHomeResponse e : response.body()) {
+                        events.add(new EventHome(
+                                e.getId(),
+                                e.getName(),
+                                e.getDescription(),
+                                e.getEventType(),
+                                e.getLocation(),
+                                e.getStartDate(),
+                                e.getEndDate()
+                        ));
+                    }
+                    topEventsAdapter.updateData(events);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load top events", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<List<EventHomeResponse>> call, Throwable t) {
+                Log.e("HomeEventsFragment", "API failure: " + t.getClass().getSimpleName() + " - " + t.getMessage(), t);
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+    private void loadPage(int page) {
+        int pageIndex = page - 1;
+        int pageSize = 10;
+        String sort = "startDate,asc";
+
+        Log.d("HomeEventsFragment", "Loading page: " + pageIndex + ", size: " + pageSize + ", sort: " + sort);
+
+        ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, sort)
+                .enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
+                    @Override
+                    public void onResponse(Call<PagedResponse<EventHomeResponse>> call, Response<PagedResponse<EventHomeResponse>> response) {
+                        Log.d("HomeEventsFragment", "Response code: " + response.code());
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            PagedResponse<EventHomeResponse> pagedData = response.body();
+                            Log.d("HomeEventsFragment", "Loaded events: " + pagedData.getContent().size());
+                            Log.d("HomeEventsFragment", "Is last page: " + pagedData.isLast());
+
+                            // Mapiranje i dalje obrada
+                            List<EventHome> events = new ArrayList<>();
+                            for (EventHomeResponse e : pagedData.getContent()) {
+                                Log.d("HomeEventsFragment", "Event: " + e.getName() + " at " + e.getLocation());
+                                events.add(new EventHome(
+                                        e.getId(),
+                                        e.getName(),
+                                        e.getDescription(),
+                                        e.getEventType(),
+                                        e.getLocation(),
+                                        e.getStartDate(),
+                                        e.getEndDate()
+                                ));
+                            }
+
+                            if (otherEventsAdapter == null) {
+                                otherEventsAdapter = new HomeEventsAdapter(events, HomeEventsFragment.this::openEventDetailsActivity);
+                                otherEventsRecyclerView.setAdapter(otherEventsAdapter);
+                            } else {
+                                otherEventsAdapter.updateData(events);
+                            }
+
+                            currentPage = pagedData.getPageNumber() + 1;
+                            hasMorePages = !pagedData.isLast();
+                            updatePaginator();
+
+                        } else {
+                            Log.e("HomeEventsFragment", "Failed to load events, response code: " + response.code());
+                            Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PagedResponse<EventHomeResponse>> call, Throwable t) {
+                        Log.e("HomeEventsFragment", "API failure: " + t.getClass().getSimpleName() + " - " + t.getMessage(), t);
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+    }
+
+
+    private void updatePaginator() {
+        currentPageText.setText("Page " + currentPage);
+        btnPreviousPage.setVisibility(currentPage > 1 ? View.VISIBLE : View.GONE);
+        btnNextPage.setVisibility(hasMorePages ? View.VISIBLE : View.GONE);
+    }
+
     private void openEventDetailsActivity(EventHome event) {
         Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-        intent.putExtra("event", event); // Prosleđivanje objekta
+        intent.putExtra("event", event);
         startActivity(intent);
     }
-
 }

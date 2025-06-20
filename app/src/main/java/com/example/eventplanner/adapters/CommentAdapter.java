@@ -34,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Comment comment = comments.get(position);
         holder.itemName.setText(comment.getItem());
         holder.content.setText(comment.getContent());
-        holder.user.setText(comment.getUser());
+        holder.user.setText(comment.getUser().getEmail());
         holder.status.setText(comment.getStatus().toString());
 
         // Click listener za odobravanje (approve)

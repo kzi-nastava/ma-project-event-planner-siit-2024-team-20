@@ -16,10 +16,10 @@ public class Product extends BaseItem {
     private boolean isAvailable;
     private Set<String> images = new HashSet<>();
     private Category category;
-    private String provider; // Zajedničko polje
+    private User provider; // Zajedničko polje
 
     public Product(Long id, String name, String description, double price, int discount, String status,
-                   boolean isAvailable, Set<String> images,Category category, String provider) {
+                   boolean isAvailable, Set<String> images,Category category, User provider) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -54,7 +54,7 @@ public class Product extends BaseItem {
 
     public String getStatus(){return status;}
     @Override
-    public String getProvider() { return provider; }
+    public User getProvider() { return provider; }
 
     @Override
     public Category getCategory() {

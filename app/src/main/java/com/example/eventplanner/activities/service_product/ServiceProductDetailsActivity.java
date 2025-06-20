@@ -58,7 +58,7 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         }
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("baseItem", baseItem);
+
 
             ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
             fragment.setArguments(bundle);

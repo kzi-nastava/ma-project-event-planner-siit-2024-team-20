@@ -1,12 +1,15 @@
 package com.example.eventplanner.services.spec;
 
 import com.example.eventplanner.helpers.LocalDateAdapter;
+import com.example.eventplanner.helpers.LocalDateTimeDeserializer;
 import com.example.eventplanner.helpers.LocalTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +27,9 @@ public class RetrofitClient {
             .setLenient()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+            .registerTypeAdapter(LocalDate.class,
+                    (JsonDeserializer<LocalDate>) (json, type, context) -> LocalDate.parse(json.getAsString()))
             .create();
 
     private static OkHttpClient createClient(){

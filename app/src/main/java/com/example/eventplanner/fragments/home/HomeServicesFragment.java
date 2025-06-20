@@ -73,7 +73,7 @@ public class HomeServicesFragment extends Fragment {
         topServicesList = new ArrayList<>();
         otherServicesList = new ArrayList<>();
 
-        topServicesList.add(new Service(1L, "Service 1", "Description 1", 100.0, 10, true, new HashSet<>(), "Specificity 1", "Category 1", 1.5, 1.0, 3.0, 1.0, 1.5, 0.5, "Provider A"));
+       /* topServicesList.add(new Service(1L, "Service 1", "Description 1", 100.0, 10, true, new HashSet<>(), "Specificity 1", "Category 1", 1.5, 1.0, 3.0, 1.0, 1.5, 0.5, "Provider A"));
         topServicesList.add(new Product(2L, "Product 1", "Description 2", 150.0, 20, "Active", true, new HashSet<>(), "Category A", "Provider B"));
         topServicesList.add(new Service(3L, "Service 2", "Description 3", 200.0, 15, true, new HashSet<>(), "Specificity 2", "Category 2", 2.0, 1.5, 3.5, 1.0, 2.0, 0.6, "Provider C"));
         topServicesList.add(new Product(4L, "Product 2", "Description 4", 250.0, 25, "Active", true, new HashSet<>(), "Category B", "Provider D"));
@@ -84,7 +84,7 @@ public class HomeServicesFragment extends Fragment {
         otherServicesList.add(new Service(8L, "Service 3", "Description 4", 250.0, 30, true, new HashSet<>(), "Specificity 3", "Category 3", 1.0, 1.0, 3.0, 0.5, 1.5, 0.4, "Provider D"));
         otherServicesList.add(new Product(9L, "Product 2", "Description 5", 180.0, 25, "Inactive", true, new HashSet<>(), "Category 2", "Provider E"));
         otherServicesList.add(new Service(10L, "Service 4", "Description 6", 300.0, 20, true, new HashSet<>(), "Specificity 4", "Category 4", 0, 1.2, 4.0, 1.2, 2.0, 0.7, "Provider F"));
-
+*/
 
         // Kreiranje adaptera
         topServicesAdapter = new HomeItemsAdapter(topServicesList, this::openServiceProductDetailsActivity);
@@ -118,7 +118,7 @@ public class HomeServicesFragment extends Fragment {
 
     private void openServiceProductDetailsActivity(BaseItem serviceProduct) {
         Intent intent = new Intent(getContext(), ServiceProductDetailsActivity.class);
-        intent.putExtra("baseItem", serviceProduct); // Prosleđuješ objekat
+        //intent.putExtra("baseItem", serviceProduct); // Prosleđuješ objekat
         startActivity(intent);
     }
 }

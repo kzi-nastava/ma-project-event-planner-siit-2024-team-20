@@ -35,7 +35,7 @@ public class ServiceProductDetailFragment extends Fragment {
     public static ServiceProductDetailFragment newInstance(BaseItem baseItem) {
         ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("baseItem", baseItem);
+        //args.putParcelable("baseItem", baseItem);
         fragment.setArguments(args);
         return fragment;
     }
