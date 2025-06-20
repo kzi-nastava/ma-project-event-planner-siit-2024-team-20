@@ -22,9 +22,9 @@ import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.StatusLineTool;
-import com.example.eventplanner.model.BaseItem;
-import com.example.eventplanner.model.Product;
-import com.example.eventplanner.model.Service;
+import com.example.eventplanner.model.entities.BaseItem;
+import com.example.eventplanner.model.entities.Product;
+import com.example.eventplanner.model.entities.Service;
 import com.google.android.material.navigation.NavigationView;
 
 public class ServiceProductDetailsActivity extends AppCompatActivity {

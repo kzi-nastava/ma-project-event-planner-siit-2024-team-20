@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
-    android:layout_height="300dp"
+    android:layout_height="350dp"
     android:background="@color/background_color"
     android:elevation="4dp">
 
@@ -11,83 +11,167 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/btn_filter"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:padding="16dp">
 
-        <!-- LinearLayout unutar ScrollView za vertikalno pozicioniranje sadržaja -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Stavka koja otvara listu sa checkbox opcijama -->
+            <!-- Type Filter -->
             <LinearLayout
-                android:id="@+id/filter_option_1_layout"
+                android:id="@+id/filter_option_type_layout"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="?android:attr/selectableItemBackground"
+                android:layout_height="wrap_content"
                 android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/filter_option_1_text"
-                    android:layout_width="wrap_content"
+                <!-- Header sa strelicom -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Event type" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/filter_option_1_arrow"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="@string/option"
-                    android:src="@android:drawable/ic_menu_more" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Type"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/filter_option_type_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rotation="0"
+                        android:src="@drawable/ic_drop_down" />
+                </LinearLayout>
+
+                <!-- Dinamičke opcije za Type -->
+                <LinearLayout
+                    android:id="@+id/filter_option_type_checkbox_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
             </LinearLayout>
 
-
-
-            <!-- Lista sa checkbox opcijama koja će biti vidljiva nakon otvaranja filter opcije -->
+            <!-- Location Filter -->
             <LinearLayout
-                android:id="@+id/filter_option_1_checkbox_list"
-                android:orientation="vertical"
+                android:id="@+id/filter_option_location_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Header sa strelicom -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Location"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/filter_option_location_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rotation="0"
+                        android:src="@drawable/ic_drop_down" />
+                </LinearLayout>
+
+                <!-- Dinamičke opcije za Location -->
+                <LinearLayout
+                    android:id="@+id/filter_option_location_checkbox_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Date Before filter - Checkbox -->
+            <CheckBox
+                android:id="@+id/checkboxDateBefore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Select Date Before" />
+
+            <!-- Date After filter - Checkbox -->
+            <LinearLayout
+                android:id="@+id/dateBeforeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
                 android:visibility="gone">
 
-                <CheckBox
-                    android:id="@+id/check_option_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 1" />
+                <Spinner
+                    android:id="@+id/spinnerDayBefore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <CheckBox
-                    android:id="@+id/check_option_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 2" />
+                <Spinner
+                    android:id="@+id/spinnerMonthBefore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <CheckBox
-                    android:id="@+id/check_option_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Option 3" />
+                <Spinner
+                    android:id="@+id/spinnerYearBefore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-            <Button
-                android:id="@+id/filter_by_date_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date" />
 
-            <TextView
-                android:id="@+id/date_text"
+            <CheckBox
+                android:id="@+id/checkboxDateAfter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Select Date After" />
+
+            <!-- Date fields (Day, Month, Year) for Date Before - Hidden by default -->
+
+            <!-- Date fields (Day, Month, Year) for Date After - Hidden by default -->
+            <LinearLayout
+                android:id="@+id/dateAfterContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:gravity="center"/>
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Spinner
+                    android:id="@+id/spinnerDayAfter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:id="@+id/spinnerMonthAfter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:id="@+id/spinnerYearAfter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
         </LinearLayout>
+
+
     </android.widget.ScrollView>
 
     <!-- Dugme za potvrdu filtera, fiksirano na dnu -->

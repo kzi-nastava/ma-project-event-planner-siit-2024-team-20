@@ -86,6 +86,38 @@
     <string name="deactivate">Deactivate account</string>
     <string name="change">Confirm changes</string>
 
+    <!-- fragment create event -->
+    <string name="ce_title">Create new event</string>
+    <string name="ce_select_type">Select event type</string>
+    <string name="ce_name">Event name</string>
+    <string name="ce_desc">Event description</string>
+    <string name="ce_num">number of guests</string>
+    <string name="ce_city">City</string>
+    <string name="ce_address">Address</string>
+    <string name="ce_address_num">Address num</string>
+    <string name="ce_private">Private event</string>
+    <string name="ce_date">Select date</string>
+    <string name="ce_time">Select time</string>
+    <string name="ce_end_date">End Date</string>
+    <string name="ce_end_time">End Time</string>
+    <string name="ce_time_end">Select end time</string>
+    <string name="ce_time_start">Select start time</string>
+    <string name="ce_time2">00:00</string>
+    <string name="ce_date2">JAN-01-2001</string>
+    <string name="ce_create">Create</string>
+
+    <!--create agenda-->
+    <string name="ca">Agenda</string>
+    <string name="ca_name">Name</string>
+    <string name="ca_description">Description</string>
+    <string name="ca_location">Location</string>
+    <string name="ca_add">Add</string>
+    <string name="ca_col1">Name</string>
+    <string name="ca_col2">Description</string>
+    <string name="ca_col3">From</string>
+    <string name="ca_col4">To</string>
+    <string name="ca_col5">Location</string>
+
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
@@ -121,6 +153,20 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+=======
+    <!-- profile-->
+    <string name="p_name">Enter your name</string>
+    <string name="p_lastname">Enter your last name</string>
+    <string name="p_city">Enter your city</string>
+    <string name="p_address">Enter your address</string>
+    <string name="p_address_num">Enter your address num</string>
+    <string name="p_phone">Enter your phone number</string>
+    <string name="p_company_name">Enter company name</string>
+    <string name="p_company_desc">Enter company description</string>
+
+    <string name="sp_suggestions">Suggested service/product categories</string>
+>>>>>>> 8641ff182d9e17728aa7208daf45948c3be67d90
 </resources>
