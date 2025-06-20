@@ -85,13 +85,16 @@ public class HomeEventsFragment extends Fragment {
         btnPreviousPage.setOnClickListener(v -> {
             if (currentPage > 1) {
                 currentPage--;
+                Log.d("HomeEventsFragment", "Previous clicked, currentPage = " + currentPage);
                 loadPage(currentPage);
             }
         });
 
+
         btnNextPage.setOnClickListener(v -> {
             if (hasMorePages) {
                 currentPage++;
+                Log.d("HomeEventsFragment", "Next clicked, currentPage = " + currentPage);
                 loadPage(currentPage);
             }
         });
@@ -152,11 +155,14 @@ public class HomeEventsFragment extends Fragment {
     }
 
     private void loadPage(int page) {
+        if (!hasMorePages && page > currentPage) {
+            return;
+        }
         int pageIndex = page - 1;
         int pageSize = 10;
-        String sort = "startDate,asc";
+        String sort = "";
 
-        Log.d("HomeEventsFragment", "Loading page: " + pageIndex + ", size: " + pageSize + ", sort: " + sort);
+        Log.d("HomeEventsFragment", "Loading page: " + pageIndex + ", size: " + pageSize);
 
         ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, sort)
                 .enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
@@ -191,8 +197,18 @@ public class HomeEventsFragment extends Fragment {
                                 otherEventsAdapter.updateData(events);
                             }
 
-                            currentPage = pagedData.getPageNumber() + 1;
-                            hasMorePages = !pagedData.isLast();
+                            //hasMorePages = !pagedData.isLast();
+                            //hasMorePages = pagedData.getPageNumber() < pagedData.getTotalPages() - 1;
+                            if (events.isEmpty() || pagedData.isLast()) {
+                                hasMorePages = false;
+                                // Ako nema podataka, vrati currentPage nazad za 1 jer si već povećao na next
+                                if(events.isEmpty() && currentPage > 1) {
+                                    currentPage--;
+                                }
+                            } else {
+                                hasMorePages = true;
+                            }
+
                             updatePaginator();
 
                         } else {

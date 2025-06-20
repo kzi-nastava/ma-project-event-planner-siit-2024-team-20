@@ -88,7 +88,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/otherEventsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent" />
             <LinearLayout
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Previous"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/current_page_text"
                     android:layout_width="wrap_content"
