@@ -139,7 +139,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
         filterMenuManager.setFilterSelectionListener(this);
 
         ImageView sortEventsButton = view.findViewById(R.id.sort_events);
-        sortEventsButton.setOnClickListener(v -> sortMenuManager.showEventSortMenu(sortEventsButton));
+        sortEventsButton.setOnClickListener(v -> sortMenuManager.showEventSortMenu(sortEventsButton,selectedSortCriteria,selectedSortOrder));
 
         ImageView filterEventsButton = view.findViewById(R.id.filter_events);
         filterEventsButton.setOnClickListener(v -> filterMenuManager.showFilterEventsMenu(filterEventsButton,filterTypes,filterCities,filterDateAfter,filterDateBefore));
