@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.eventplanner.model.BaseItem;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class SeeMyProductTable implements Parcelable {
     private Long id;

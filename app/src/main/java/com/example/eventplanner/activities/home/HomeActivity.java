@@ -24,6 +24,7 @@ import com.example.eventplanner.fragments.event.create_event.CreateEventFragment
 import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
+import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
 import com.example.eventplanner.services.spec.AuthService;
@@ -95,6 +96,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             else if(role != null && role.equals("ROLE_EVENT_ORGANIZER")){
                 FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+            }else if(role != null && role.equals("ROLE_SERVICE_PRODUCT_PROVIDER")){
+                FragmentsTool.to(new CreateProductFragment(), HomeActivity.this, false);
             }
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {

@@ -153,10 +153,7 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
-<<<<<<< HEAD
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-=======
+
     <!-- profile-->
     <string name="p_name">Enter your name</string>
     <string name="p_lastname">Enter your last name</string>
@@ -168,5 +165,4 @@
     <string name="p_company_desc">Enter company description</string>
 
     <string name="sp_suggestions">Suggested service/product categories</string>
->>>>>>> 8641ff182d9e17728aa7208daf45948c3be67d90
 </resources>

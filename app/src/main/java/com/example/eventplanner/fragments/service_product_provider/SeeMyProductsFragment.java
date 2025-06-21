@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.model.Product;
 import com.example.eventplanner.model.product.EditProduct;
 import com.example.eventplanner.model.product.SeeMyProductTable;
 

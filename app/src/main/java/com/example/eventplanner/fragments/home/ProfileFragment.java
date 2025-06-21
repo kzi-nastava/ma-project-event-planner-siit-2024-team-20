@@ -388,9 +388,16 @@ public class ProfileFragment extends Fragment {
 
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.companyFieldsContainer, galleryFragment)
+                .runOnCommit(() -> {
+                    galleryFragment.setBase64Images(profile.getImages());
+                })
                 .commit();
+
     }
     private Bitmap correctImageOrientation(String base64Image) {
+        if (base64Image == null || base64Image.isEmpty()) {
+            return null;
+        }
         try {
             byte[] decodedBytes = android.util.Base64.decode(base64Image, android.util.Base64.DEFAULT);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedBytes);
