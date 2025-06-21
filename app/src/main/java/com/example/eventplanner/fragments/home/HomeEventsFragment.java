@@ -5,6 +5,7 @@ import com.example.eventplanner.helpers.FilterSelectionListener;
 import com.example.eventplanner.helpers.SortMenuManager;
 import com.example.eventplanner.helpers.FilterMenuManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -14,11 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.widget.SearchView;
@@ -149,44 +153,56 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 searchView.clearFocus(); // sklanja kursor
-                searchView.onActionViewCollapsed(); // sklapa ako je "expanded"
             }
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query != null && !query.trim().isEmpty()) {
-                    // Resetuj ostalo
-                    selectedSortCriteria = new ArrayList<>();
-                    selectedSortOrder = "asc";
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (query != null && !query.trim().isEmpty()) {
+                        // Reset ostalih filtera
+                        selectedSortCriteria = new ArrayList<>();
+                        selectedSortOrder = "asc";
 
-                    filterTypes = new ArrayList<>();
-                    filterCities = new ArrayList<>();
-                    filterDateAfter = null;
-                    filterDateBefore = null;
+                        filterTypes = new ArrayList<>();
+                        filterCities = new ArrayList<>();
+                        filterDateAfter = null;
+                        filterDateBefore = null;
 
-                    searchQuery = query.trim();
-                    activeFilterType = ActiveFilterType.SEARCH;
+                        searchQuery = query.trim();
+                        activeFilterType = ActiveFilterType.SEARCH;
 
-                    loadPage(1); // Traži
-                    searchView.clearFocus(); // Sakrij tastaturu
+                        loadPage(1);
+
+                        searchView.clearFocus();  // Skloni tastaturu, ali **ne briši tekst**
+
+                        return true;
+                    }
+                    return false;
                 }
-                return true;
-            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
-                    // Kliknuto X — samo resetuj search, ne pozivaj odmah pretragu
+                    // Resetuj filtere
                     searchQuery = null;
                     activeFilterType = ActiveFilterType.NONE;
+                    loadPage(1);
 
-                    loadPage(1); // Vrati sve evente
+                    // Skloni fokus sa SearchView
+                    searchView.clearFocus();
+
+                    // Sakrij tastaturu
+                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                    }
                 }
                 return true;
             }
+
         });
+
 
         // Load data
         loadTopEvents();
@@ -238,8 +254,11 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 if (searchQuery == null || searchQuery.trim().isEmpty()) {
                     // Ako je search prazan, učitaj sve
                     call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
+
+
                 } else {
                     call = ApiService.getEventService().searchEvents(searchQuery.trim(), pageIndex, pageSize, "");
+                    Log.d("HomeEventsFragment", "Searching with query: " + searchQuery);
                 }
                 break;
 
@@ -268,6 +287,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
                 break;
         }
+        Log.d("HomeEventsFragment", "loadPage called. activeFilterType = " + activeFilterType + ", searchQuery = " + searchQuery);
 
         call.enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
             @Override
