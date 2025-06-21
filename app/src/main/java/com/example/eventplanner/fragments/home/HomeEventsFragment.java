@@ -155,9 +155,6 @@ public class HomeEventsFragment extends Fragment {
     }
 
     private void loadPage(int page) {
-        if (!hasMorePages && page > currentPage) {
-            return;
-        }
         int pageIndex = page - 1;
         int pageSize = 10;
         String sort = "";
@@ -172,12 +169,20 @@ public class HomeEventsFragment extends Fragment {
 
                         if (response.isSuccessful() && response.body() != null) {
                             PagedResponse<EventHomeResponse> pagedData = response.body();
-                            Log.d("HomeEventsFragment", "Loaded events: " + pagedData.getContent().size());
-                            Log.d("HomeEventsFragment", "Is last page: " + pagedData.isLast());
+                            List<EventHomeResponse> content = pagedData.getContent();
+                            Log.d("HomeEventsFragment", "Loaded events: " + content.size());
+                            Log.d("HomeEventsFragment", "Is last page from backend: " + !hasMorePages);
 
-                            // Mapiranje i dalje obrada
+                            /*if (content.isEmpty()) {
+                                if (currentPage > 1) currentPage--;
+                                hasMorePages = false;
+                                updatePaginator();
+                                Toast.makeText(getContext(), "No more events to show", Toast.LENGTH_SHORT).show();
+                                return;
+                            }*/
+
                             List<EventHome> events = new ArrayList<>();
-                            for (EventHomeResponse e : pagedData.getContent()) {
+                            for (EventHomeResponse e : content) {
                                 Log.d("HomeEventsFragment", "Event: " + e.getName() + " at " + e.getLocation());
                                 events.add(new EventHome(
                                         e.getId(),
@@ -190,25 +195,11 @@ public class HomeEventsFragment extends Fragment {
                                 ));
                             }
 
-                            if (otherEventsAdapter == null) {
-                                otherEventsAdapter = new HomeEventsAdapter(events, HomeEventsFragment.this::openEventDetailsActivity);
-                                otherEventsRecyclerView.setAdapter(otherEventsAdapter);
-                            } else {
-                                otherEventsAdapter.updateData(events);
-                            }
+                            otherEventsAdapter.updateData(events);
 
-                            //hasMorePages = !pagedData.isLast();
-                            //hasMorePages = pagedData.getPageNumber() < pagedData.getTotalPages() - 1;
-                            if (events.isEmpty() || pagedData.isLast()) {
-                                hasMorePages = false;
-                                // Ako nema podataka, vrati currentPage nazad za 1 jer si već povećao na next
-                                if(events.isEmpty() && currentPage > 1) {
-                                    currentPage--;
-                                }
-                            } else {
-                                hasMorePages = true;
-                            }
+                            hasMorePages = content.size() == pageSize && !pagedData.isLast(); // ili samo content.size() == pageSize
 
+                            //currentPage = pagedData.getPageNumber() + 1;
                             updatePaginator();
 
                         } else {
@@ -222,10 +213,8 @@ public class HomeEventsFragment extends Fragment {
                         Log.e("HomeEventsFragment", "API failure: " + t.getClass().getSimpleName() + " - " + t.getMessage(), t);
                         Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-
                 });
     }
-
 
     private void updatePaginator() {
         currentPageText.setText("Page " + currentPage);
