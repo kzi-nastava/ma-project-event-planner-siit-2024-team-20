@@ -14,6 +14,9 @@ import android.widget.RadioGroup;
 
 import com.example.eventplanner.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SortMenuManager {
     private Context context; // Držimo kontekst aktivnosti
 
@@ -54,15 +57,26 @@ public class SortMenuManager {
             // Dugme za potvrdu
             Button confirmButton = popupView.findViewById(R.id.btn_sort);
             confirmButton.setOnClickListener(view -> {
-                /* Provera šta je selektovano
-                String sortOrder = radioAsc.isChecked() ? "Ascending" : "Descending";
-                String selectedOptions = "";
-                if (checkOption1.isChecked()) selectedOptions += "Option 1, ";
-                if (checkOption2.isChecked()) selectedOptions += "Option 2, ";
-                if (checkOption3.isChecked()) selectedOptions += "Option 3, ";
-                // Zatvori PopupWindow*/
+            // 1. Odredi smer sortiranja
+            String sortOrder = radioAsc.isChecked() ? "asc" : "desc";
+
+            // 2. Sakupi sve izabrane kriterijume
+            List<String> sortCriteria = new ArrayList<>();
+            if (((CheckBox) popupView.findViewById(R.id.name_option)).isChecked()) sortCriteria.add("name");
+            if (((CheckBox) popupView.findViewById(R.id.description_option)).isChecked()) sortCriteria.add("description");
+            if (((CheckBox) popupView.findViewById(R.id.location_option)).isChecked()) sortCriteria.add("locationName");
+            if (((CheckBox) popupView.findViewById(R.id.type_option)).isChecked()) sortCriteria.add("eventType.name");
+            if (((CheckBox) popupView.findViewById(R.id.date_option)).isChecked()) sortCriteria.add("startDate");
+
+            // 3. Pozovi callback koji zna šta da radi sa tim (npr. HomeEventsFragmen
+                if (listener != null) {
+                    listener.onSortSelected(sortCriteria, sortOrder);
+                }
+
+
                 popupWindow.dismiss();
-            });
+        });
+
     }
     public void showServicesProductsSortMenu(View v){
             View popupView = LayoutInflater.from(context).inflate(R.layout.sort_services_products_menu, null);
@@ -100,5 +114,13 @@ public class SortMenuManager {
             confirmButton.setOnClickListener(view -> {
                 popupWindow.dismiss();
             });
+
     }
+    private SortSelectionListener listener;
+
+    public void setSortSelectionListener(SortSelectionListener listener) {
+        this.listener = listener;
+    }
+
+
 }

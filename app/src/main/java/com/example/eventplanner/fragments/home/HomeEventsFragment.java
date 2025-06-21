@@ -1,6 +1,7 @@
 package com.example.eventplanner.fragments.home;
 import com.example.eventplanner.activities.event.EventDetailsActivity;
 import com.example.eventplanner.adapters.HomeEventsAdapter;
+import com.example.eventplanner.helpers.FilterSelectionListener;
 import com.example.eventplanner.helpers.SortMenuManager;
 import com.example.eventplanner.helpers.FilterMenuManager;
 
@@ -13,16 +14,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.helpers.SortSelectionListener;
 import com.example.eventplanner.model.entities.EventHome;
 import com.example.eventplanner.model.homepage.EventHomeResponse;
 import com.example.eventplanner.model.homepage.PagedResponse;
@@ -31,7 +35,10 @@ import com.example.eventplanner.services.spec.ApiService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +50,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  *
  */
-public class HomeEventsFragment extends Fragment {
+public class HomeEventsFragment extends Fragment implements SortSelectionListener, FilterSelectionListener {
     private RecyclerView topEventsRecyclerView, otherEventsRecyclerView;
     private HomeEventsAdapter topEventsAdapter;
     private HomeEventsAdapter otherEventsAdapter;
@@ -53,6 +60,24 @@ public class HomeEventsFragment extends Fragment {
     private boolean hasMorePages = true;
     private Button btnPreviousPage, btnNextPage;
     private TextView currentPageText;
+    private enum ActiveFilterType {
+        NONE,
+        SEARCH,
+        FILTER,
+        SORT
+    }
+
+    private ActiveFilterType activeFilterType = ActiveFilterType.NONE;
+
+    // Podaci za kriterijume
+    private String searchQuery = "";
+    private List<String> filterTypes = new ArrayList<>();
+    private List<String> filterCities = new ArrayList<>();
+    private String filterDateAfter = null;
+    private String filterDateBefore = null;
+    private List<String> selectedSortCriteria = new ArrayList<>();
+    private String selectedSortOrder = "asc";
+
 
     public static HomeEventsFragment newInstance() {
         return new HomeEventsFragment();
@@ -110,11 +135,58 @@ public class HomeEventsFragment extends Fragment {
         SortMenuManager sortMenuManager = new SortMenuManager(requireContext());
         FilterMenuManager filterMenuManager = new FilterMenuManager(requireContext());
 
+        sortMenuManager.setSortSelectionListener(this);
+        filterMenuManager.setFilterSelectionListener(this);
+
         ImageView sortEventsButton = view.findViewById(R.id.sort_events);
         sortEventsButton.setOnClickListener(v -> sortMenuManager.showEventSortMenu(sortEventsButton));
 
         ImageView filterEventsButton = view.findViewById(R.id.filter_events);
-        filterEventsButton.setOnClickListener(v -> filterMenuManager.showFilterEventsMenu(filterEventsButton));
+        filterEventsButton.setOnClickListener(v -> filterMenuManager.showFilterEventsMenu(filterEventsButton,filterTypes,filterCities,filterDateAfter,filterDateBefore));
+
+
+        SearchView searchView = view.findViewById(R.id.search_view_events);
+        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                searchView.clearFocus(); // sklanja kursor
+                searchView.onActionViewCollapsed(); // sklapa ako je "expanded"
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query != null && !query.trim().isEmpty()) {
+                    // Resetuj ostalo
+                    selectedSortCriteria = new ArrayList<>();
+                    selectedSortOrder = "asc";
+
+                    filterTypes = new ArrayList<>();
+                    filterCities = new ArrayList<>();
+                    filterDateAfter = null;
+                    filterDateBefore = null;
+
+                    searchQuery = query.trim();
+                    activeFilterType = ActiveFilterType.SEARCH;
+
+                    loadPage(1); // Traži
+                    searchView.clearFocus(); // Sakrij tastaturu
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    // Kliknuto X — samo resetuj search, ne pozivaj odmah pretragu
+                    searchQuery = null;
+                    activeFilterType = ActiveFilterType.NONE;
+
+                    loadPage(1); // Vrati sve evente
+                }
+                return true;
+            }
+        });
 
         // Load data
         loadTopEvents();
@@ -157,65 +229,80 @@ public class HomeEventsFragment extends Fragment {
     private void loadPage(int page) {
         int pageIndex = page - 1;
         int pageSize = 10;
-        String sort = "";
+        this.currentPage = page;
 
-        Log.d("HomeEventsFragment", "Loading page: " + pageIndex + ", size: " + pageSize);
+        Call<PagedResponse<EventHomeResponse>> call;
 
-        ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, sort)
-                .enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
-                    @Override
-                    public void onResponse(Call<PagedResponse<EventHomeResponse>> call, Response<PagedResponse<EventHomeResponse>> response) {
-                        Log.d("HomeEventsFragment", "Response code: " + response.code());
+        switch (activeFilterType) {
+            case SEARCH:
+                if (searchQuery == null || searchQuery.trim().isEmpty()) {
+                    // Ako je search prazan, učitaj sve
+                    call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
+                } else {
+                    call = ApiService.getEventService().searchEvents(searchQuery.trim(), pageIndex, pageSize, "");
+                }
+                break;
 
-                        if (response.isSuccessful() && response.body() != null) {
-                            PagedResponse<EventHomeResponse> pagedData = response.body();
-                            List<EventHomeResponse> content = pagedData.getContent();
-                            Log.d("HomeEventsFragment", "Loaded events: " + content.size());
-                            Log.d("HomeEventsFragment", "Is last page from backend: " + !hasMorePages);
+            case FILTER:
+                call = ApiService.getEventService().filterEvents(
+                        filterTypes,
+                        filterCities,
+                        filterDateAfter,
+                        filterDateBefore,
+                        pageIndex,
+                        pageSize,
+                        ""
+                );
+                break;
 
-                            /*if (content.isEmpty()) {
-                                if (currentPage > 1) currentPage--;
-                                hasMorePages = false;
-                                updatePaginator();
-                                Toast.makeText(getContext(), "No more events to show", Toast.LENGTH_SHORT).show();
-                                return;
-                            }*/
+            case SORT:
+                if (selectedSortCriteria == null || selectedSortCriteria.isEmpty()) {
+                    call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
+                } else {
+                    call = ApiService.getEventService().getSortedEvents(pageIndex, pageSize, selectedSortCriteria, selectedSortOrder);
+                }
+                break;
 
-                            List<EventHome> events = new ArrayList<>();
-                            for (EventHomeResponse e : content) {
-                                Log.d("HomeEventsFragment", "Event: " + e.getName() + " at " + e.getLocation());
-                                events.add(new EventHome(
-                                        e.getId(),
-                                        e.getName(),
-                                        e.getDescription(),
-                                        e.getEventType(),
-                                        e.getLocation(),
-                                        e.getStartDate(),
-                                        e.getEndDate()
-                                ));
-                            }
+            case NONE:
+            default:
+                call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
+                break;
+        }
 
-                            otherEventsAdapter.updateData(events);
+        call.enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
+            @Override
+            public void onResponse(Call<PagedResponse<EventHomeResponse>> call, Response<PagedResponse<EventHomeResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PagedResponse<EventHomeResponse> pagedData = response.body();
+                    List<EventHomeResponse> content = pagedData.getContent();
 
-                            hasMorePages = content.size() == pageSize && !pagedData.isLast(); // ili samo content.size() == pageSize
-
-                            //currentPage = pagedData.getPageNumber() + 1;
-                            updatePaginator();
-
-                        } else {
-                            Log.e("HomeEventsFragment", "Failed to load events, response code: " + response.code());
-                            Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
-                        }
+                    List<EventHome> events = new ArrayList<>();
+                    for (EventHomeResponse e : content) {
+                        events.add(new EventHome(
+                                e.getId(),
+                                e.getName(),
+                                e.getDescription(),
+                                e.getEventType(),
+                                e.getLocation(),
+                                e.getStartDate(),
+                                e.getEndDate()
+                        ));
                     }
 
-                    @Override
-                    public void onFailure(Call<PagedResponse<EventHomeResponse>> call, Throwable t) {
-                        Log.e("HomeEventsFragment", "API failure: " + t.getClass().getSimpleName() + " - " + t.getMessage(), t);
-                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    otherEventsAdapter.updateData(events);
+                    hasMorePages = content.size() == pageSize && !pagedData.isLast();
+                    updatePaginator();
+                } else {
+                    Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PagedResponse<EventHomeResponse>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
     private void updatePaginator() {
         currentPageText.setText("Page " + currentPage);
         btnPreviousPage.setVisibility(currentPage > 1 ? View.VISIBLE : View.GONE);
@@ -227,4 +314,37 @@ public class HomeEventsFragment extends Fragment {
         intent.putExtra("event", event);
         startActivity(intent);
     }
+
+    @Override
+    public void onSortSelected(List<String> criteria, String order) {
+        this.selectedSortCriteria = criteria;
+        this.selectedSortOrder = order;
+        this.activeFilterType = ActiveFilterType.SORT;
+
+        // Reset ostalog
+        this.searchQuery = "";
+        this.filterTypes = new ArrayList<>();
+        this.filterCities = new ArrayList<>();
+        this.filterDateAfter = null;
+        this.filterDateBefore = null;
+
+        loadPage(1);
+    }
+
+    @Override
+    public void onFilterSelected(List<String> types, List<String> cities, String dateAfter, String dateBefore) {
+        this.filterTypes = types;
+        this.filterCities = cities;
+        this.filterDateAfter = dateAfter;
+        this.filterDateBefore = dateBefore;
+        this.activeFilterType = ActiveFilterType.FILTER;
+
+        // Reset ostalog
+        this.searchQuery = "";
+        this.selectedSortCriteria = new ArrayList<>();
+        this.selectedSortOrder = "asc";
+
+        loadPage(1);
+    }
+
 }

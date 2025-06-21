@@ -2,6 +2,7 @@ package com.example.eventplanner.services;
 
 import com.example.eventplanner.model.eventCreation.EventCreationRequest;
 import com.example.eventplanner.model.eventDetails.EventDetailsResponse;
+import com.example.eventplanner.model.eventDetails.FilterEventResponse;
 import com.example.eventplanner.model.homepage.EventHomeResponse;
 import com.example.eventplanner.model.homepage.PagedResponse;
 
@@ -37,6 +38,8 @@ public interface IEventService {
             @Query("size") int size,
             @Query("sort") String sort
     );
+    @GET("events/filter-options")
+    Call<FilterEventResponse> getFilterOptions();
     @GET("events/filter")
     Call<PagedResponse<EventHomeResponse>> filterEvents(
             @Query("type") List<String> types,
