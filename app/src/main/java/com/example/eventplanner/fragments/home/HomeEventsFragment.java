@@ -155,60 +155,76 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 searchView.clearFocus(); // sklanja kursor
             }
         });
+        ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> {
+                // Resetuj tekst
+                searchView.setQuery("", false);
+
+                // Resetuj sve filtere
+                searchQuery = null;
+                activeFilterType = ActiveFilterType.NONE;
+                loadPage(1);
+
+                // Sakrij tastaturu i ukloni fokus
+                searchView.clearFocus();
+                hideKeyboard(searchView);
+            });
+        }
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    if (query != null && !query.trim().isEmpty()) {
-                        // Reset ostalih filtera
-                        selectedSortCriteria = new ArrayList<>();
-                        selectedSortOrder = "asc";
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query != null && !query.trim().isEmpty()) {
+                    selectedSortCriteria = new ArrayList<>();
+                    selectedSortOrder = "asc";
+                    filterTypes = new ArrayList<>();
+                    filterCities = new ArrayList<>();
+                    filterDateAfter = null;
+                    filterDateBefore = null;
 
-                        filterTypes = new ArrayList<>();
-                        filterCities = new ArrayList<>();
-                        filterDateAfter = null;
-                        filterDateBefore = null;
+                    searchQuery = query.trim();
+                    activeFilterType = ActiveFilterType.SEARCH;
+                    loadPage(1);
 
-                        searchQuery = query.trim();
-                        activeFilterType = ActiveFilterType.SEARCH;
-
-                        loadPage(1);
-
-                        searchView.clearFocus();  // Skloni tastaturu, ali **ne briši tekst**
-
-                        return true;
-                    }
-                    return false;
+                    searchView.clearFocus(); // bitno za skrivanje tastature
+                    return true;
                 }
+                return false;
+            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
-                    // Resetuj filtere
                     searchQuery = null;
                     activeFilterType = ActiveFilterType.NONE;
                     loadPage(1);
 
-                    // Skloni fokus sa SearchView
-                    searchView.clearFocus();
-
-                    // Sakrij tastaturu
-                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                    }
+                    // Samo sakrij tastaturu, ali ne zatvaraj SearchView — jer je korisnik možda samo brisao
+                    hideKeyboard(searchView);
                 }
                 return true;
             }
-
         });
 
+        searchView.setOnCloseListener(() -> {
+            searchView.postDelayed(() -> {
+                searchView.clearFocus();
+                hideKeyboard(searchView);
+            }, 50);
+            return false;
+        });
 
         // Load data
         loadTopEvents();
         loadPage(currentPage);
     }
-
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && view != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
     private void loadTopEvents() {
         ApiService.getEventService().getTop5Events().enqueue(new Callback<List<EventHomeResponse>>() {
             @Override

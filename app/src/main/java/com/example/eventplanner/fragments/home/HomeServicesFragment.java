@@ -19,13 +19,9 @@ import com.example.eventplanner.activities.service_product.ServiceProductDetails
 import com.example.eventplanner.adapters.HomeItemsAdapter;
 import com.example.eventplanner.helpers.FilterMenuManager;
 import com.example.eventplanner.helpers.SortMenuManager;
-import com.example.eventplanner.model.entities.BaseItem;
 import com.example.eventplanner.model.entities.Product;
-import com.example.eventplanner.model.entities.Service;
-import com.example.eventplanner.model.entities.ServiceProductHome;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -38,7 +34,7 @@ public class HomeServicesFragment extends Fragment {
     private RecyclerView topServicesRecyclerView, otherServicesRecyclerView;
     private HomeItemsAdapter topServicesAdapter;
     private HomeItemsAdapter otherServicesAdapter;
-    private List<BaseItem> topServicesList, otherServicesList;
+    private List<Product> topServicesList, otherServicesList;
 
     public HomeServicesFragment() {
         // Required empty public constructor
@@ -116,7 +112,7 @@ public class HomeServicesFragment extends Fragment {
         });
     }
 
-    private void openServiceProductDetailsActivity(BaseItem serviceProduct) {
+    private void openServiceProductDetailsActivity(Product serviceProduct) {
         Intent intent = new Intent(getContext(), ServiceProductDetailsActivity.class);
         //intent.putExtra("baseItem", serviceProduct); // Prosleđuješ objekat
         startActivity(intent);

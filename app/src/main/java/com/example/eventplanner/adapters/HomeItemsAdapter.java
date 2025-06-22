@@ -7,20 +7,21 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.eventplanner.model.entities.BaseItem;
 import com.example.eventplanner.R;
+import com.example.eventplanner.model.entities.Product;
+
 import java.util.List;
 
 public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.ItemViewHolder> {
 
-    private List<BaseItem> itemsList;
+    private List<Product> itemsList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(BaseItem item);
+        void onItemClick(Product item);
     }
 
-    public HomeItemsAdapter(List<BaseItem> itemsList, OnItemClickListener listener) {
+    public HomeItemsAdapter(List<Product> itemsList, OnItemClickListener listener) {
         this.itemsList = itemsList;
         this.listener = listener;
     }
@@ -33,7 +34,7 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        BaseItem item = itemsList.get(position);
+        Product item = itemsList.get(position);
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
         holder.price.setText(String.valueOf(item.getPrice()));
