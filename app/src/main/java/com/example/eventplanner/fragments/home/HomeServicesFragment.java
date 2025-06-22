@@ -9,20 +9,31 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.adapters.HomeItemsAdapter;
 import com.example.eventplanner.helpers.FilterMenuManager;
 import com.example.eventplanner.helpers.SortMenuManager;
-import com.example.eventplanner.model.entities.Product;
+import com.example.eventplanner.model.homepage.PagedResponse;
+import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
+import com.example.eventplanner.services.spec.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +45,18 @@ public class HomeServicesFragment extends Fragment {
     private RecyclerView topServicesRecyclerView, otherServicesRecyclerView;
     private HomeItemsAdapter topServicesAdapter;
     private HomeItemsAdapter otherServicesAdapter;
-    private List<Product> topServicesList, otherServicesList;
+    private List<ServiceProductHomeResponse> topServicesList, otherServicesList;
+    private Button btnPreviousPage, btnNextPage;
+    private TextView currentPageText;
+    private SearchView searchView;
+
+    private int currentPage = 1;
+    private boolean hasMorePages = true;
+    private String searchQuery = "";
+    private String selectedSort = "";
+
+    private enum ActiveFilterType { NONE, SEARCH, SORT,FILTER }
+    private ActiveFilterType activeFilterType = ActiveFilterType.NONE;
 
     public HomeServicesFragment() {
         // Required empty public constructor
@@ -69,19 +91,6 @@ public class HomeServicesFragment extends Fragment {
         topServicesList = new ArrayList<>();
         otherServicesList = new ArrayList<>();
 
-       /* topServicesList.add(new Service(1L, "Service 1", "Description 1", 100.0, 10, true, new HashSet<>(), "Specificity 1", "Category 1", 1.5, 1.0, 3.0, 1.0, 1.5, 0.5, "Provider A"));
-        topServicesList.add(new Product(2L, "Product 1", "Description 2", 150.0, 20, "Active", true, new HashSet<>(), "Category A", "Provider B"));
-        topServicesList.add(new Service(3L, "Service 2", "Description 3", 200.0, 15, true, new HashSet<>(), "Specificity 2", "Category 2", 2.0, 1.5, 3.5, 1.0, 2.0, 0.6, "Provider C"));
-        topServicesList.add(new Product(4L, "Product 2", "Description 4", 250.0, 25, "Active", true, new HashSet<>(), "Category B", "Provider D"));
-        topServicesList.add(new Service(5L, "Service 1", "Description 1", 100.0, 10, true, new HashSet<>(), "Specificity 1", "Category 1", 1.5, 1.0, 3.0, 1.0, 1.5, 0.5, "Provider A"));
-
-        otherServicesList.add(new Service(6L, "Service 2", "Description 2", 200.0, 15, true, new HashSet<>(), "Specificity 2", "Category 2", 0, 1.5, 3.5, 1.0, 2.0, 0.6, "Provider B"));
-        otherServicesList.add(new Product(7L, "Product 1", "Description 3", 150.0, 20, "Active", true, new HashSet<>(), "Category 1", "Provider C"));
-        otherServicesList.add(new Service(8L, "Service 3", "Description 4", 250.0, 30, true, new HashSet<>(), "Specificity 3", "Category 3", 1.0, 1.0, 3.0, 0.5, 1.5, 0.4, "Provider D"));
-        otherServicesList.add(new Product(9L, "Product 2", "Description 5", 180.0, 25, "Inactive", true, new HashSet<>(), "Category 2", "Provider E"));
-        otherServicesList.add(new Service(10L, "Service 4", "Description 6", 300.0, 20, true, new HashSet<>(), "Specificity 4", "Category 4", 0, 1.2, 4.0, 1.2, 2.0, 0.7, "Provider F"));
-*/
-
         // Kreiranje adaptera
         topServicesAdapter = new HomeItemsAdapter(topServicesList, this::openServiceProductDetailsActivity);
         otherServicesAdapter = new HomeItemsAdapter(otherServicesList, this::openServiceProductDetailsActivity);
@@ -90,6 +99,23 @@ public class HomeServicesFragment extends Fragment {
         topServicesRecyclerView.setAdapter(topServicesAdapter);
         otherServicesRecyclerView.setAdapter(otherServicesAdapter);
 
+        btnPreviousPage = rootView.findViewById(R.id.btn_previous_page);
+        btnNextPage = rootView.findViewById(R.id.btn_next_page);
+        currentPageText = rootView.findViewById(R.id.current_page_text);
+
+        btnPreviousPage.setOnClickListener(v -> {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPage(currentPage);
+            }
+        });
+
+        btnNextPage.setOnClickListener(v -> {
+            if (hasMorePages) {
+                currentPage++;
+                loadPage(currentPage);
+            }
+        });
         return rootView;
     }
 
@@ -110,9 +136,109 @@ public class HomeServicesFragment extends Fragment {
         filterServicesButton.setOnClickListener(v -> {
             filterMenuManager.showFilterServicesProductsMenu(filterServicesButton);
         });
+
+        loadTopServicesProducts();
+        loadPage(currentPage);
+
+
+    }
+    private static final String TAG = "HomeServicesFragment";
+    private void loadTopServicesProducts() {
+        ApiService.getProductService().getTop5ServicesProducts().enqueue(new Callback<List<ServiceProductHomeResponse>>() {
+            @Override
+            public void onResponse(Call<List<ServiceProductHomeResponse>> call, Response<List<ServiceProductHomeResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<ServiceProductHomeResponse> topServices = new ArrayList<>();
+                    for (ServiceProductHomeResponse p : response.body()) {
+                        topServices.add(new ServiceProductHomeResponse(
+                                p.getId(),
+                                p.getType(),
+                                p.getName(),
+                                p.getDescription(),
+                                p.getPrice(),
+                                p.getDiscount(),
+                                p.isAvailable(),
+                                p.getImage(),
+                                p.getCategory(),
+                                p.getProvider()
+                        ));
+                    }
+
+                    topServicesAdapter.updateData(topServices);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load top services/products", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ServiceProductHomeResponse>> call, Throwable t) {
+                Log.e("HomeServicesFragment", "API failure: " + t.getClass().getSimpleName() + " - " + t.getMessage(), t);
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void openServiceProductDetailsActivity(Product serviceProduct) {
+    private void loadPage(int page) {
+        int pageIndex = page - 1;
+        int pageSize = 10;
+        this.currentPage = page;
+
+        Log.d(TAG, "Calling loadPage(" + page + "), pageIndex=" + pageIndex);
+
+        Call<PagedResponse<ServiceProductHomeResponse>> call =
+                ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
+
+        call.enqueue(new Callback<PagedResponse<ServiceProductHomeResponse>>() {
+            @Override
+            public void onResponse(Call<PagedResponse<ServiceProductHomeResponse>> call, Response<PagedResponse<ServiceProductHomeResponse>> response) {
+                Log.d(TAG, "onResponse: success=" + response.isSuccessful());
+
+                if (response.isSuccessful() && response.body() != null) {
+                    PagedResponse<ServiceProductHomeResponse> pagedData = response.body();
+                    List<ServiceProductHomeResponse> content = pagedData.getContent();
+                    List<ServiceProductHomeResponse> products = new ArrayList<>();
+                    for (ServiceProductHomeResponse p : content) {
+                            products.add(new ServiceProductHomeResponse(
+                                    p.getId(),
+                                    p.getType(),
+                                    p.getName(),
+                                    p.getDescription(),
+                                    p.getPrice(),
+                                    p.getDiscount(),
+                                    p.isAvailable(),
+                                    p.getImage(),
+                                    p.getCategory(),
+                                    p.getProvider()
+                            ));
+
+                    }
+
+
+                    otherServicesAdapter.updateData(products);
+                    hasMorePages = currentPage < pagedData.getTotalPages();
+                    updatePaginator();
+                } else {
+                    Log.w(TAG, "Response failed: " + response.code());
+                    Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PagedResponse<ServiceProductHomeResponse>> call, Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage(), t);
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updatePaginator() {
+        currentPageText.setText("Page " + currentPage);
+        btnPreviousPage.setVisibility(currentPage > 1 ? View.VISIBLE : View.GONE);
+        btnNextPage.setVisibility(hasMorePages ? View.VISIBLE : View.GONE);
+    }
+
+
+    private void openServiceProductDetailsActivity(ServiceProductHomeResponse serviceProduct) {
         Intent intent = new Intent(getContext(), ServiceProductDetailsActivity.class);
         //intent.putExtra("baseItem", serviceProduct); // Prosleđuješ objekat
         startActivity(intent);

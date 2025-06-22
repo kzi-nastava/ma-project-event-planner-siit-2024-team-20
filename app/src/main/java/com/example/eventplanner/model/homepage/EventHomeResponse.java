@@ -1,10 +1,15 @@
 package com.example.eventplanner.model.homepage;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.eventplanner.model.entities.Event;
 
 import java.time.LocalDateTime;
 
-public class EventHomeResponse {
+public class EventHomeResponse implements Parcelable {
     private Long id;
     private String name;
     private String description;
@@ -25,6 +30,30 @@ public class EventHomeResponse {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    protected EventHomeResponse(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        name = in.readString();
+        description = in.readString();
+        eventType = in.readString();
+        location = in.readString();
+    }
+
+    public static final Creator<EventHomeResponse> CREATOR = new Creator<EventHomeResponse>() {
+        @Override
+        public EventHomeResponse createFromParcel(Parcel in) {
+            return new EventHomeResponse(in);
+        }
+
+        @Override
+        public EventHomeResponse[] newArray(int size) {
+            return new EventHomeResponse[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -94,4 +123,22 @@ public class EventHomeResponse {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(eventType);
+        dest.writeString(location);
+    }
 }

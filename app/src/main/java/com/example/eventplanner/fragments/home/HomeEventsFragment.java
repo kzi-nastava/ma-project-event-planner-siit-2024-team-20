@@ -15,9 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,18 +28,12 @@ import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.helpers.SortSelectionListener;
-import com.example.eventplanner.model.entities.EventHome;
 import com.example.eventplanner.model.homepage.EventHomeResponse;
 import com.example.eventplanner.model.homepage.PagedResponse;
 import com.example.eventplanner.services.spec.ApiService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,8 +49,8 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
     private RecyclerView topEventsRecyclerView, otherEventsRecyclerView;
     private HomeEventsAdapter topEventsAdapter;
     private HomeEventsAdapter otherEventsAdapter;
-    private List<EventHome> topEventsList = new ArrayList<>();
-    private List<EventHome> otherEventsList = new ArrayList<>();
+    private List<EventHomeResponse> topEventsList = new ArrayList<>();
+    private List<EventHomeResponse> otherEventsList = new ArrayList<>();
     private int currentPage = 1;
     private boolean hasMorePages = true;
     private Button btnPreviousPage, btnNextPage;
@@ -230,9 +221,9 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
             @Override
             public void onResponse(Call<List<EventHomeResponse>> call, Response<List<EventHomeResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<EventHome> events = new ArrayList<>();
+                    List<EventHomeResponse> events = new ArrayList<>();
                     for (EventHomeResponse e : response.body()) {
-                        events.add(new EventHome(
+                        events.add(new EventHomeResponse(
                                 e.getId(),
                                 e.getName(),
                                 e.getDescription(),
@@ -311,10 +302,9 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 if (response.isSuccessful() && response.body() != null) {
                     PagedResponse<EventHomeResponse> pagedData = response.body();
                     List<EventHomeResponse> content = pagedData.getContent();
-
-                    List<EventHome> events = new ArrayList<>();
+                    List<EventHomeResponse> events = new ArrayList<>();
                     for (EventHomeResponse e : content) {
-                        events.add(new EventHome(
+                        events.add(new EventHomeResponse(
                                 e.getId(),
                                 e.getName(),
                                 e.getDescription(),
@@ -326,7 +316,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                     }
 
                     otherEventsAdapter.updateData(events);
-                    hasMorePages = content.size() == pageSize && !pagedData.isLast();
+                    hasMorePages = currentPage < pagedData.getTotalPages();
                     updatePaginator();
                 } else {
                     Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
@@ -345,7 +335,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
         btnNextPage.setVisibility(hasMorePages ? View.VISIBLE : View.GONE);
     }
 
-    private void openEventDetailsActivity(EventHome event) {
+    private void openEventDetailsActivity(EventHomeResponse event) {
         Intent intent = new Intent(getContext(), EventDetailsActivity.class);
         intent.putExtra("event", event);
         startActivity(intent);
