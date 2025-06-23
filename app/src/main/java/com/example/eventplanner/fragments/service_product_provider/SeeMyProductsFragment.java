@@ -38,12 +38,16 @@ public class SeeMyProductsFragment extends Fragment {
     private TableLayout productTable;
     private IProductService productService;
 
+    private SearchView searchView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_see_my_products, container, false);
+
+        searchView = view.findViewById(R.id.search_my_products);
 
         productTable = view.findViewById(R.id.product_table);
 
@@ -56,6 +60,21 @@ public class SeeMyProductsFragment extends Fragment {
             Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
         }
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterProducts(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterProducts(newText);
+                return true;
+            }
+        });
+
+
         return view;
     }
 
@@ -64,11 +83,13 @@ public class SeeMyProductsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ProvidersProductsResponse>> call, Response<List<ProvidersProductsResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    populateTable(response.body());
+                    allProducts = response.body();
+                    populateTable(allProducts);
                 } else {
                     Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                 }
             }
+
 
             @Override
             public void onFailure(Call<List<ProvidersProductsResponse>> call, Throwable t) {
@@ -78,6 +99,10 @@ public class SeeMyProductsFragment extends Fragment {
     }
 
     private void populateTable(List<ProvidersProductsResponse> products) {
+        View header = productTable.getChildAt(0);
+
+        productTable.removeAllViews();
+        productTable.addView(header);
         for (ProvidersProductsResponse product : products) {
             TableRow row = new TableRow(getContext());
 
@@ -125,6 +150,20 @@ public class SeeMyProductsFragment extends Fragment {
 
             productTable.addView(row);
         }
+    }
+    private List<ProvidersProductsResponse> allProducts = new ArrayList<>();
+
+    private void filterProducts(String query) {
+        String lowerQuery = query.toLowerCase().trim();
+        List<ProvidersProductsResponse> filteredList = new ArrayList<>();
+
+        for (ProvidersProductsResponse product : allProducts) {
+            if (product.getName().toLowerCase().contains(lowerQuery)) {
+                filteredList.add(product);
+            }
+        }
+
+        populateTable(filteredList);
     }
 
 
