@@ -24,22 +24,40 @@ import com.example.eventplanner.fragments.event.create_event.CreateEventFragment
 import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
+import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
+import com.example.eventplanner.fragments.service_product_provider.FilterProductDialogFragment;
+import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
+import com.example.eventplanner.model.productManage.ProvidersProductsResponse;
+import com.example.eventplanner.services.IProductService;
+import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private Long currentUserID;
+    private IProductService productService;
+
 
     NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productService = ApiService.getProductService();
+        currentUserID = (long) AuthService.getUserIdFromToken();
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_activity), (v, insets) -> {
@@ -54,7 +72,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
         navigationView.setNavigationItemSelectedListener(this);
-
+        String role = AuthService.getRoleFromToken();
+        MenuItem belongingsItem = navigationView.getMenu().findItem(R.id.nav_belongings);
+        if (belongingsItem != null) {
+            belongingsItem.setVisible("ROLE_SERVICE_PRODUCT_PROVIDER".equals(role));
+        }
 
         openChat();
     }
@@ -95,12 +117,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             else if(role != null && role.equals("ROLE_EVENT_ORGANIZER")){
                 FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+            }else if(role != null && role.equals("ROLE_SERVICE_PRODUCT_PROVIDER")){
+                FragmentsTool.to(new CreateProductFragment(), HomeActivity.this, false);
             }
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
             FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
-        }
-        else if(item.getItemId()==R.id.nav_logout){
+        } else if (item.getItemId() == R.id.nav_belongings) {
+            FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
+        } else if(item.getItemId()==R.id.nav_logout){
             AuthService.logout();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
