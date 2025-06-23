@@ -25,23 +25,39 @@ import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
+import com.example.eventplanner.fragments.service_product_provider.FilterProductDialogFragment;
 import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
+import com.example.eventplanner.model.productManage.ProvidersProductsResponse;
+import com.example.eventplanner.services.IProductService;
+import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private Long currentUserID;
+    private IProductService productService;
+
 
     NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productService = ApiService.getProductService();
+        currentUserID = (long) AuthService.getUserIdFromToken();
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_activity), (v, insets) -> {

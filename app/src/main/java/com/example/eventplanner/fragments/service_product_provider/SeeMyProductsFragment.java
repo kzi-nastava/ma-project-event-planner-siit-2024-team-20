@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,12 +34,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SeeMyProductsFragment extends Fragment {
+public class SeeMyProductsFragment extends Fragment implements FilterProductDialogFragment.FilterDialogListener{
 
     private TableLayout productTable;
     private IProductService productService;
 
     private SearchView searchView;
+
+    private ImageView filterButton;
 
     @Nullable
     @Override
@@ -73,7 +76,14 @@ public class SeeMyProductsFragment extends Fragment {
                 return true;
             }
         });
+        filterButton = view.findViewById(R.id.filter_my_products);
 
+        filterButton.setOnClickListener(v -> {
+            FilterProductDialogFragment dialog = new FilterProductDialogFragment();
+            dialog.setFilterDialogListener(this);
+            dialog.show(getParentFragmentManager(), "filterDialog");
+
+        });
 
         return view;
     }
@@ -167,5 +177,36 @@ public class SeeMyProductsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onFilterApplied(String category, String eventType, Double maxPrice, String availability) {
+        String priceString = maxPrice != null ? maxPrice.toString() : null;
+
+        String availableParam = null;
+        if ("Available".equalsIgnoreCase(availability)) {
+            availableParam = "true";
+        } else if ("Not available".equalsIgnoreCase(availability)) {
+            availableParam = "false";
+        }
+
+        Long userId = (long) AuthService.getUserIdFromToken();
+
+        productService.getFilteredProvidersProduct(userId, category, eventType, priceString, availableParam)
+                .enqueue(new Callback<List<ProvidersProductsResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<ProvidersProductsResponse>> call, Response<List<ProvidersProductsResponse>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            allProducts = response.body();
+                            populateTable(allProducts);
+                        } else {
+                            Toast.makeText(getContext(), "No products found for filters", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ProvidersProductsResponse>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Failed to load filtered products", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
 }

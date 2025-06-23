@@ -16,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IProductService {
 
@@ -37,4 +38,13 @@ public interface IProductService {
 
     @DELETE("products/{id}/deactivate")
     Call<Boolean> deactivateProduct(@Path("id") Long id);
+
+    @GET("products/filter/{id}/sp-products")
+    Call<List<ProvidersProductsResponse>> getFilteredProvidersProduct(
+            @Path("id") Long id,
+            @Query("category") String category,
+            @Query("type") String type,
+            @Query("price") String price,
+            @Query("available") String available
+    );
 }
