@@ -66,7 +66,6 @@ public class EditProductFragment extends Fragment {
         NumberPicker discountPicker = view.findViewById(R.id.npDiscount);
         Switch visibilitySwitch = view.findViewById(R.id.switchVisibility);
         Switch availabilitySwitch = view.findViewById(R.id.switchAvailability);
-        TextView typeTextView = view.findViewById(R.id.tvETypse);
 
         discountPicker.setMinValue(0);
         discountPicker.setMaxValue(100);
@@ -78,7 +77,6 @@ public class EditProductFragment extends Fragment {
         discountPicker.setValue(product.getDiscount());
         visibilitySwitch.setChecked(product.isVisible());
         availabilitySwitch.setChecked(product.isAvailable());
-        //typeTextView.setText(product.getEventType());
 
 
         Set<String> imagesSet = product.getImages();
@@ -97,6 +95,10 @@ public class EditProductFragment extends Fragment {
             sendEditProductRequest(product, nameEditText, descriptionEditText, priceEditText, discountPicker,
                     visibilitySwitch, availabilitySwitch);
         });
+
+
+        Button deactivateButton = view.findViewById(R.id.editProduct_delete);
+        deactivateButton.setOnClickListener(v -> showDeactivateConfirmationDialog(product.getId()));
 
 
         return view;
@@ -208,6 +210,34 @@ public class EditProductFragment extends Fragment {
                 });
     }
 
+    private void showDeactivateConfirmationDialog(Long productId) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Product")
+                .setMessage("Are you sure you want to delete this product?")
+                .setPositiveButton("Yes", (dialog, which) -> deactivateProduct(productId))
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void deactivateProduct(Long productId) {
+        ApiService.getProductService().deactivateProduct(productId)
+                .enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
+                            Toast.makeText(requireContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                            requireActivity().getSupportFragmentManager().popBackStack();
+                        } else {
+                            Toast.makeText(requireContext(), "Failed to delete product", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Toast.makeText(requireContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
 
 }

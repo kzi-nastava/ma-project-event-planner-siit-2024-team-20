@@ -35,6 +35,6 @@ public interface IProductService {
     @PUT("products/{id}/edit")
     Call<Boolean> editProduct(@Path("id") Long id, @Body ProductEditRequest productEditRequest);
 
-    @DELETE("{id}/deactivate")
+    @DELETE("products/{id}/deactivate")
     Call<Boolean> deactivateProduct(@Path("id") Long id);
 }
