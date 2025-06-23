@@ -217,6 +217,17 @@ public class CreateEventFragment extends Fragment {
         Long creatorId = (long) AuthService.getUserIdFromToken();
 
         List<AgendaCreationRequest> agenda = new ArrayList<>();
+        CreateAgendaFragment agendaFragment = (CreateAgendaFragment)
+                getChildFragmentManager().findFragmentById(R.id.fragmentContainerView5);
+        if (agendaFragment != null) {
+            agenda = agendaFragment.getAgendaItems();
+        }
+
+        if (!validateAgendaWithinEventTime(startTime, endTime, agenda)) {
+            Toast.makeText(getContext(), "\n" +
+                    "The agenda items are incorrect.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         EventCreationRequest eventRequest = new EventCreationRequest(
                 name, description, city, address, num,
@@ -247,8 +258,26 @@ public class CreateEventFragment extends Fragment {
             }
         });
 
-
     }
+    private boolean validateAgendaWithinEventTime(LocalTime eventStart, LocalTime eventEnd, List<AgendaCreationRequest> agendaList) {
+        for (AgendaCreationRequest item : agendaList) {
+            if (item.getFrom().isBefore(eventStart) || item.getTo().isAfter(eventEnd)) {
+                return false;
+            }
+
+            for (AgendaCreationRequest other : agendaList) {
+                if (item == other) continue;
+
+                boolean overlaps = item.getFrom().isBefore(other.getTo()) && other.getFrom().isBefore(item.getTo());
+                if (overlaps) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
 
 
 }

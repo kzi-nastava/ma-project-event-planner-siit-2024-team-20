@@ -6,7 +6,7 @@ import com.example.eventplanner.services.IUserService;
 
 public class ApiService {
 
-    public static final String BASE_URL = "http://10.0.2.2:8080/api/";
+    public static final String BASE_URL = "http://192.168.100.8:8080/api/";
     public static IUserService getUserService(){
         return RetrofitClient.getClient(BASE_URL).create(IUserService.class);
     }
