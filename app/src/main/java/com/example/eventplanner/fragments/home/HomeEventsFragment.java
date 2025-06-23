@@ -168,7 +168,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
             public boolean onQueryTextSubmit(String query) {
                 if (query != null && !query.trim().isEmpty()) {
                     selectedSortCriteria = new ArrayList<>();
-                    selectedSortOrder = "asc";
+                    selectedSortOrder = "";
                     filterTypes = new ArrayList<>();
                     filterCities = new ArrayList<>();
                     filterDateAfter = null;
@@ -328,6 +328,9 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        if (page == 1) {
+            otherEventsRecyclerView.scrollToPosition(0);
+        }
     }
     private void updatePaginator() {
         currentPageText.setText("Page " + currentPage);

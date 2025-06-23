@@ -2,6 +2,7 @@ package com.example.eventplanner.services;
 
 import com.example.eventplanner.model.homepage.PagedResponse;
 import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
+import com.example.eventplanner.model.productDetails.FilterItemsOptions;
 import com.example.eventplanner.model.productDetails.ProductResponse;
 
 import java.util.List;
@@ -19,21 +20,30 @@ public interface IProductService {
             @Query("size") int size,
             @Query("sort") String sort
     );
-    @GET("products/search")
-    Call<List<ProductResponse>> searchProductsByName(@Query("name") String name);
-    @GET("products/filter")
-    Call<PagedResponse<ProductResponse>> filterProducts(
-            @Query("category") String category,
-            @Query("eventType") String eventType,
-            @Query("minPrice") Double minPrice,
-            @Query("maxPrice") Double maxPrice,
-            @Query("available") Boolean available,
-            @Query("description") String description,
+    @GET("services-products/sorted")
+    Call<PagedResponse<ServiceProductHomeResponse>> getSortedServicesProducts(
+            @Query("sortCriteria") List<String> sortCriteria,
+            @Query("sortOrder") String sortOrder,
             @Query("page") int page,
-            @Query("size") int size,
-            @Query("sort") String sort
+            @Query("size") int size
     );
-
+    @GET("services-products/filter-options")
+    Call<FilterItemsOptions> getFilterOptions();
+    @GET("services-products/filter")
+    Call<PagedResponse<ServiceProductHomeResponse>> filterServicesProducts(
+            @Query("type") String type,
+            @Query("category") List<String> category,
+            @Query("min") Double min,
+            @Query("max") Double max,
+            @Query("page") int page,
+            @Query("size") int size
+    );
+    @GET("services-products/search")
+    Call<PagedResponse<ServiceProductHomeResponse>> searchServicesProducts(
+            @Query("query") String query,
+            @Query("page") int page,
+            @Query("size") int size
+    );
 
 
 }

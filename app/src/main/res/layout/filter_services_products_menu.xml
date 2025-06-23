@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
     android:layout_height="350dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_color"
     android:elevation="4dp">
 
@@ -87,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:stepSize="10"
                 android:valueFrom="0"
-                android:valueTo="1000" />
+                android:valueTo="10000"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:stepSize="10"
                 android:valueFrom="0"
-                android:valueTo="1000" />
+                android:valueTo="5000"/>
 
         </LinearLayout>
 

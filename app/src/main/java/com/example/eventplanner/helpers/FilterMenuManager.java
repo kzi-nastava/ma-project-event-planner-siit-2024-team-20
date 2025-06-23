@@ -19,6 +19,7 @@ import java.time.LocalDate;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.eventDetails.FilterEventResponse;
+import com.example.eventplanner.model.productDetails.FilterItemsOptions;
 import com.example.eventplanner.services.spec.ApiService;
 import com.google.android.material.slider.RangeSlider;
 
@@ -228,33 +229,25 @@ public class FilterMenuManager {
         int d = Integer.parseInt((String) day.getSelectedItem());
         return String.format(Locale.US, "%04d-%02d-%02d", y, m, d);
     }
-    public void showFilterServicesProductsMenu(View anchorView) {
+    public void showFilterServicesProductsMenu(View anchorView,
+                                               List<String> previouslySelectedCategories,
+                                               String previouslySelectedType,
+                                               Float previouslyMinPrice,
+                                               Float previouslyMaxPrice) {
         View popupView = LayoutInflater.from(context).inflate(R.layout.filter_services_products_menu, null);
+
         int widthInPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 250, context.getResources().getDisplayMetrics());
         int heightInPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 350, context.getResources().getDisplayMetrics());
-        // Kreiranje PopupWindow
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                widthInPx,
-                heightInPx,
-                true); // Daje mogućnost da se zatvori klikom van prozora
 
-        // Pozicioniranje PopupWindow ispod dugmeta
+        PopupWindow popupWindow = new PopupWindow(popupView, widthInPx, heightInPx, true);
         popupWindow.showAsDropDown(anchorView, 0, 0);
 
         // Inicijalizacija stavki za filtriranje
         LinearLayout filterCategoryLayout = popupView.findViewById(R.id.filter_category_layout);
         LinearLayout filterCategoryCheckboxList = popupView.findViewById(R.id.filter_category_checkbox_list);
         ImageView filterCategoryArrow = popupView.findViewById(R.id.filter_category_arrow);
-
-        // Dodavanje dinamičkih opcija za kategorije
-        List<String> categoryOptions = Arrays.asList("Category 1", "Category 2", "Category 3");
-        for (String category : categoryOptions) {
-            CheckBox checkBox = new CheckBox(context);
-            checkBox.setText(category);
-            filterCategoryCheckboxList.addView(checkBox);
-        }
 
         // Kada korisnik klikne na opciju, otvara/zatvara se lista sa checkbox-ovima
         filterCategoryLayout.setOnClickListener(view -> {
@@ -267,68 +260,89 @@ public class FilterMenuManager {
             }
         });
 
-        // Inicijalizacija RangeSlider-a za cene
         RangeSlider priceMinSlider = popupView.findViewById(R.id.price_min_slider);
         RangeSlider priceMaxSlider = popupView.findViewById(R.id.price_max_slider);
 
-        priceMinSlider.addOnChangeListener((slider, value, fromUser) -> {
-            // Ova funkcija se poziva svaki put kada se vrednost RangeSlider-a promeni
-            float minPrice = slider.getValues().get(0); // Trenutna minimalna cena
-            Log.d("Filter", "Min Price: " + minPrice);
-        });
+        // Set prethodnih vrednosti RangeSlider-a
+        priceMinSlider.setValues(previouslyMinPrice != null ? previouslyMinPrice : 0f);
+        priceMaxSlider.setValues(previouslyMaxPrice != null ? previouslyMaxPrice : 0f);
 
-        priceMaxSlider.addOnChangeListener((slider, value, fromUser) -> {
-            // Ova funkcija se poziva svaki put kada se vrednost RangeSlider-a promeni
-            float maxPrice = slider.getValues().get(1); // Trenutna maksimalna cena
-            Log.d("Filter", "Max Price: " + maxPrice);
-        });
-
-        // RadioButton za izbor između Service i Product
         RadioButton radioService = popupView.findViewById(R.id.radio_service);
         RadioButton radioProduct = popupView.findViewById(R.id.radio_product);
 
-        // Postavljanje podrazumevanog izbora
-        radioService.setChecked(true);
+        // Set prethodnog tipa
+        if ("Product".equalsIgnoreCase(previouslySelectedType)) {
+            radioProduct.setChecked(true);
+        } else {
+            radioService.setChecked(true);
+        }
+
+        // Load kategorije iz API-ja i obeleži prethodno izabrane
+        ApiService.getProductService().getFilterOptions().enqueue(new Callback<FilterItemsOptions>() {
+            @Override
+            public void onResponse(Call<FilterItemsOptions> call, Response<FilterItemsOptions> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> categories = response.body().getCategoryOptions();
+                    for (String category : categories) {
+                        CheckBox checkBox = new CheckBox(context);
+                        checkBox.setText(category);
+
+                        if (previouslySelectedCategories != null && previouslySelectedCategories.contains(category)) {
+                            checkBox.setChecked(true);
+                        }
+
+                        filterCategoryCheckboxList.addView(checkBox);
+                    }
+                } else {
+                    Toast.makeText(context, "Failed to load filter options", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FilterItemsOptions> call, Throwable t) {
+                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Dugme za filtriranje
         Button btnFilter = popupView.findViewById(R.id.btn_filter);
         btnFilter.setOnClickListener(view -> {
-            // Prikupljanje selektovanih kategorija
-            List<String> selectedCategories = new ArrayList<>();
-            for (int i = 0; i < filterCategoryCheckboxList.getChildCount(); i++) {
-                View child = filterCategoryCheckboxList.getChildAt(i);
-                if (child instanceof CheckBox) {
-                    CheckBox checkBox = (CheckBox) child;
-                    if (checkBox.isChecked()) {
-                        selectedCategories.add(checkBox.getText().toString());
+            try {
+                List<String> selectedCategories = new ArrayList<>();
+                for (int i = 0; i < filterCategoryCheckboxList.getChildCount(); i++) {
+                    View child = filterCategoryCheckboxList.getChildAt(i);
+                    if (child instanceof CheckBox && ((CheckBox) child).isChecked()) {
+                        selectedCategories.add(((CheckBox) child).getText().toString());
                     }
                 }
+
+                List<Float> minValues = priceMinSlider.getValues();
+                List<Float> maxValues = priceMaxSlider.getValues();
+
+                float minPrice = (minValues != null && minValues.size() > 0) ? minValues.get(0) : 0f;
+                float maxPrice = (maxValues != null && maxValues.size() > 0) ? maxValues.get(0) : 0f;
+
+                String selectedType = radioService.isChecked() ? "Service" : "Product";
+
+                if (filterServiceListener != null) {
+                    filterServiceListener.onFilterSelected(selectedCategories, selectedType, minPrice, maxPrice);
+                }
+
+                popupWindow.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Greška: " + e.getClass().getSimpleName() + " - " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
-            // Prikupljanje vrednosti RangeSlider-a
-            float minPrice = priceMinSlider.getValues().get(0);
-            float maxPrice = priceMaxSlider.getValues().get(1);
-
-            // Prikupljanje izbora između Service i Product
-            String selectedType = radioService.isChecked() ? "Service" : "Product";
-
-            // Prikaz odabranih filtera
-            Toast.makeText(context,
-                    "Type: " + selectedType +
-                            "\nCategories: " + selectedCategories +
-                            "\nPrice Range: " + minPrice + " - " + maxPrice,
-                    Toast.LENGTH_LONG).show();
-
-            // Zatvaranje popup prozora
-            popupWindow.dismiss();
         });
-
     }
     private FilterSelectionListener filterListener;
     public void setFilterSelectionListener(FilterSelectionListener listener) {
         this.filterListener = listener;
     }
-
+    private FilterServiceProductSelectionListener filterServiceListener;
+    public void setFilterSelectionListener(FilterServiceProductSelectionListener listener) {
+        this.filterServiceListener = listener;
+    }
     private void setSpinnerDateFromString(String dateStr, Spinner yearSpinner, Spinner monthSpinner, Spinner daySpinner) {
         try {
             LocalDate date = LocalDate.parse(dateStr);

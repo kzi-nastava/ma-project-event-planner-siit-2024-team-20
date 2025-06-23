@@ -1,5 +1,6 @@
 package com.example.eventplanner.fragments.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,9 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +25,11 @@ import com.example.eventplanner.R;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
 import com.example.eventplanner.adapters.HomeItemsAdapter;
 import com.example.eventplanner.helpers.FilterMenuManager;
+import com.example.eventplanner.helpers.FilterSelectionListener;
+import com.example.eventplanner.helpers.FilterServiceProductSelectionListener;
 import com.example.eventplanner.helpers.SortMenuManager;
+import com.example.eventplanner.helpers.SortSelectionListener;
+import com.example.eventplanner.helpers.SortServiceProductSelectionListener;
 import com.example.eventplanner.model.homepage.PagedResponse;
 import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
 import com.example.eventplanner.services.spec.ApiService;
@@ -40,7 +46,7 @@ import retrofit2.Response;
  * Use the {@link HomeServicesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeServicesFragment extends Fragment {
+public class HomeServicesFragment extends Fragment implements SortServiceProductSelectionListener, FilterServiceProductSelectionListener {
 
     private RecyclerView topServicesRecyclerView, otherServicesRecyclerView;
     private HomeItemsAdapter topServicesAdapter;
@@ -48,12 +54,16 @@ public class HomeServicesFragment extends Fragment {
     private List<ServiceProductHomeResponse> topServicesList, otherServicesList;
     private Button btnPreviousPage, btnNextPage;
     private TextView currentPageText;
-    private SearchView searchView;
 
     private int currentPage = 1;
     private boolean hasMorePages = true;
     private String searchQuery = "";
-    private String selectedSort = "";
+    private List<String> selectedCategories = new ArrayList<>();
+    private String selectedType = "Service";
+    private double minPrice = 0.0;
+    private double maxPrice = 0.0;
+    private List<String> selectedSortCriteria = new ArrayList<>();
+    private String selectedSortOrder = "asc";
 
     private enum ActiveFilterType { NONE, SEARCH, SORT,FILTER }
     private ActiveFilterType activeFilterType = ActiveFilterType.NONE;
@@ -127,6 +137,9 @@ public class HomeServicesFragment extends Fragment {
         SortMenuManager sortMenuManager = new SortMenuManager(requireContext());
         FilterMenuManager filterMenuManager = new FilterMenuManager(requireContext());
 
+        sortMenuManager.setSortSelectionListener(this);
+        filterMenuManager.setFilterSelectionListener(this);
+
         ImageView sortServicesButton = view.findViewById(R.id.sort_products);
         sortServicesButton.setOnClickListener(v -> {
             sortMenuManager.showServicesProductsSortMenu(sortServicesButton);
@@ -134,13 +147,84 @@ public class HomeServicesFragment extends Fragment {
 
         ImageView filterServicesButton = view.findViewById(R.id.filter_products);
         filterServicesButton.setOnClickListener(v -> {
-            filterMenuManager.showFilterServicesProductsMenu(filterServicesButton);
+            filterMenuManager.showFilterServicesProductsMenu((View) filterServicesButton,selectedCategories,selectedType, (float) minPrice,(float) maxPrice);
+        });
+        SearchView searchView = view.findViewById(R.id.search_view_products);
+        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                searchView.clearFocus(); // sklanja kursor
+            }
+        });
+        ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> {
+                // Resetuj tekst
+                searchView.setQuery("", false);
+
+                // Resetuj sve filtere
+                searchQuery = null;
+                activeFilterType = HomeServicesFragment.ActiveFilterType.NONE;
+                loadPage(1);
+
+                // Sakrij tastaturu i ukloni fokus
+                searchView.clearFocus();
+                hideKeyboard(searchView);
+            });
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query != null && !query.trim().isEmpty()) {
+                    selectedCategories = new ArrayList<>();
+                    selectedType = "";
+                    minPrice = 0.0;
+                    maxPrice = 0.0; // ili neka podrazumevana maksimalna
+                    selectedSortCriteria = new ArrayList<>();
+                    selectedSortOrder = "";
+
+                    searchQuery = query.trim();
+                    activeFilterType = HomeServicesFragment.ActiveFilterType.SEARCH;
+                    loadPage(1);
+
+                    searchView.clearFocus(); // bitno za skrivanje tastature
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    searchQuery = null;
+                    activeFilterType = HomeServicesFragment.ActiveFilterType.NONE;
+                    loadPage(1);
+
+                    // Samo sakrij tastaturu, ali ne zatvaraj SearchView — jer je korisnik možda samo brisao
+                    hideKeyboard(searchView);
+                }
+                return true;
+            }
+        });
+
+        searchView.setOnCloseListener(() -> {
+            searchView.postDelayed(() -> {
+                searchView.clearFocus();
+                hideKeyboard(searchView);
+            }, 50);
+            return false;
         });
 
         loadTopServicesProducts();
         loadPage(currentPage);
 
 
+    }
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && view != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
     private static final String TAG = "HomeServicesFragment";
     private void loadTopServicesProducts() {
@@ -183,52 +267,86 @@ public class HomeServicesFragment extends Fragment {
         int pageSize = 10;
         this.currentPage = page;
 
-        Log.d(TAG, "Calling loadPage(" + page + "), pageIndex=" + pageIndex);
+        Call<PagedResponse<ServiceProductHomeResponse>> call;
 
-        Call<PagedResponse<ServiceProductHomeResponse>> call =
-                ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
+        switch (activeFilterType) {
+            case SEARCH:
+                if (searchQuery == null || searchQuery.trim().isEmpty()) {
+                    call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
+                } else {
+                    call = ApiService.getProductService().searchServicesProducts(searchQuery.trim(), pageIndex, pageSize);
+                    Log.d("HomeServicesFragment", "Searching with query: " + searchQuery);
+                }
+                break;
 
-        call.enqueue(new Callback<PagedResponse<ServiceProductHomeResponse>>() {
+            case FILTER:
+                call = ApiService.getProductService().filterServicesProducts(
+                        selectedType, // "Service" ili "Product"
+                        selectedCategories, // List<String>
+                        minPrice, // Double
+                        maxPrice, // Double
+                        pageIndex, pageSize
+                );
+                break;
+
+            case SORT:
+                if (selectedSortCriteria == null || selectedSortCriteria.isEmpty()) {
+                    call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
+                } else {
+                    call = ApiService.getProductService().getSortedServicesProducts(
+                            selectedSortCriteria,
+                            selectedSortOrder,pageIndex, pageSize
+                    );
+                }
+                break;
+
+            case NONE:
+            default:
+                call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
+                break;
+        }
+
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<PagedResponse<ServiceProductHomeResponse>> call, Response<PagedResponse<ServiceProductHomeResponse>> response) {
-                Log.d(TAG, "onResponse: success=" + response.isSuccessful());
-
                 if (response.isSuccessful() && response.body() != null) {
                     PagedResponse<ServiceProductHomeResponse> pagedData = response.body();
                     List<ServiceProductHomeResponse> content = pagedData.getContent();
-                    List<ServiceProductHomeResponse> products = new ArrayList<>();
-                    for (ServiceProductHomeResponse p : content) {
-                            products.add(new ServiceProductHomeResponse(
-                                    p.getId(),
-                                    p.getType(),
-                                    p.getName(),
-                                    p.getDescription(),
-                                    p.getPrice(),
-                                    p.getDiscount(),
-                                    p.isAvailable(),
-                                    p.getImage(),
-                                    p.getCategory(),
-                                    p.getProvider()
-                            ));
-
-                    }
-
-
-                    otherServicesAdapter.updateData(products);
+                    otherServicesAdapter.updateData(content);
                     hasMorePages = currentPage < pagedData.getTotalPages();
                     updatePaginator();
                 } else {
-                    Log.w(TAG, "Response failed: " + response.code());
-                    Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed to load services/products", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<PagedResponse<ServiceProductHomeResponse>> call, Throwable t) {
-                Log.e(TAG, "API call failed: " + t.getMessage(), t);
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        if (page == 1) {
+            otherServicesRecyclerView.scrollToPosition(0);
+        }
+    }
+    @Override
+    public void onSortSelected(List<String> criteria, String order) {
+        this.selectedSortCriteria = criteria;
+        this.selectedSortOrder = order;
+        this.searchQuery = "";
+        this.activeFilterType = ActiveFilterType.SORT;
+        loadPage(1);
+    }
+    @Override
+    public void onFilterSelected(List<String> categories, String type, double min, double max) {
+        this.selectedCategories = categories;
+        this.selectedType = type;
+        this.minPrice = min;
+        this.maxPrice = max;
+        this.searchQuery = "";
+        this.selectedSortCriteria.clear();
+        this.activeFilterType = ActiveFilterType.FILTER;
+        loadPage(1);
     }
 
     private void updatePaginator() {
