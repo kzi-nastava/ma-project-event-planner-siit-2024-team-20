@@ -1,6 +1,7 @@
 package com.example.eventplanner.helpers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,16 @@ import java.util.ArrayList;
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
 
     private ArrayList<Uri> uriArrayList;
+    private ArrayList<Bitmap> bitmapList;
     private Context context;
     CountOfImageWhenRemoved countOfImageWhenRemoved;
 
-    public RecycleAdapter(ArrayList<Uri> uriArrayList, Context context, CountOfImageWhenRemoved countOfImageWhenRemoved) {
+    public RecycleAdapter(ArrayList<Uri> uriArrayList, ArrayList<Bitmap> bitmapList, Context context, CountOfImageWhenRemoved countOfImageWhenRemoved) {
         this.uriArrayList = uriArrayList;
+        this.bitmapList = bitmapList;
         this.context = context;
         this.countOfImageWhenRemoved = countOfImageWhenRemoved;
     }
-
 
     @NonNull
     @Override
@@ -39,27 +41,42 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecycleAdapter.ViewHolder holder, int position) {
-        //holder.imageView.setImageURI(uriArrayList.get(position));
-        Glide.with(context)
-                .load(uriArrayList.get(position))
-                .into(holder.imageView);
+        if (position < bitmapList.size()) {
+            holder.imageView.setImageBitmap(bitmapList.get(position));
+        } else {
+            int uriPosition = position - bitmapList.size();
+            Glide.with(context)
+                    .load(uriArrayList.get(uriPosition))
+                    .into(holder.imageView);
+        }
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uriArrayList.remove(uriArrayList.get(position));
+                if (position < bitmapList.size()) {
+                    Bitmap removedBitmap = bitmapList.get(position);
+                    bitmapList.remove(position);
+                    countOfImageWhenRemoved.onBackendImageRemoved(removedBitmap);
+                } else {
+                    int uriPosition = position - bitmapList.size();
+                    Uri removedUri = uriArrayList.get(uriPosition);
+                    uriArrayList.remove(uriPosition);
+                    countOfImageWhenRemoved.onUriImageRemoved(removedUri);
+                }
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,getItemCount());
-                countOfImageWhenRemoved.clicked(uriArrayList.size());
+                notifyItemRangeChanged(position, getItemCount());
+                countOfImageWhenRemoved.clicked(getItemCount());
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return uriArrayList.size();
+        return uriArrayList.size() + bitmapList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView, delete;
         CountOfImageWhenRemoved countOfImageWhenRemoved;
@@ -71,8 +88,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             delete = itemView.findViewById(R.id.delete);
         }
     }
-    public interface CountOfImageWhenRemoved{
-        void clicked(int getSize);
 
+    public interface CountOfImageWhenRemoved {
+        void clicked(int getSize);
+        void onBackendImageRemoved(Bitmap bitmap);
+        void onUriImageRemoved(Uri uri);
     }
 }

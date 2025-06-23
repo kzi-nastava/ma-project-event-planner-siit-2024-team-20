@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -26,15 +23,13 @@ import android.widget.Toast;
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.home.HomeActivity;
 import com.example.eventplanner.helpers.CategorySharedViewModel;
-import com.example.eventplanner.model.productManage.CategoryResponse;
+import com.example.eventplanner.helpers.TempImageHolder;
 import com.example.eventplanner.model.productManage.ProductCreationRequest;
 import com.example.eventplanner.model.productManage.ProductResponse;
-import com.example.eventplanner.services.IServiceProductService;
 import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -109,6 +104,7 @@ public class CreateProductFragment extends Fragment {
         btnCreate.setOnClickListener(view -> createProduct());
 
         FragmentManager fm = getChildFragmentManager();
+        TempImageHolder.backendImages.clear();
         galleryFragment = new ImagesPickerFragment();
         fm.beginTransaction()
                 .replace(R.id.fragmentContainerView4, galleryFragment)
@@ -118,7 +114,7 @@ public class CreateProductFragment extends Fragment {
     }
 
     private void fetchEventTypes() {
-        ApiService.getServiceProductService()
+        ApiService.getProductService()
                 .getAllActiveEventTypesNames()
                 .enqueue(new Callback<List<String>>() {
                     @Override public void onResponse(Call<List<String>> call, Response<List<String>> resp) {
@@ -197,7 +193,7 @@ public class CreateProductFragment extends Fragment {
 
 
         long providerId = AuthService.getUserIdFromToken();
-        ApiService.getServiceProductService()
+        ApiService.getProductService()
                 .addProduct(providerId, req)
                 .enqueue(new Callback<ProductResponse>() {
                     @Override public void onResponse(Call<ProductResponse> call, Response<ProductResponse> resp) {

@@ -166,7 +166,7 @@
             </LinearLayout>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView4"
+                android:id="@+id/fragmentContainerViewEditImages4"
                 android:name="com.example.eventplanner.fragments.service_product.create_product.ImagesPickerFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

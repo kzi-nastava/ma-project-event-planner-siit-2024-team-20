@@ -29,11 +29,15 @@ import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.helpers.RecycleAdapter;
+import com.example.eventplanner.helpers.TempImageHolder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -48,7 +52,11 @@ public class ImagesPickerFragment extends Fragment implements  RecycleAdapter.Co
     RecycleAdapter adapter;
     private static final int Read_Premission = 101;
     private static final int PICK_IMAGE = 1;
+    Set<String> originalBase64Images = new HashSet<>();
 
+    ArrayList<Bitmap> backendBitmaps = new ArrayList<>();
+
+    private Map<Bitmap, String> backendBitmapMap = new HashMap<>();
 
 
     @Override
@@ -61,10 +69,13 @@ public class ImagesPickerFragment extends Fragment implements  RecycleAdapter.Co
         recyclerView = rootView.findViewById(R.id.recyclerView_Gallery_Images);
         pick = rootView.findViewById(R.id.pick);
 
-        adapter = new RecycleAdapter(uri, requireContext(), this);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+        adapter = new RecycleAdapter(uri, backendBitmaps, requireContext(), this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
 
+        if (!TempImageHolder.backendImages.isEmpty()) {
+            setBackendImages(TempImageHolder.backendImages);
+        }
 
 
         pick.setOnClickListener(new View.OnClickListener() {
@@ -142,8 +153,32 @@ public class ImagesPickerFragment extends Fragment implements  RecycleAdapter.Co
         textView.setText("Photos (" + uri.size() + ")");
 
     }
+
+    @Override
+    public void onBackendImageRemoved(Bitmap bitmap) {
+        removeBackendImage(bitmap);
+    }
+
+    @Override
+    public void onUriImageRemoved(Uri uri) {
+        this.uri.remove(uri);
+        adapter.notifyDataSetChanged();
+        textView.setText("Photos (" + (this.uri.size() + backendBitmaps.size()) + ")");
+    }
+    public void removeBackendImage(Bitmap bitmap) {
+        String base64 = backendBitmapMap.get(bitmap);
+        if (base64 != null) {
+            originalBase64Images.remove(base64);
+        }
+        backendBitmapMap.remove(bitmap);
+        backendBitmaps.remove(bitmap);
+        adapter.notifyDataSetChanged();
+        textView.setText("Photos (" + (uri.size() + backendBitmaps.size()) + ")");
+    }
+
+
     public Set<String> getAllImages() {
-        Set<String> base64Images = new HashSet<>();
+        Set<String> base64Images = new HashSet<>(originalBase64Images);
         for (Uri imageUri : uri) {
             try {
                 InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
@@ -161,4 +196,21 @@ public class ImagesPickerFragment extends Fragment implements  RecycleAdapter.Co
         }
         return base64Images;
     }
+
+    public void setBackendImages(List<String> base64Images) {
+        backendBitmapMap.clear();
+        originalBase64Images.clear();
+        for (String base64 : base64Images) {
+            byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            backendBitmapMap.put(bitmap, base64);
+            originalBase64Images.add(base64);
+        }
+        backendBitmaps.clear();
+        backendBitmaps.addAll(backendBitmapMap.keySet());
+        adapter.notifyDataSetChanged();
+    }
+
+
+
 }

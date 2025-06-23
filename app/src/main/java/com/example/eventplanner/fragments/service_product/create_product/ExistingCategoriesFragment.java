@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.eventplanner.R;
 import com.example.eventplanner.helpers.CategorySharedViewModel;
 import com.example.eventplanner.model.productManage.CategoryResponse;
-import com.example.eventplanner.services.IServiceProductService;
+import com.example.eventplanner.services.IProductService;
 import com.example.eventplanner.services.spec.ApiService;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class ExistingCategoriesFragment extends Fragment {
     }
 
     private void fetchCategories() {
-        IServiceProductService service = ApiService.getServiceProductService();
+        IProductService service = ApiService.getProductService();
         Call<Set<CategoryResponse>> call = service.getActiveSPCategories();
 
         call.enqueue(new Callback<Set<CategoryResponse>>() {

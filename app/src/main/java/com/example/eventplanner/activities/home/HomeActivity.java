@@ -25,6 +25,7 @@ import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
+import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
 import com.example.eventplanner.services.spec.AuthService;
@@ -55,7 +56,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
         navigationView.setNavigationItemSelectedListener(this);
-
+        String role = AuthService.getRoleFromToken();
+        MenuItem belongingsItem = navigationView.getMenu().findItem(R.id.nav_belongings);
+        if (belongingsItem != null) {
+            belongingsItem.setVisible("ROLE_SERVICE_PRODUCT_PROVIDER".equals(role));
+        }
 
         openChat();
     }
@@ -102,8 +107,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
             FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
-        }
-        else if(item.getItemId()==R.id.nav_logout){
+        } else if (item.getItemId() == R.id.nav_belongings) {
+            FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
+        } else if(item.getItemId()==R.id.nav_logout){
             AuthService.logout();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
