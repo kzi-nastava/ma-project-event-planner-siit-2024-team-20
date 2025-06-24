@@ -170,7 +170,7 @@ public class ServiceProductDetailFragment extends Fragment {
         String description = productItem.getDescription();
         description += "\nAvailable: " + productItem.isAvailable();
         description += "\nCategory: " + productItem.getCategory();
-        description += "\nProvider: " + productItem.getProvider();
+        description += "\nProvider: " + productItem.getProvider().getName()+" "+productItem.getProvider().getLastName()+"\nEmail:"+productItem.getProvider().getEmail();
 
 
         descText.setText(description);

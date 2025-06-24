@@ -2,6 +2,7 @@ package com.example.eventplanner.model.productDetails;
 
 import com.example.eventplanner.model.entities.Comment;
 import com.example.eventplanner.model.entities.Grade;
+import com.example.eventplanner.model.users.UserViewResponse;
 
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class ProductDetailsResponse {
 
     private String category;
 
-    private String provider; //email
+    private UserViewResponse provider; //email
 
     private Set<Grade> grades;
 
@@ -34,7 +35,7 @@ public class ProductDetailsResponse {
 
     public ProductDetailsResponse(Long id, String name, String description, double price, int discount, Set<String> images,
                                   boolean isVisible, boolean isAvailable, String category,
-                                  String provider, Set<Grade> grades, Set<Comment> comments, Set<String> suggestedEventTypes) {
+                                  UserViewResponse provider, Set<Grade> grades, Set<Comment> comments, Set<String> suggestedEventTypes) {
         super();
         this.id = id;
         this.name = name;
@@ -123,11 +124,11 @@ public class ProductDetailsResponse {
         this.category = category;
     }
 
-    public String getProvider() {
+    public UserViewResponse getProvider() {
         return provider;
     }
 
-    public void setProvider(String provider) {
+    public void setProvider(UserViewResponse provider) {
         this.provider = provider;
     }
 

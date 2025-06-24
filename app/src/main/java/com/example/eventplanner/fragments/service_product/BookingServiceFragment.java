@@ -18,11 +18,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.model.homepage.EventHomeResponse;
 import com.example.eventplanner.model.serviceReservation.ServiceBookingRequest;
 import com.example.eventplanner.services.spec.ApiService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -43,6 +48,8 @@ public class BookingServiceFragment extends Fragment {
     private Spinner eventDropdown, dateDropdown;
     private NumberPicker fromHourPicker, fromMinutePicker, toHourPicker, toMinutePicker;
     private Button submitButton;
+    private List<EventHomeResponse> userEvents = new ArrayList<>();
+
     public BookingServiceFragment() {
         // Required empty public constructor
     }
@@ -63,6 +70,7 @@ public class BookingServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fetchUserEvents();
         if (getArguments() != null) {
             serviceId = getArguments().getLong("serviceId", -1);
         }
@@ -90,18 +98,36 @@ public class BookingServiceFragment extends Fragment {
         eventDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedEvent = (String) parent.getItemAtPosition(position);
-                if (selectedEvent != null && !selectedEvent.isEmpty()) {
-                    updateDateDropdown(selectedEvent);
+                EventHomeResponse selectedEvent = userEvents.get(position);
+                if (selectedEvent != null) {
+                    List<String> dates = generateDatesBetween(selectedEvent.getStartDate(), selectedEvent.getEndDate());
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dates);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    dateDropdown.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
+    private List<String> generateDatesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<String> dates = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDate start = startDateTime.toLocalDate();
+        LocalDate end = endDateTime.toLocalDate();
+
+        while (!start.isAfter(end)) {
+            dates.add(start.format(formatter));
+            start = start.plusDays(1);
+        }
+
+        return dates;
+    }
+
 
     private void updateDateDropdown(String selectedEvent) {
         List<String> dates = getDatesForEvent(selectedEvent);
@@ -196,6 +222,33 @@ public class BookingServiceFragment extends Fragment {
         }
 
         return true;
+    }
+    private void fetchUserEvents() {
+
+        ApiService.getEventService().getMyEvents().enqueue(new Callback<List<EventHomeResponse>>() {
+            @Override
+            public void onResponse(Call<List<EventHomeResponse>> call, Response<List<EventHomeResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    userEvents = response.body();
+
+                    List<String> eventNames = new ArrayList<>();
+                    for (EventHomeResponse event : userEvents) {
+                        eventNames.add(event.getName());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, eventNames);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    eventDropdown.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<EventHomeResponse>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

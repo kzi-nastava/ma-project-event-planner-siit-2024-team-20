@@ -57,7 +57,8 @@ public interface IEventService {
             @Query("sortCriteria") List<String> sortCriteria,
             @Query("sortOrder") String sortOrder
     );
-
+    @GET("/api/events/get-mine")
+    Call<List<EventHomeResponse>> getMyEvents();
 
 
 
