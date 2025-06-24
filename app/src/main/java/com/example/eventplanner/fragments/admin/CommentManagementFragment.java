@@ -36,9 +36,9 @@ public class CommentManagementFragment extends Fragment {
 
         // Inicijalizacija podataka
         comments = new ArrayList<>();
-        comments.add(new Comment(1L, "This is a comment", "User1", "service"));
+        /*comments.add(new Comment(1L, "This is a comment", "User1", "service"));
         comments.add(new Comment(2L, "Another comment", "User2", "product"));
-        comments.add(new Comment(3L, "Yet another comment", "User3", "event"));
+        comments.add(new Comment(3L, "Yet another comment", "User3", "event"));*/
 
         // Povezivanje adaptera
         adapter = new CommentAdapter(comments);

@@ -6,26 +6,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.eventplanner.model.entities.EventHome;
+
 import com.example.eventplanner.R;
+import com.example.eventplanner.model.homepage.EventHomeResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.EventViewHolder> {
 
-    private List<EventHome> eventsList;
+    private List<EventHomeResponse> eventsList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(EventHome event);
+        void onItemClick(EventHomeResponse event);
     }
 
-    public HomeEventsAdapter(List<EventHome> eventsList, OnItemClickListener listener) {
+    public HomeEventsAdapter(List<EventHomeResponse> eventsList, OnItemClickListener listener) {
         this.eventsList = eventsList;
         this.listener = listener;
     }
-    public void updateData(List<EventHome> newEvents) {
+    public void updateData(List<EventHomeResponse> newEvents) {
         this.eventsList.clear();
         this.eventsList.addAll(newEvents);
         notifyDataSetChanged();
@@ -38,7 +39,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-        EventHome event = eventsList.get(position);
+        EventHomeResponse event = eventsList.get(position);
         holder.eventName.setText(event.getName());
         holder.eventDescription.setText(event.getDescription());
         holder.eventType.setText(event.getEventType());
