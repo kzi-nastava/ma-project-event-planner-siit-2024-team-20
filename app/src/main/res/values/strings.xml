@@ -32,6 +32,7 @@
     <string name="nb_home">Home</string>
     <string name="nb_add">Add</string>
     <string name="nb_profile">Profile</string>
+    <string name="nb_belongings">Belongings</string>
     <string name="nb_logout">Log out</string>
     <string name="nb_calendar">My calendar</string>
     <string name="nb_favorite">Favorite</string>
@@ -47,6 +48,35 @@
     <string name="aed_create">Create</string>
     <string name="aed_existing">Existing event types</string>
     <string name="aed_see">See existing types</string>
+
+    <!-- create product fragment -->
+    <string name="cpf_title">Create new product</string>
+    <string name="cpf_help">Select category</string>
+    <string name="cpf_new">New Category</string>
+    <string name="cpf_help2">New category name</string>
+    <string name="cpf_name">Product name</string>
+    <string name="cpf_description">Product description</string>
+    <string name="cpf_price">Product price (EUR)</string>
+    <string name="cpf_discount">Product discount (%)</string>
+    <string name="cpf_button">Upload images</string>
+    <string name="cpf_checkbox">Select related event types</string>
+    <string name="cpf_visibility">Visibility</string>
+    <string name="cpf_availability">Availability</string>
+    <string name="cpf_create">Create</string>
+    <string name="cpf_notFound">Product not found</string>
+
+
+    <!-- see my products fragment-->
+    <string name="smp_title">My Products</string>
+    <string name="smp_col1">Name</string>
+    <string name="smp_col2">Description</string>
+    <string name="smp_col3">Price</string>
+    <string name="smp_col4">Visible</string>
+    <string name="smp_col5">Available</string>
+    <string name="smp_category">Category name</string>
+    <string name="smp_save">Save changes</string>
+    <string name="smp_delete">Delete product</string>
+    <string name="smp_search">Search products by name</string>
 
     <!-- fragment registration-->
     <string name="password_change"> Change password</string>
@@ -70,9 +100,23 @@
     <string name="ce_time">Select time</string>
     <string name="ce_end_date">End Date</string>
     <string name="ce_end_time">End Time</string>
+    <string name="ce_time_end">Select end time</string>
+    <string name="ce_time_start">Select start time</string>
     <string name="ce_time2">00:00</string>
     <string name="ce_date2">JAN-01-2001</string>
     <string name="ce_create">Create</string>
+
+    <!--create agenda-->
+    <string name="ca">Agenda</string>
+    <string name="ca_name">Name</string>
+    <string name="ca_description">Description</string>
+    <string name="ca_location">Location</string>
+    <string name="ca_add">Add</string>
+    <string name="ca_col1">Name</string>
+    <string name="ca_col2">Description</string>
+    <string name="ca_col3">From</string>
+    <string name="ca_col4">To</string>
+    <string name="ca_col5">Location</string>
 
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
@@ -109,7 +153,6 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- profile-->
     <string name="p_name">Enter your name</string>

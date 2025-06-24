@@ -7,8 +7,7 @@ import com.example.eventplanner.services.IServiceService;
 import com.example.eventplanner.services.IUserService;
 
 public class ApiService {
-
-    public static final String BASE_URL = "http://192.168.1.12:8080/api/";
+    public static final String BASE_URL = "http://192.168.100.8:8080/api/";
     public static IUserService getUserService(){
         return RetrofitClient.getClient(BASE_URL).create(IUserService.class);
     }
@@ -24,5 +23,4 @@ public class ApiService {
     public static IServiceService getServiceService(){
         return RetrofitClient.getClient(BASE_URL).create(IServiceService.class);
     }
-
 }

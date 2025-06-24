@@ -66,7 +66,7 @@ public interface IUserService {
     @PUT("users/admins/{id}/edit")
     Call<ProfileResponse> editAdminProfile(@Path("id") Long id, @Body UserUpdateRequest userUpdateRequest);
 
-    @PUT("users/sp_providers/{id}/edit")
+    @PUT("users/sp-providers/{id}/edit")
     Call<SppProfileResponse> editSppProfile(@Path("id") Long id, @Body SppUpdateRequest sppUpdateRequest);
 
 }

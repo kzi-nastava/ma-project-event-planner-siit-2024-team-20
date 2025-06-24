@@ -2,6 +2,7 @@ package com.example.eventplanner.activities.startup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -82,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error occured! Please try later.", Toast.LENGTH_SHORT).show();
+                Log.e("LOGIN_FAILURE", "API call failed: " + t.getMessage(), t);
             }
         });
     }

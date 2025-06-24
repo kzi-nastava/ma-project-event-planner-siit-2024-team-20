@@ -19,15 +19,13 @@ public class ProfileResponse { //admin and eo
 
     private String profileImage;
 
-    boolean isActive;
 
     public ProfileResponse() {
     }
 
     // ✅ Konstruktor sa svim poljima
     public ProfileResponse(Long id, String name, String lastName, String email, String city,
-                           String address, String addressNum, String phoneNumber, String profileImage,
-                           boolean isActive) {
+                           String address, String addressNum, String phoneNumber, String profileImage) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -37,7 +35,6 @@ public class ProfileResponse { //admin and eo
         this.addressNum = addressNum;
         this.phoneNumber = phoneNumber;
         this.profileImage = profileImage;
-        this.isActive = isActive;
     }
 
     // ✅ Getteri i setteri
@@ -111,14 +108,6 @@ public class ProfileResponse { //admin and eo
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
 }

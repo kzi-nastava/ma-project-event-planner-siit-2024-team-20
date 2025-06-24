@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/materialToolbar"
         app:srcCompat="@drawable/logo" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,14 +71,89 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="50dp"
                 android:text="@string/card_description"
                 android:textColor="@color/text_color"
                 android:textSize="16sp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"/>
 
-            <!-- Prazna slika -->
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TableLayout
+                        android:id="@+id/agenda_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/text_color"
+                        android:layout_margin="40dp">
+                        <!--HEADER-->
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:background="@color/table_color">
+
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="@string/ca_col1"
+                                android:textColor="@color/background_color"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="@string/ca_col2"
+                                android:textColor="@color/background_color"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="@string/ca_col3"
+                                android:textColor="@color/background_color"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="@string/ca_col4"
+                                android:textColor="@color/background_color"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center_horizontal"
+                                android:padding="10sp"
+                                android:text="@string/ca_col5"
+                                android:textColor="@color/background_color"
+                                android:textSize="14sp" />
+                        </TableRow>
+                    </TableLayout>
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <!-- Ikone: Srce, Zvezda, Komentar, Download -->
             <LinearLayout
@@ -86,7 +161,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="150dp">
 
                 <!-- Heart Icon -->
                 <ImageView
@@ -191,7 +267,7 @@
                 android:paddingTop="20dp"
                 android:src="@android:color/darker_gray" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <ImageView
         android:id="@+id/chat_icon"
