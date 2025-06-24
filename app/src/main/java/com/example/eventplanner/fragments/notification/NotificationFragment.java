@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.adapters.NotificationAdapter;
-import com.example.eventplanner.model.Notification;
+import com.example.eventplanner.model.entities.Notification;
 
 /**
  * A simple {@link Fragment} subclass.

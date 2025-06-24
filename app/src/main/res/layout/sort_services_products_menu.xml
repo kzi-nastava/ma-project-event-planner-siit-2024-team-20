@@ -21,25 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Opcije za odabir grupe (Service/Product) -->
-            <RadioGroup
-                android:id="@+id/choose_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/radio_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/service" />
-
-                <RadioButton
-                    android:id="@+id/radio_product"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/product" />
-            </RadioGroup>
-
             <!-- Opcije za sortiranje (ASC/DESC) -->
             <RadioGroup
                 android:id="@+id/sort_radio_group"
@@ -61,30 +42,30 @@
 
             <!-- Opcije za višestruki izbor -->
             <CheckBox
-                android:id="@+id/check_option_1"
+                android:id="@+id/check_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name" />
 
             <CheckBox
-                android:id="@+id/check_option_2"
+                android:id="@+id/check_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category" />
 
             <CheckBox
-                android:id="@+id/check_option_3"
+                android:id="@+id/check_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description" />
             <CheckBox
-                android:id="@+id/check_option_4"
+                android:id="@+id/check_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price" />
 
             <CheckBox
-                android:id="@+id/check_option_5"
+                android:id="@+id/check_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Discount" />

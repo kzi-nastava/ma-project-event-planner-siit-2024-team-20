@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.model.BaseItem;
-import com.example.eventplanner.model.Product;
-import com.example.eventplanner.model.Service;
+import com.example.eventplanner.model.entities.Product;
+import com.example.eventplanner.model.entities.Service;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,16 +24,16 @@ import com.example.eventplanner.model.Service;
  */
 public class ServiceProductDetailFragment extends Fragment {
 
-    private BaseItem baseItem;
+    private Product baseItem;
 
     public ServiceProductDetailFragment() {
         // Required empty public constructor
     }
 
-    public static ServiceProductDetailFragment newInstance(BaseItem baseItem) {
+    public static ServiceProductDetailFragment newInstance(Product baseItem) {
         ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("baseItem", baseItem);
+        //args.putParcelable("baseItem", baseItem);
         fragment.setArguments(args);
         return fragment;
     }

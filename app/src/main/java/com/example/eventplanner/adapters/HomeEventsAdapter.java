@@ -1,44 +1,36 @@
 package com.example.eventplanner.adapters;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.eventplanner.model.EventHome;
 import com.example.eventplanner.R;
-
-import org.w3c.dom.Text;
+import com.example.eventplanner.model.homepage.EventHomeResponse;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.EventViewHolder> {
 
-    private List<EventHome> eventsList;
+    private List<EventHomeResponse> eventsList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(EventHome event);
+        void onItemClick(EventHomeResponse event);
     }
 
-    public HomeEventsAdapter(List<EventHome> eventsList, OnItemClickListener listener) {
+    public HomeEventsAdapter(List<EventHomeResponse> eventsList, OnItemClickListener listener) {
         this.eventsList = eventsList;
         this.listener = listener;
     }
-
+    public void updateData(List<EventHomeResponse> newEvents) {
+        this.eventsList.clear();
+        this.eventsList.addAll(newEvents);
+        notifyDataSetChanged();
+    }
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card, parent, false);
@@ -47,7 +39,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-        EventHome event = eventsList.get(position);
+        EventHomeResponse event = eventsList.get(position);
         holder.eventName.setText(event.getName());
         holder.eventDescription.setText(event.getDescription());
         holder.eventType.setText(event.getEventType());
@@ -66,7 +58,6 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
     public static class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView eventName, eventDescription, eventType, eventDate, eventLocation;
-        ImageView eventImage;
         public EventViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
@@ -74,7 +65,6 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             eventType = itemView.findViewById(R.id.event_type);
             eventDate = itemView.findViewById(R.id.event_date);
             eventLocation = itemView.findViewById(R.id.event_location);
-            eventImage=itemView.findViewById(R.id.event_image);
         }
     }
 }

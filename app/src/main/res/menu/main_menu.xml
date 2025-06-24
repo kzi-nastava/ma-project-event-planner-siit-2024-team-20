@@ -22,6 +22,10 @@
                         android:title="@string/nb_profile"
                         android:icon="@drawable/profile_icon"/>
                     <item
+                        android:id="@+id/nav_belongings"
+                        android:title="@string/nb_belongings"
+                        android:icon="@drawable/eye_regular"/>
+                    <item
                         android:id="@+id/nav_calendar"
                         android:title="@string/nb_calendar"
                         android:icon="@drawable/calendar_icon"/>

@@ -1,31 +1,20 @@
 package com.example.eventplanner.activities.service_product;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
-import com.example.eventplanner.helpers.DrawerSetupTool;
-import com.example.eventplanner.helpers.StatusLineTool;
-import com.example.eventplanner.model.BaseItem;
-import com.example.eventplanner.model.Product;
-import com.example.eventplanner.model.Service;
-import com.google.android.material.navigation.NavigationView;
+import com.example.eventplanner.model.entities.Product;
+import com.example.eventplanner.model.entities.Service;
 
 public class ServiceProductDetailsActivity extends AppCompatActivity {
     @Override
@@ -43,7 +32,7 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
 
         openChat();
 
-        BaseItem baseItem = getIntent().getParcelableExtra("baseItem");
+        Product baseItem = getIntent().getParcelableExtra("baseItem");
         if (baseItem == null) {
             Log.e("ServiceProductDetails", "BaseItem je null!");
         } else {
@@ -52,13 +41,11 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         if (baseItem != null) {
             if (baseItem instanceof Service) {
                 Service service = (Service) baseItem;
-            } else if (baseItem instanceof Product) {
-                Product product = (Product) baseItem;
             }
         }
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("baseItem", baseItem);
+
 
             ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
             fragment.setArguments(bundle);

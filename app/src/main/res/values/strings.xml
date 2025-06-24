@@ -32,6 +32,7 @@
     <string name="nb_home">Home</string>
     <string name="nb_add">Add</string>
     <string name="nb_profile">Profile</string>
+    <string name="nb_belongings">Belongings</string>
     <string name="nb_logout">Log out</string>
     <string name="nb_calendar">My calendar</string>
     <string name="nb_favorite">Favorite</string>
@@ -48,6 +49,35 @@
     <string name="aed_existing">Existing event types</string>
     <string name="aed_see">See existing types</string>
 
+    <!-- create product fragment -->
+    <string name="cpf_title">Create new product</string>
+    <string name="cpf_help">Select category</string>
+    <string name="cpf_new">New Category</string>
+    <string name="cpf_help2">New category name</string>
+    <string name="cpf_name">Product name</string>
+    <string name="cpf_description">Product description</string>
+    <string name="cpf_price">Product price (EUR)</string>
+    <string name="cpf_discount">Product discount (%)</string>
+    <string name="cpf_button">Upload images</string>
+    <string name="cpf_checkbox">Select related event types</string>
+    <string name="cpf_visibility">Visibility</string>
+    <string name="cpf_availability">Availability</string>
+    <string name="cpf_create">Create</string>
+    <string name="cpf_notFound">Product not found</string>
+
+
+    <!-- see my products fragment-->
+    <string name="smp_title">My Products</string>
+    <string name="smp_col1">Name</string>
+    <string name="smp_col2">Description</string>
+    <string name="smp_col3">Price</string>
+    <string name="smp_col4">Visible</string>
+    <string name="smp_col5">Available</string>
+    <string name="smp_category">Category name</string>
+    <string name="smp_save">Save changes</string>
+    <string name="smp_delete">Delete product</string>
+    <string name="smp_search">Search products by name</string>
+
     <!-- fragment registration-->
     <string name="password_change"> Change password</string>
     <string name="oldp">Current password</string>
@@ -56,10 +86,44 @@
     <string name="deactivate">Deactivate account</string>
     <string name="change">Confirm changes</string>
 
+
     <!-- event -->
     <string name="buttonpdf">download pdf stat</string>
     <string name="grades">Graphical display of event grades</string>
     <string name="attendance">Graphical display of event attendance</string>
+
+
+    <!-- fragment create event -->
+    <string name="ce_title">Create new event</string>
+    <string name="ce_select_type">Select event type</string>
+    <string name="ce_name">Event name</string>
+    <string name="ce_desc">Event description</string>
+    <string name="ce_num">number of guests</string>
+    <string name="ce_city">City</string>
+    <string name="ce_address">Address</string>
+    <string name="ce_address_num">Address num</string>
+    <string name="ce_private">Private event</string>
+    <string name="ce_date">Select date</string>
+    <string name="ce_time">Select time</string>
+    <string name="ce_end_date">End Date</string>
+    <string name="ce_end_time">End Time</string>
+    <string name="ce_time_end">Select end time</string>
+    <string name="ce_time_start">Select start time</string>
+    <string name="ce_time2">00:00</string>
+    <string name="ce_date2">JAN-01-2001</string>
+    <string name="ce_create">Create</string>
+
+    <!--create agenda-->
+    <string name="ca">Agenda</string>
+    <string name="ca_name">Name</string>
+    <string name="ca_description">Description</string>
+    <string name="ca_location">Location</string>
+    <string name="ca_add">Add</string>
+    <string name="ca_col1">Name</string>
+    <string name="ca_col2">Description</string>
+    <string name="ca_col3">From</string>
+    <string name="ca_col4">To</string>
+    <string name="ca_col5">Location</string>
 
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
@@ -96,5 +160,26 @@
     <string name="add_event">Add event</string>
     <string name="filter_category">Category</string>
     <string name="edit_comments">Edit comments</string>
+
+    <!-- profile-->
+    <string name="p_name">Enter your name</string>
+    <string name="p_lastname">Enter your last name</string>
+    <string name="p_city">Enter your city</string>
+    <string name="p_address">Enter your address</string>
+    <string name="p_address_num">Enter your address num</string>
+    <string name="p_phone">Enter your phone number</string>
+    <string name="p_company_name">Enter company name</string>
+    <string name="p_company_desc">Enter company description</string>
+
+    <string name="sp_suggestions">Suggested service/product categories</string>
+
+    <string name="download_info">download info</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="organizer">Organizer:</string>
+    <string name="location">Location:</string>
+    <string name="is_private">Private:</string>
+    <string name="num_g">Guests:</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
