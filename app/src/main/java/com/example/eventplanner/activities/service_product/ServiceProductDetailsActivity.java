@@ -9,12 +9,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.model.entities.Product;
 import com.example.eventplanner.model.entities.Service;
+import com.example.eventplanner.model.productDetails.ServiceDetailsResponse;
+import com.example.eventplanner.services.spec.ApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ServiceProductDetailsActivity extends AppCompatActivity {
     @Override
@@ -27,35 +34,29 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         ImageView returnBack = findViewById(R.id.return_back);
         returnBack.setOnClickListener(v -> onBackPressed());
 
-        openChat();
+        openChat(); // Ako koristiš chat ikonicu
 
-        Product baseItem = getIntent().getParcelableExtra("baseItem");
-        if (baseItem == null) {
-            Log.e("ServiceProductDetails", "BaseItem je null!");
-        } else {
-            Log.d("ServiceProductDetails", "BaseItem: " + baseItem.toString());
+        Long itemId = getIntent().getLongExtra("itemId", -1);
+        String itemType = getIntent().getStringExtra("itemType");
+
+        if (itemId == -1 || itemType == null) {
+            finish(); // prekini ako nešto fali
+            return;
         }
-        if (baseItem != null) {
-            if (baseItem instanceof Service) {
-                Service service = (Service) baseItem;
-            }
-        }
-        if (savedInstanceState == null) {
-            Bundle bundle = new Bundle();
 
+        // 💡 Popravljeno: prosleđujemo i itemId i itemType
+        Fragment fragment = ServiceProductDetailFragment.newInstance(itemId, itemType);
 
-            ServiceProductDetailFragment fragment = new ServiceProductDetailFragment();
-            fragment.setArguments(bundle);
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
+
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {

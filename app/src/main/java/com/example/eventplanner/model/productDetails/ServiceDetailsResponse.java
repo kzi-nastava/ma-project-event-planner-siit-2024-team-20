@@ -109,4 +109,164 @@ public class ServiceDetailsResponse {
         this.isAvailable=isAvailable;
         this.provider=provider;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public Set<String> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<String> images) {
+        this.images = images;
+    }
+
+    public String getSpecificity() {
+        return specificity;
+    }
+
+    public void setSpecificity(String specificity) {
+        this.specificity = specificity;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public UserViewResponse getProvider() {
+        return provider;
+    }
+
+    public void setProvider(UserViewResponse provider) {
+        this.provider = provider;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getMinDuration() {
+        return minDuration;
+    }
+
+    public void setMinDuration(double minDuration) {
+        this.minDuration = minDuration;
+    }
+
+    public double getMaxDuration() {
+        return maxDuration;
+    }
+
+    public void setMaxDuration(double maxDuration) {
+        this.maxDuration = maxDuration;
+    }
+
+    public double getReservationDeadline() {
+        return reservationDeadline;
+    }
+
+    public void setReservationDeadline(double reservationDeadline) {
+        this.reservationDeadline = reservationDeadline;
+    }
+
+    public double getCancellationDeadline() {
+        return cancellationDeadline;
+    }
+
+    public void setCancellationDeadline(double cancellationDeadline) {
+        this.cancellationDeadline = cancellationDeadline;
+    }
+
+    public double getReservationConfirmation() {
+        return reservationConfirmation;
+    }
+
+    public void setReservationConfirmation(double reservationConfirmation) {
+        this.reservationConfirmation = reservationConfirmation;
+    }
+
+    public LocalTime getWorkingStart() {
+        return workingStart;
+    }
+
+    public void setWorkingStart(LocalTime workingStart) {
+        this.workingStart = workingStart;
+    }
+
+    public LocalTime getWorkingEnd() {
+        return workingEnd;
+    }
+
+    public void setWorkingEnd(LocalTime workingEnd) {
+        this.workingEnd = workingEnd;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public Set<CommentViewResponse> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentViewResponse> comments) {
+        this.comments = comments;
+    }
+
+    public Set<GradeViewResponse> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<GradeViewResponse> grades) {
+        this.grades = grades;
+    }
 }

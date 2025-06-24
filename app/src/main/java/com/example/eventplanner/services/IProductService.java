@@ -3,6 +3,7 @@ package com.example.eventplanner.services;
 import com.example.eventplanner.model.homepage.PagedResponse;
 import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
 import com.example.eventplanner.model.productDetails.FilterItemsOptions;
+import com.example.eventplanner.model.productDetails.ProductDetailsResponse;
 import com.example.eventplanner.model.productManage.CategoryResponse;
 import com.example.eventplanner.model.productManage.ProductCreationRequest;
 import com.example.eventplanner.model.productManage.ProductEditRequest;
@@ -82,4 +83,6 @@ public interface IProductService {
             @Query("page") int page,
             @Query("size") int size
     );
+    @GET("products/{id}")
+    Call<ProductDetailsResponse> getProductDetails(@Path("id") Long id);
 }

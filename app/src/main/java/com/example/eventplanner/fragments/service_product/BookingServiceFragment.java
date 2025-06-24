@@ -18,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.model.serviceReservation.ServiceBookingRequest;
+import com.example.eventplanner.services.spec.ApiService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,13 +29,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BookingServiceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class BookingServiceFragment extends Fragment {
-
+    private Long serviceId;
     private Spinner eventDropdown, dateDropdown;
     private NumberPicker fromHourPicker, fromMinutePicker, toHourPicker, toMinutePicker;
     private Button submitButton;
@@ -41,11 +47,14 @@ public class BookingServiceFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static BookingServiceFragment newInstance() {
+    public static BookingServiceFragment newInstance(Long serviceId) {
         BookingServiceFragment fragment = new BookingServiceFragment();
         Bundle args = new Bundle();
+        args.putLong("serviceId", serviceId);
+        fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,10 @@ public class BookingServiceFragment extends Fragment {
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            serviceId = getArguments().getLong("serviceId", -1);
+        }
         // Initialize views
         eventDropdown = view.findViewById(R.id.event_spinner);
         dateDropdown = view.findViewById(R.id.date_spinner);
@@ -69,9 +81,10 @@ public class BookingServiceFragment extends Fragment {
         // Submit button
         submitButton.setOnClickListener(v -> {
             if (validateReservation()) {
-                Toast.makeText(getContext(), "Reservation submitted!", Toast.LENGTH_SHORT).show();
+                //sendBookingRequest();
             }
         });
+
     }
     private void setupDropdownListeners() {
         eventDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
