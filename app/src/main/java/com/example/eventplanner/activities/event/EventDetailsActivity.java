@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
-import com.example.eventplanner.model.entities.EventHome;
+import com.example.eventplanner.model.homepage.EventHomeResponse;
 
 public class EventDetailsActivity extends AppCompatActivity{
     private TextView eventName;
@@ -37,7 +37,7 @@ public class EventDetailsActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         //promeni tip u onaj za detalje
-        EventHome event = (EventHome) intent.getSerializableExtra("event");
+        EventHomeResponse event = (EventHomeResponse) intent.getSerializableExtra("event");
 
         if (event != null) {
             // Postavi podatke

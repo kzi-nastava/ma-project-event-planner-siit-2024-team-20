@@ -15,4 +15,28 @@ public class Grade {
         this.value = value;
         this.user = user;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public GradeValue getValue() {
+        return value;
+    }
+
+    public void setValue(GradeValue value) {
+        this.value = value;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

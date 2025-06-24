@@ -25,6 +25,7 @@ public class SppProfileResponse {
 
     boolean isActive;
 
+
     private String companyName;
 
     private String companyDescription;

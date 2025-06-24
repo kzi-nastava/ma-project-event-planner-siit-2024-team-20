@@ -35,18 +35,16 @@ public class GalleryFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private GalleryAdapter adapter;
-    private List<Uri> imageUris;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        imageUris = new ArrayList<>();
-        adapter = new GalleryAdapter(imageUris);
+        adapter = new GalleryAdapter(null);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3)); // Prikaz u mreži
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(adapter);
 
         Button addButton = view.findViewById(R.id.btn_add_image);
@@ -69,8 +67,7 @@ public class GalleryFragment extends Fragment {
         if (selectedUris.isEmpty()) {
             Toast.makeText(getContext(), "No images selected", Toast.LENGTH_SHORT).show();
         } else {
-            imageUris.removeAll(selectedUris);
-            adapter.notifyDataSetChanged();
+            adapter.removeSelectedUris();
         }
     }
 
@@ -79,14 +76,14 @@ public class GalleryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-            imageUris.add(imageUri);
-            adapter.notifyDataSetChanged();
+            adapter.addUriImage(imageUri);
         }
     }
+
     public Set<String> getAllImages() {
         Set<String> base64Images = new HashSet<>();
 
-        for (Uri uri : imageUris) {
+        for (Uri uri : adapter.getSelectedUris()) {
             try {
                 InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
                 if (inputStream != null) {
@@ -94,7 +91,7 @@ public class GalleryFragment extends Fragment {
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     byte[] imageBytes = outputStream.toByteArray();
-                    String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                    String base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
                     base64Images.add(base64Image);
                 }
             } catch (Exception e) {
@@ -103,6 +100,24 @@ public class GalleryFragment extends Fragment {
         }
 
         return base64Images;
+    }
+
+    public void setBase64Images(Set<String> base64Images) {
+        List<Bitmap> bitmaps = new ArrayList<>();
+        for (String base64 : base64Images) {
+            try {
+                byte[] decodedBytes = Base64.decode(base64, Base64.NO_WRAP);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                if (bitmap != null) {
+                    bitmaps.add(bitmap);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        adapter.clearAllImages();
+        adapter.addBitmapImages(bitmaps);
     }
 
 }

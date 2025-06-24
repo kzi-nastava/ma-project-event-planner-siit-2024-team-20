@@ -1,4 +1,5 @@
 package com.example.eventplanner.helpers;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
-    private final List<Uri> imageUris;
+    private final List<Object> allImages = new ArrayList<>();
     private final List<Uri> selectedUris = new ArrayList<>();
 
-    public GalleryAdapter(List<Uri> imageUris) {
-        this.imageUris = imageUris;
+    public GalleryAdapter(List<Uri> initialUris) {
+        if (initialUris != null) {
+            allImages.addAll(initialUris);
+        }
+    }
+
+    public void addUriImage(Uri uri) {
+        allImages.add(uri);
+        notifyDataSetChanged();
+    }
+
+    public void addBitmapImages(List<Bitmap> bitmaps) {
+        allImages.clear();
+        allImages.addAll(bitmaps);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -31,25 +45,53 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Uri imageUri = imageUris.get(position);
-        holder.imageView.setImageURI(imageUri);
+        Object item = allImages.get(position);
 
-        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                selectedUris.add(imageUri);
-            } else {
-                selectedUris.remove(imageUri);
-            }
-        });
+        if (item instanceof Uri) {
+            Uri imageUri = (Uri) item;
+            holder.imageView.setImageURI(imageUri);
+
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setOnCheckedChangeListener(null);
+
+            holder.checkBox.setChecked(selectedUris.contains(imageUri));
+            holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedUris.add(imageUri);
+                } else {
+                    selectedUris.remove(imageUri);
+                }
+            });
+
+        } else if (item instanceof Bitmap) {
+            Bitmap bitmap = (Bitmap) item;
+            holder.imageView.setImageBitmap(bitmap);
+
+            //holder.checkBox.setVisibility(View.GONE);
+            holder.checkBox.setOnCheckedChangeListener(null);
+            holder.checkBox.setChecked(false);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return imageUris.size();
+        return allImages.size();
     }
 
     public List<Uri> getSelectedUris() {
-        return selectedUris;
+        return new ArrayList<>(selectedUris);
+    }
+
+    public void removeSelectedUris() {
+        allImages.removeAll(selectedUris);
+        selectedUris.clear();
+        notifyDataSetChanged();
+    }
+
+    public void clearAllImages() {
+        allImages.clear();
+        selectedUris.clear();
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

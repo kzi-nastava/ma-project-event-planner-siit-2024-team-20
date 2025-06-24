@@ -1,27 +1,27 @@
-package com.example.eventplanner.model.entities;
+package com.example.eventplanner.model.homepage;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.eventplanner.model.entities.Event;
+
 import java.time.LocalDateTime;
 
-public class EventHome implements Parcelable {
+public class EventHomeResponse implements Parcelable {
     private Long id;
     private String name;
     private String description;
     private String eventType;
     private String location;
-
     private LocalDateTime startDate;
-
     private LocalDateTime endDate;
 
-    // Konstruktor bez argumenata
-    public EventHome() {}
+    public EventHomeResponse() {
+    }
 
-    // Konstruktor sa svim poljima
-    public EventHome(Long id, String name, String description, String eventType, String location,LocalDateTime startDate, LocalDateTime endDate) {
+    public EventHomeResponse(Long id, String name, String description, String eventType, String location, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -31,8 +31,7 @@ public class EventHome implements Parcelable {
         this.endDate = endDate;
     }
 
-    // Konstruktor za čitanje iz Parcel-a
-    protected EventHome(Parcel in) {
+    protected EventHomeResponse(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -42,44 +41,20 @@ public class EventHome implements Parcelable {
         description = in.readString();
         eventType = in.readString();
         location = in.readString();
-        startDate = (LocalDateTime) in.readSerializable();
-        endDate = (LocalDateTime) in.readSerializable();
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeString(eventType);
-        dest.writeString(location);
-        dest.writeSerializable(startDate);
-        dest.writeSerializable(endDate);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<EventHome> CREATOR = new Creator<EventHome>() {
+    public static final Creator<EventHomeResponse> CREATOR = new Creator<EventHomeResponse>() {
         @Override
-        public EventHome createFromParcel(Parcel in) {
-            return new EventHome(in);
+        public EventHomeResponse createFromParcel(Parcel in) {
+            return new EventHomeResponse(in);
         }
 
         @Override
-        public EventHome[] newArray(int size) {
-            return new EventHome[size];
+        public EventHomeResponse[] newArray(int size) {
+            return new EventHomeResponse[size];
         }
     };
 
-    // Getteri i setteri
     public Long getId() {
         return id;
     }
@@ -135,17 +110,35 @@ public class EventHome implements Parcelable {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
+    public EventHomeResponse(Event event) {
+        this.id=event.getId();
+        this.name=event.getName();
+        this.description=event.getDescription();
+        if(event.getEventType()!=null)
+            this.eventType=event.getEventType().getName().toString();
+        if(event.getLocation()!=null)
+            this.location=event.getLocation().getCity()+","+event.getLocation().getStreet()+" "+event.getLocation().getStreetNumber();
+        this.startDate=event.getStartDate();
+        this.endDate=event.getEndDate();
+    }
+
 
     @Override
-    public String toString() {
-        return "EventHomeDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", eventType='" + eventType + '\'' +
-                ", location='" + location + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(eventType);
+        dest.writeString(location);
     }
 }

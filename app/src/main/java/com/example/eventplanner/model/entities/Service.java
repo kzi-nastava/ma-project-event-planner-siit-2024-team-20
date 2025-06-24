@@ -1,135 +1,123 @@
 package com.example.eventplanner.model.entities;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import android.os.Parcel;
+
+import com.example.eventplanner.model.enumeration.StatusType;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class Service extends BaseItem {
-    private Long id;
-    private String name;
-    private String description;
-    private double price;
-    private int discount;
-    private boolean isAvailable;
-    private Set<String> images = new HashSet<>();
+public class Service extends Product {
     private String specificity;
-    private String category;
-    private double duration;
-    private double minDuration;
-    private double maxDuration;
-    private double reservationDeadline;
-    private double cancellationDeadline;
-    private double reservationConfirmation;
-    private String provider; // Zajedničko polje
 
-    public Service(Long id, String name, String description, double price, int discount, boolean isAvailable,
-                   Set<String> images, String specificity, String category, double duration, double minDuration,
+    private double duration;
+
+    private double minDuration;
+
+    private double maxDuration;
+
+    private double reservationDeadline;
+
+    private double cancellationDeadline;
+
+    private double reservationConfirmation;
+
+    private LocalTime workingStart;
+
+    private LocalTime workingEnd;
+
+    public Service(String name, String description, double price, int discount, Set<String> images, boolean isVisible,
+                   StatusType status, boolean isAvailable, Category category, ServiceProductProvider provider,
+                   Set<EventType> suggestedEventTypes, String specificity, double duration, double minDuration,
                    double maxDuration, double reservationDeadline, double cancellationDeadline,
-                   double reservationConfirmation, String provider) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.discount = discount;
-        this.isAvailable = isAvailable;
-        this.images = images;
+                   double reservationConfirmation, LocalTime workingStart, LocalTime workingEnd){
+        super(name, description, price, discount, images, isVisible, status, isAvailable, category, provider,
+                suggestedEventTypes);
         this.specificity = specificity;
-        this.category = category;
         this.duration = duration;
         this.minDuration = minDuration;
         this.maxDuration = maxDuration;
         this.reservationDeadline = reservationDeadline;
         this.cancellationDeadline = cancellationDeadline;
         this.reservationConfirmation = reservationConfirmation;
-        this.provider = provider;
+        this.workingStart=workingStart;
+        this.workingEnd=workingEnd;
     }
 
-    // Getteri i implementacija BaseItem metoda
-    @Override
-    public Long getId() { return id; }
-
-    @Override
-    public String getName() { return name; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    @Override
-    public double getPrice() { return price; }
-
-    @Override
-    public int getDiscount() { return discount; }
-
-    @Override
-    public boolean isAvailable() { return isAvailable; }
-
-    @Override
-    public String getCategory() { return category; }
-    public String getSpecificity(){return specificity;}
-    public double getDuration(){ return duration; }
-    public double getMaxDuration(){ return maxDuration; }
-    public double getMinDuration(){ return minDuration; }
-    @Override
-    public String getProvider() { return provider; }
-
-    // Parcelable implementacija
-    protected Service(Parcel in) {
-        id = in.readLong();
-        name = in.readString();
-        description = in.readString();
-        price = in.readDouble();
-        discount = in.readInt();
-        isAvailable = in.readByte() != 0;
-        images = new HashSet<>(in.createStringArrayList());
-        specificity = in.readString();
-        category = in.readString();
-        duration = in.readDouble();
-        minDuration = in.readDouble();
-        maxDuration = in.readDouble();
-        reservationDeadline = in.readDouble();
-        cancellationDeadline = in.readDouble();
-        reservationConfirmation = in.readDouble();
-        provider = in.readString();
+    public String getSpecificity() {
+        return specificity;
     }
 
-    public static final Creator<Service> CREATOR = new Creator<Service>() {
-        @Override
-        public Service createFromParcel(Parcel in) {
-            return new Service(in);
-        }
-
-        @Override
-        public Service[] newArray(int size) {
-            return new Service[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setSpecificity(String specificity) {
+        this.specificity = specificity;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeDouble(price);
-        dest.writeInt(discount);
-        dest.writeByte((byte) (isAvailable ? 1 : 0));
-        dest.writeStringList(new ArrayList<>(images));
-        dest.writeString(specificity);
-        dest.writeString(category);
-        dest.writeDouble(duration);
-        dest.writeDouble(minDuration);
-        dest.writeDouble(maxDuration);
-        dest.writeDouble(reservationDeadline);
-        dest.writeDouble(cancellationDeadline);
-        dest.writeDouble(reservationConfirmation);
-        dest.writeString(provider);
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getMinDuration() {
+        return minDuration;
+    }
+
+    public void setMinDuration(double minDuration) {
+        this.minDuration = minDuration;
+    }
+
+    public double getMaxDuration() {
+        return maxDuration;
+    }
+
+    public void setMaxDuration(double maxDuration) {
+        this.maxDuration = maxDuration;
+    }
+
+    public double getReservationDeadline() {
+        return reservationDeadline;
+    }
+
+    public void setReservationDeadline(double reservationDeadline) {
+        this.reservationDeadline = reservationDeadline;
+    }
+
+    public double getCancellationDeadline() {
+        return cancellationDeadline;
+    }
+
+    public void setCancellationDeadline(double cancellationDeadline) {
+        this.cancellationDeadline = cancellationDeadline;
+    }
+
+    public double getReservationConfirmation() {
+        return reservationConfirmation;
+    }
+
+    public void setReservationConfirmation(double reservationConfirmation) {
+        this.reservationConfirmation = reservationConfirmation;
+    }
+
+    public LocalTime getWorkingStart() {
+        return workingStart;
+    }
+
+    public void setWorkingStart(LocalTime workingStart) {
+        this.workingStart = workingStart;
+    }
+
+    public LocalTime getWorkingEnd() {
+        return workingEnd;
+    }
+
+    public void setWorkingEnd(LocalTime workingEnd) {
+        this.workingEnd = workingEnd;
     }
 }

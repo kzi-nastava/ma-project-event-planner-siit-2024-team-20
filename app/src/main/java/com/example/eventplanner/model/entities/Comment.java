@@ -9,11 +9,11 @@ public class Comment {
 
     private StatusType status;
 
-    private String user;
+    private User user;
 
     private String item;
 
-    public Comment(Long id, String content, String user,String item) {
+    public Comment(Long id, String content, User user,String item) {
         super();
         this.id = id;
         this.status=StatusType.PENDING;
@@ -45,11 +45,11 @@ public class Comment {
         this.status = status;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
