@@ -2,6 +2,7 @@ package com.example.eventplanner.services;
 
 import com.example.eventplanner.model.eventCreation.EventCreationRequest;
 import com.example.eventplanner.model.eventDetails.EventDetailsResponse;
+import com.example.eventplanner.model.eventDetails.EventStatResponse;
 import com.example.eventplanner.model.eventDetails.FilterEventResponse;
 import com.example.eventplanner.model.eventPage.EventDisplayResponse;
 import com.example.eventplanner.model.homepage.EventHomeResponse;
@@ -68,5 +69,7 @@ public interface IEventService {
     @GET("users/{userId}/event/is-favourite")
     Call<Boolean> isInFavourites(@Path("userId") Long userId, @Query("eventId") Long eventId);
 
+    @GET("events/{id}/additionally")
+    Call<EventStatResponse> getStat(@Path("id") Long id);
 
 }

@@ -90,7 +90,7 @@
     <!-- event -->
     <string name="buttonpdf">download pdf stat</string>
     <string name="grades">Graphical display of event grades</string>
-    <string name="attendance">Graphical display of event attendance</string>
+    <string name="attendance">Graphical display of likes</string>
 
 
     <!-- fragment create event -->

@@ -3,6 +3,7 @@ package com.example.eventplanner.activities.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.AddToFavouritesEventFragment;
+import com.example.eventplanner.fragments.event.AdditionalInformationFragment;
 import com.example.eventplanner.helpers.EventPdfGenerator;
 import com.example.eventplanner.model.eventCreation.AgendaCreationRequest;
 import com.example.eventplanner.model.eventPage.AgendaResponse;
@@ -46,6 +48,8 @@ public class EventDetailsActivity extends AppCompatActivity{
     private IEventService eventService;
 
     private EventDisplayResponse lastEvent;
+    private TextView agendaTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,21 @@ public class EventDetailsActivity extends AppCompatActivity{
         } else {
             Toast.makeText(this, "Invalid event ID", Toast.LENGTH_SHORT).show();
         }
+        String role = AuthService.getRoleFromToken();
+
+        if (eventId != -1 && role != null && (role.equals("ROLE_ADMIN") || role.equals("ROLE_EVENT_ORGANIZER"))) {
+            AdditionalInformationFragment additionalFragment = new AdditionalInformationFragment();
+            Bundle args = new Bundle();
+            args.putLong("event_id", eventId);
+            additionalFragment.setArguments(args);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.additional_info_fragment_container, additionalFragment)
+                    .commit();
+        }
+
+
 
     }
 
@@ -87,6 +106,7 @@ public class EventDetailsActivity extends AppCompatActivity{
         typeText = findViewById(R.id.event_type_text);
         guestsText = findViewById(R.id.event_guests_text);
         agendaTable = findViewById(R.id.agenda_table);
+        agendaTitle = findViewById(R.id.agenda_title);
 
         ImageView backBtn = findViewById(R.id.return_back);
         backBtn.setOnClickListener(v -> finish());
@@ -135,6 +155,16 @@ public class EventDetailsActivity extends AppCompatActivity{
     }
 
     private void populateAgendaTable(List<AgendaResponse> agenda) {
+        if (agenda == null || agenda.isEmpty()) {
+            agendaTable.setVisibility(View.GONE);
+            if (agendaTitle != null) {
+                agendaTitle.setVisibility(View.GONE);
+            }
+            return;
+
+        }
+
+        agendaTable.setVisibility(View.VISIBLE);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         for (AgendaResponse item : agenda) {
