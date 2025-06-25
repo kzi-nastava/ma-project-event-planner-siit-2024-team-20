@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.UserCalendarFragment;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
@@ -120,6 +121,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }else if(role != null && role.equals("ROLE_SERVICE_PRODUCT_PROVIDER")){
                 FragmentsTool.to(new CreateProductFragment(), HomeActivity.this, false);
             }
+        }
+        else if(item.getItemId() == R.id.nav_calendar){
+            FragmentsTool.to(new UserCalendarFragment(), HomeActivity.this, false);
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
             FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);

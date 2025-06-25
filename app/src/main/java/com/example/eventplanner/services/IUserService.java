@@ -1,6 +1,7 @@
 package com.example.eventplanner.services;
 
 import com.example.eventplanner.model.entities.User;
+import com.example.eventplanner.model.eventPage.EventDisplayResponse;
 import com.example.eventplanner.model.login.LoginRequest;
 import com.example.eventplanner.model.login.LoginResponse;
 import com.example.eventplanner.model.profile.ChangePasswordRequest;
@@ -12,6 +13,8 @@ import com.example.eventplanner.model.registration.EoRegistrationRequest;
 import com.example.eventplanner.model.registration.EoRegistrationResponse;
 import com.example.eventplanner.model.registration.SppRegistrationRequest;
 import com.example.eventplanner.model.registration.SppRegistrationResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -69,4 +72,6 @@ public interface IUserService {
     @PUT("users/sp-providers/{id}/edit")
     Call<SppProfileResponse> editSppProfile(@Path("id") Long id, @Body SppUpdateRequest sppUpdateRequest);
 
+    @GET("users/{userId}/calendar")
+    Call<List<EventDisplayResponse>> getCalendar(@Path("userId") int userId);
 }
