@@ -20,4 +20,5 @@ public interface IServiceService {
 
     @POST("services/{id}/booking")
     Call<ServiceBookingRequest> bookService(@Path("id") Long id, @Body ServiceBookingRequest bookingDTO);
+
 }

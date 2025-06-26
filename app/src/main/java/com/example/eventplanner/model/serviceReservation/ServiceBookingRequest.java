@@ -28,9 +28,7 @@ public class ServiceBookingRequest {
         this.service=service;
         this.eventId=eventId;
     }
-    public ServiceBookingRequest(Long id,LocalDate date, LocalTime startTime, LocalTime endTime, ServiceDetailsResponse service) {
-        super();
-        this.id = id;
+    public ServiceBookingRequest(LocalDate date, LocalTime startTime, LocalTime endTime, ServiceDetailsResponse service) {
         this.date=date;
         this.startTime = startTime;
         this.endTime = endTime;

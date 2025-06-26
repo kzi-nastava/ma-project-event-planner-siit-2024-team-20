@@ -139,8 +139,8 @@ public class ServiceProductDetailFragment extends Fragment {
         if (serviceItem.getDuration() > 0) {
             description += "\nDuration: " + serviceItem.getDuration() + " hours";
         } else {
-            description += "\nMinimum Engagement: " + serviceItem.getMinDuration() + " hours";
-            description += "\nMaximum Engagement: " + serviceItem.getMaxDuration() + " hours";
+            description += "\nMinimum Engagement: " + serviceItem.getMinDuration() + " minutes";
+            description += "\nMaximum Engagement: " + serviceItem.getMaxDuration() + " minutes";
         }
         description += "\nProvider: " + serviceItem.getProvider().getName()+" "+serviceItem.getProvider().getLastName()+"\nEmail: "+serviceItem.getProvider().getEmail();
 
@@ -151,11 +151,13 @@ public class ServiceProductDetailFragment extends Fragment {
             bookIcon.setVisibility(View.VISIBLE);
             bookIcon.setImageResource(R.drawable.ic_book); // Knjiga
             bookIcon.setOnClickListener(v -> {
+                BookingServiceFragment bookingFragment = BookingServiceFragment.newInstance(itemId); // itemId je serviceId
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, new BookingServiceFragment());
+                transaction.replace(R.id.fragment_container, bookingFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             });
+
         } else {
             bookIcon.setVisibility(View.GONE);
         }

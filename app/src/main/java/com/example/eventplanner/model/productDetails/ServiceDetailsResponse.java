@@ -44,7 +44,7 @@ public class ServiceDetailsResponse {
 
     private LocalTime workingEnd;
 
-    private boolean isAvailable;
+    private boolean available;
 
     private Set<CommentViewResponse> comments=new HashSet<CommentViewResponse>();
     private Set<GradeViewResponse> grades=new HashSet<GradeViewResponse>();
@@ -69,9 +69,14 @@ public class ServiceDetailsResponse {
         this.workingEnd=service.getWorkingEnd();
         transformCommentDTO(service.getComments());
         transformGradeDTO(service.getGrades());
-        this.isAvailable=service.isAvailable();
+        this.available=service.isAvailable();
         this.provider=new UserViewResponse(service.getProvider());
     }
+
+    public ServiceDetailsResponse() {
+
+    }
+
     private void transformCommentDTO(Set<Comment> comments) {
         for(Comment c:comments){
             this.comments.add(new CommentViewResponse(c));
@@ -106,7 +111,7 @@ public class ServiceDetailsResponse {
         this.workingEnd=workingEnd;
         this.comments = comments;
         this.grades = grades;
-        this.isAvailable=isAvailable;
+        this.available=isAvailable;
         this.provider=provider;
     }
 
@@ -247,11 +252,11 @@ public class ServiceDetailsResponse {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public Set<CommentViewResponse> getComments() {
