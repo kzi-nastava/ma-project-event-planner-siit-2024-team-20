@@ -33,6 +33,7 @@ import com.example.eventplanner.helpers.SortServiceProductSelectionListener;
 import com.example.eventplanner.model.homepage.PagedResponse;
 import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
 import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,7 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
                 loadPage(currentPage);
             }
         });
+        //Log.d("ANDJA", AuthService.getRoleFromToken());
         return rootView;
     }
 
@@ -295,7 +297,7 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
                 } else {
                     call = ApiService.getProductService().getSortedServicesProducts(
                             selectedSortCriteria,
-                            selectedSortOrder,pageIndex, pageSize
+                            selectedSortOrder, pageIndex, pageSize
                     );
                 }
                 break;
@@ -315,6 +317,16 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
                     otherServicesAdapter.updateData(content);
                     hasMorePages = currentPage < pagedData.getTotalPages();
                     updatePaginator();
+
+                    Log.d(TAG, "Response success: " + response.isSuccessful());
+                    if (response.body() != null) {
+                        Log.d(TAG, "Response body total items: " + response.body().getContent().size());
+                        Log.d(TAG, "Response body total pages: " + response.body().getTotalPages());
+                        Log.d(TAG, "Current page: " + currentPage);
+                    } else {
+                        Log.d(TAG, "Response body is null");
+                    }
+
                 } else {
                     Toast.makeText(getContext(), "Failed to load services/products", Toast.LENGTH_SHORT).show();
                 }
@@ -325,6 +337,9 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        Log.d(TAG, "loadPage called with page=" + page + ", activeFilterType=" + activeFilterType);
+        Log.d(TAG, "selectedType=" + selectedType + ", selectedCategories=" + selectedCategories.toString());
+
         if (page == 1) {
             otherServicesRecyclerView.scrollToPosition(0);
         }
@@ -358,7 +373,8 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
 
     private void openServiceProductDetailsActivity(ServiceProductHomeResponse serviceProduct) {
         Intent intent = new Intent(getContext(), ServiceProductDetailsActivity.class);
-        //intent.putExtra("baseItem", serviceProduct); // Prosleđuješ objekat
+        intent.putExtra("itemId", serviceProduct.getId());
+        intent.putExtra("itemType", serviceProduct.getType());
         startActivity(intent);
     }
 }

@@ -72,4 +72,7 @@ public interface IEventService {
     @GET("events/{id}/additionally")
     Call<EventStatResponse> getStat(@Path("id") Long id);
 
+    @GET("/api/events/get-mine")
+    Call<List<EventHomeResponse>> getMyEvents();
+
 }
