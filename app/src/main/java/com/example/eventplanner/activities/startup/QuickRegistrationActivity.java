@@ -35,7 +35,7 @@ public class QuickRegistrationActivity extends AppCompatActivity {
             String eventId = data.getQueryParameter("eventId");
 
             // npr. popuni email polje automatski
-            EditText emailField = findViewById(R.id.editTextEmail);
+            EditText emailField = findViewById(R.id.editTextTextEmailAddress);
             emailField.setText(email);
 
             // možeš čuvati eventId ako ti treba dalje
@@ -44,6 +44,7 @@ public class QuickRegistrationActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextText);
         editTextLastName = findViewById(R.id.editTextText2);
         editTextEmail = findViewById(R.id.editTextTextEmailAddress);
+        editTextEmail.setEnabled(false);
         editTextPassword = findViewById(R.id.editTextTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextTextPassword2);
         btnRegister = findViewById(R.id.btnregister);

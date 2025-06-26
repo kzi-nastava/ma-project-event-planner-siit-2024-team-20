@@ -64,11 +64,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:scheme="http"
                     android:host="localhost"
                     android:path="/event-confirmation" />
+
             </intent-filter>
         </activity>
     </application>
