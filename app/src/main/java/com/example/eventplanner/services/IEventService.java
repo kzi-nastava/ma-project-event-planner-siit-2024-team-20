@@ -1,5 +1,6 @@
 package com.example.eventplanner.services;
 
+import com.example.eventplanner.helpers.ErrorResponse;
 import com.example.eventplanner.model.eventCreation.EventCreationRequest;
 import com.example.eventplanner.model.eventDetails.EventDetailsResponse;
 import com.example.eventplanner.model.eventDetails.EventStatResponse;
@@ -72,7 +73,12 @@ public interface IEventService {
     @GET("events/{id}/additionally")
     Call<EventStatResponse> getStat(@Path("id") Long id);
 
-    @GET("/api/events/get-mine")
+    @GET("events/get-mine")
     Call<List<EventHomeResponse>> getMyEvents();
+    @GET("events/event-confirmation")
+    Call<ErrorResponse> confirmEventAttendance(
+            @Query("email") String email,
+            @Query("eventId") Long eventId
+    );
 
 }
