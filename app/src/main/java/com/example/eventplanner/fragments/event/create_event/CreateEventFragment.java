@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -33,6 +38,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +63,82 @@ public class CreateEventFragment extends Fragment {
 
         fetchEventTypes();
         Button createEventButton = view.findViewById(R.id.button_create_event);
+        EditText numGuestsEditText = view.findViewById(R.id.editTextNumber);
+        Switch privateSwitch = view.findViewById(R.id.switch1);
+        LinearLayout emailInputContainer = view.findViewById(R.id.emailInputContainer);
+        Button btnAddEmail = view.findViewById(R.id.btnAddEmail);
+        privateSwitch.setEnabled(false); // ne može da se čekira dok nema gostiju
+        emailInputContainer.setVisibility(View.GONE);
+        btnAddEmail.setVisibility(View.GONE);
+        numGuestsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    int numGuests = Integer.parseInt(s.toString().trim());
+                    privateSwitch.setEnabled(numGuests > 0);
+                    if (numGuests == 0) {
+                        privateSwitch.setChecked(false); // resetuj ako je broj nula
+                        emailInputContainer.setVisibility(View.GONE);
+                        btnAddEmail.setVisibility(View.GONE);
+                    }
+                } catch (NumberFormatException e) {
+                    privateSwitch.setEnabled(false);
+                    privateSwitch.setChecked(false);
+                    emailInputContainer.setVisibility(View.GONE);
+                    btnAddEmail.setVisibility(View.GONE);
+                }
+            }
+
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+        });
+        privateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                emailInputContainer.setVisibility(View.VISIBLE);
+                btnAddEmail.setVisibility(View.VISIBLE);
+            } else {
+                emailInputContainer.setVisibility(View.GONE);
+                btnAddEmail.setVisibility(View.GONE);
+            }
+        });
+        btnAddEmail.setOnClickListener(v -> {
+            int childCount = emailInputContainer.getChildCount();
+
+            // Ako već postoji bar jedno polje, proveri poslednje uneto
+            if (childCount > 0) {
+                View lastChild = emailInputContainer.getChildAt(childCount - 1);
+                if (lastChild instanceof EditText) {
+                    String email = ((EditText) lastChild).getText().toString().trim();
+                    Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+
+                    if (email.isEmpty()) {
+                        Toast.makeText(getContext(), "Please enter an email before adding another.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (!emailPattern.matcher(email).matches()) {
+                        Toast.makeText(getContext(), "Invalid email: " + email, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+
+            // Ako je prethodni email validan (ili je prvo polje), dodaj novo
+            EditText newEmail = new EditText(getContext());
+            newEmail.setHint("E-mail");
+            newEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 16, 0, 0);
+            newEmail.setLayoutParams(params);
+
+            emailInputContainer.addView(newEmail);
+        });
+
+
         createEventButton.setOnClickListener(v -> createEvent());
 
 
@@ -228,7 +310,25 @@ public class CreateEventFragment extends Fragment {
                     "The agenda items are incorrect.", Toast.LENGTH_LONG).show();
             return;
         }
+        guestEmails.clear(); // ako već postoji inicijalizovana lista
 
+        LinearLayout emailContainer = getView().findViewById(R.id.emailInputContainer);
+        for (int i = 0; i < emailContainer.getChildCount(); i++) {
+            View child = emailContainer.getChildAt(i);
+            if (child instanceof EditText) {
+                String email = ((EditText) child).getText().toString().trim();
+                if (!email.isEmpty()) {
+                    guestEmails.add(email);
+                }
+            }
+        }
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+        for (String email : guestEmails) {
+            if (!emailPattern.matcher(email).matches()) {
+                Toast.makeText(getContext(), "Invalid email: " + email, Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         EventCreationRequest eventRequest = new EventCreationRequest(
                 name, description, city, address, num,
                 numOfGuests, isPrivate, guestEmails,

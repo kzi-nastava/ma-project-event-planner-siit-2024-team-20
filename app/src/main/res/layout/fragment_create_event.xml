@@ -122,6 +122,15 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <!-- Dugme za dodavanje više e-mail adresa -->
+                <Button
+                    android:id="@+id/btnAddEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add more"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
                 <!-- Prvo polje za unos e-mail adrese -->
                 <EditText
                     android:id="@+id/email1"
@@ -130,13 +139,7 @@
                     android:hint="E-mail"
                     android:inputType="textEmailAddress" />
 
-                <!-- Dugme za dodavanje više e-mail adresa -->
-                <Button
-                    android:id="@+id/btnAddEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add more"
-                    android:visibility="gone" />
+
             </LinearLayout>
 
             <androidx.fragment.app.FragmentContainerView
