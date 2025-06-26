@@ -86,6 +86,13 @@
     <string name="deactivate">Deactivate account</string>
     <string name="change">Confirm changes</string>
 
+
+    <!-- event -->
+    <string name="buttonpdf">download pdf stat</string>
+    <string name="grades">Graphical display of event grades</string>
+    <string name="attendance">Graphical display of likes</string>
+
+
     <!-- fragment create event -->
     <string name="ce_title">Create new event</string>
     <string name="ce_select_type">Select event type</string>
@@ -165,4 +172,14 @@
     <string name="p_company_desc">Enter company description</string>
 
     <string name="sp_suggestions">Suggested service/product categories</string>
+
+    <string name="download_info">download info</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="organizer">Organizer:</string>
+    <string name="location">Location:</string>
+    <string name="is_private">Private:</string>
+    <string name="num_g">Guests:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

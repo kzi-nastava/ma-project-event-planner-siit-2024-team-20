@@ -340,9 +340,10 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
 
     private void openEventDetailsActivity(EventHomeResponse event) {
         Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-        intent.putExtra("event", event);
+        intent.putExtra("event_id", event.getId());
         startActivity(intent);
     }
+
 
     @Override
     public void onSortSelected(List<String> criteria, String order) {

@@ -7,4 +7,6 @@
     <color name="table_color">#6F5099</color>
     <color name="link_color">#2784F5</color>
     <color name="nav_bar_color">#E8C9F2</color>
+    <color name="primaryColor">#2196F3</color>
+    <color name="secondaryColor">#4CAF50</color>
 </resources>
