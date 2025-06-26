@@ -25,9 +25,6 @@
         android:theme="@style/Theme.EventPlanner"
         tools:targetApi="31">
         <activity
-            android:name=".activities.startup.QuickRegistrationActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.profiles.EoProfileActivity"
             android:exported="false" />
         <activity
@@ -60,6 +57,20 @@
         <activity
             android:name=".activities.home.HomeActivity"
             android:exported="false" />
+        <activity android:name=".activities.startup.QuickRegistrationActivity"
+            android:exported="true">
+            <intent-filter android:label="event confirmation">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="http"
+                    android:host="localhost"
+                    android:path="/event-confirmation" />
+
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

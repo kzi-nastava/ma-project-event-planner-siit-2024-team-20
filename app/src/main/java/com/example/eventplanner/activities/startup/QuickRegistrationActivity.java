@@ -1,7 +1,9 @@
 package com.example.eventplanner.activities.startup;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,10 +29,22 @@ public class QuickRegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quick_registration);
+        Uri data = getIntent().getData();
+        if (data != null) {
+            String email = data.getQueryParameter("email");
+            String eventId = data.getQueryParameter("eventId");
 
+            // npr. popuni email polje automatski
+            EditText emailField = findViewById(R.id.editTextTextEmailAddress);
+            emailField.setText(email);
+
+            // možeš čuvati eventId ako ti treba dalje
+            Log.d("QUICK_REG", "Email: " + email + ", Event ID: " + eventId);
+        }
         editTextName = findViewById(R.id.editTextText);
         editTextLastName = findViewById(R.id.editTextText2);
         editTextEmail = findViewById(R.id.editTextTextEmailAddress);
+        editTextEmail.setEnabled(false);
         editTextPassword = findViewById(R.id.editTextTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextTextPassword2);
         btnRegister = findViewById(R.id.btnregister);
