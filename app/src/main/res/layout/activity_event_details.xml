@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/materialToolbar"
         app:srcCompat="@drawable/logo" />
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Naslov (Event/Service/Product) -->
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
@@ -67,216 +66,332 @@
                 android:textColor="@color/text_color"
                 android:textSize="24sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@android:color/darker_gray" />
+
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:text="@string/card_description"
+                android:text="@string/event_name"
                 android:textColor="@color/text_color"
                 android:textSize="16sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
-
-
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" >
-
-                    <TableLayout
-                        android:id="@+id/agenda_table"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/text_color"
-                        android:layout_margin="40dp">
-                        <!--HEADER-->
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:background="@color/table_color">
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="4"
-                                android:gravity="center_horizontal"
-                                android:padding="10sp"
-                                android:text="@string/ca_col1"
-                                android:textColor="@color/background_color"
-                                android:textSize="14sp" />
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="4"
-                                android:gravity="center_horizontal"
-                                android:padding="10sp"
-                                android:text="@string/ca_col2"
-                                android:textColor="@color/background_color"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="4"
-                                android:gravity="center_horizontal"
-                                android:padding="10sp"
-                                android:text="@string/ca_col3"
-                                android:textColor="@color/background_color"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="4"
-                                android:gravity="center_horizontal"
-                                android:padding="10sp"
-                                android:text="@string/ca_col4"
-                                android:textColor="@color/background_color"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="4"
-                                android:gravity="center_horizontal"
-                                android:padding="10sp"
-                                android:text="@string/ca_col5"
-                                android:textColor="@color/background_color"
-                                android:textSize="14sp" />
-                        </TableRow>
-                    </TableLayout>
-
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!-- Ikone: Srce, Zvezda, Komentar, Download -->
+                android:layout_marginTop="40dp"/>
             <LinearLayout
+                android:id="@+id/event_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginTop="150dp">
+                android:gravity="center"
+                android:baselineAligned="false"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:paddingHorizontal="8dp"
+                android:weightSum="2">
 
-                <!-- Heart Icon -->
-                <ImageView
-                    android:id="@+id/heart_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_favorite" />
+                <!-- 1. Datum događaja -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
 
-                <!-- Star Icon -->
-                <ImageView
-                    android:id="@+id/star_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_review" />
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/calendar_solid" />
 
-                <!-- Comment Icon -->
-                <ImageView
-                    android:id="@+id/comment_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_comment" />
+                    <TextView
+                        android:id="@+id/event_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
 
-                <!-- Download Icon -->
-                <ImageView
-                    android:id="@+id/download_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_download" />
+                <!-- 2. Vreme događaja -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/clock_solid" />
+
+                    <TextView
+                        android:id="@+id/event_time_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/event_info_second_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false"
+                android:layout_marginBottom="24dp"
+                android:paddingHorizontal="8dp"
+                android:weightSum="2">
+
+                <!-- 1. Organizer -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/user_solid" />
+
+                    <TextView
+                        android:id="@+id/event_organizer_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/organizer"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+
+                <!-- 2. Location -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/location_dot_solid" />
+
+                    <TextView
+                        android:id="@+id/event_location_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/location"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/event_info_third_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false"
+                android:layout_marginBottom="24dp"
+                android:paddingHorizontal="8dp"
+                android:weightSum="2">
+
+                <!-- 1. Private/Public -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/person_walking_solid" />
+
+                    <TextView
+                        android:id="@+id/event_type_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/is_private"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+
+                <!-- 2. Guests -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background"
+                    android:padding="20dp"
+                    android:layout_margin="6dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/user_group_solid" />
+
+                    <TextView
+                        android:id="@+id/event_guests_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/num_g"
+                        android:textColor="#f3eee9"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/pdf_download_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="40dp"
+                android:padding="20dp"
+                android:background="@drawable/pdf_download_background"
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
-                    android:id="@+id/book_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_book" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/file_pdf_solid" />
+
+                <TextView
+                    android:id="@+id/pdf_download_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Download info"
+                    android:textColor="#f3eee9"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Chat with organizer link -->
             <TextView
-                android:id="@+id/chat_with_organizer"
+                android:id="@+id/agenda_title"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="@string/organizer_chat"
-                android:textColor="@color/text_color"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:text="Agenda"
+                android:textColor="#3C2956"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="60dp" />
 
-            <!-- Horizontal image slider -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="80dp"
+                android:scrollbars="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <TableLayout
+                    android:id="@+id/agenda_table"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
 
-                    <!-- Image 1 -->
-                    <ImageView
-                        android:id="@+id/slider_image_1"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 1"
-                        android:src="@android:color/darker_gray" />
+                    <!-- Header row -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:background="#E8C9F2"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textColor="#3C2956" />
 
-                    <!-- Image 2 -->
-                    <ImageView
-                        android:id="@+id/slider_image_2"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 2"
-                        android:src="@android:color/darker_gray" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="From"
+                            android:background="#E8C9F2"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textColor="#3C2956" />
 
-                    <!-- Image 3 -->
-                    <ImageView
-                        android:id="@+id/slider_image_3"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="Image 3"
-                        android:src="@android:color/darker_gray" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="To"
+                            android:background="#E8C9F2"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textColor="#3C2956" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Location"
+                            android:background="#E8C9F2"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textColor="#3C2956" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:background="#E8C9F2"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textColor="#3C2956" />
+                    </TableRow>
+                </TableLayout>
             </HorizontalScrollView>
+            <FrameLayout
+                android:id="@+id/add_to_favourites_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/map_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="24dp"
-                android:paddingTop="20dp"
-                android:src="@android:color/darker_gray" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
-    <ImageView
-        android:id="@+id/chat_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/chat"
-        android:src="@drawable/ic_chat_bubble"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.example.eventplanner.services;
 import com.example.eventplanner.model.eventCreation.EventCreationRequest;
 import com.example.eventplanner.model.eventDetails.EventDetailsResponse;
 import com.example.eventplanner.model.eventDetails.FilterEventResponse;
+import com.example.eventplanner.model.eventPage.EventDisplayResponse;
 import com.example.eventplanner.model.homepage.EventHomeResponse;
 import com.example.eventplanner.model.homepage.PagedResponse;
 
@@ -12,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -57,8 +59,14 @@ public interface IEventService {
             @Query("sortCriteria") List<String> sortCriteria,
             @Query("sortOrder") String sortOrder
     );
+    @GET("events/{id}")
+    Call<EventDisplayResponse> getEvent(@Path("id") Long id);
 
+    @PUT("users/{userId}/event/add-favourite")
+    Call<Boolean> addToFavourites(@Path("userId") Long userId, @Query("eventId") Long eventId);
 
+    @GET("users/{userId}/event/is-favourite")
+    Call<Boolean> isInFavourites(@Path("userId") Long userId, @Query("eventId") Long eventId);
 
 
 }
