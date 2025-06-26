@@ -86,6 +86,13 @@
     <string name="deactivate">Deactivate account</string>
     <string name="change">Confirm changes</string>
 
+
+    <!-- event -->
+    <string name="buttonpdf">download pdf stat</string>
+    <string name="grades">Graphical display of event grades</string>
+    <string name="attendance">Graphical display of likes</string>
+
+
     <!-- fragment create event -->
     <string name="ce_title">Create new event</string>
     <string name="ce_select_type">Select event type</string>

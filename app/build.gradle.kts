@@ -45,6 +45,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.android.material:material:1.13.0-alpha08")
     implementation ("com.github.dhaval2404:imagepicker:2.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("com.squareup.retrofit2:retrofit:2.3.0")
