@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventplanner.R;
@@ -51,11 +52,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public int getItemCount() {
         return comments.size();
     }
-
     public void updateData(List<CommentResponse> newComments) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+            @Override
+            public int getOldListSize() {
+                return comments.size();
+            }
+
+            @Override
+            public int getNewListSize() {
+                return newComments.size();
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                // Pretpostavljam da CommentResponse ima jedinstveni ID
+                return comments.get(oldItemPosition).getId().equals(newComments.get(newItemPosition).getId());
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                // Možeš dodati detaljniju proveru polja po polju, ili jednostavno:
+                return comments.get(oldItemPosition).equals(newComments.get(newItemPosition));
+            }
+        });
+
         comments.clear();
         comments.addAll(newComments);
-        notifyDataSetChanged();
+        diffResult.dispatchUpdatesTo(this);
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -72,4 +96,5 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             deleteIcon = itemView.findViewById(R.id.iv_delete);
         }
     }
+
 }
