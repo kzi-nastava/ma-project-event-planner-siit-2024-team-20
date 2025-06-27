@@ -10,49 +10,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.entities.Comment;
 import com.example.eventplanner.model.enumeration.StatusType;
+import com.example.eventplanner.model.review.CommentResponse;
 
 import java.util.List;
-
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
-    private List<Comment> comments;
+    private List<CommentResponse> comments;
+    private OnCommentActionListener listener;
 
-    // Constructor
-    public CommentAdapter(List<Comment> comments) {
+    public interface OnCommentActionListener {
+        void onApprove(CommentResponse comment);
+        void onDelete(CommentResponse comment);
+    }
+
+    public CommentAdapter(List<CommentResponse> comments, OnCommentActionListener listener) {
         this.comments = comments;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_comment, parent, false);
         return new CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        Comment comment = comments.get(position);
+        CommentResponse comment = comments.get(position);
         holder.itemName.setText(comment.getItem());
         holder.content.setText(comment.getContent());
-        holder.user.setText(comment.getUser().getEmail());
+        holder.user.setText(comment.getUser().getName() + " " + comment.getUser().getLastName());
         holder.status.setText(comment.getStatus().toString());
 
-        // Click listener za odobravanje (approve)
-        holder.editIcon.setOnClickListener(v -> {
-            comment.setStatus(StatusType.ACCEPTED);
-            notifyItemChanged(position); // Ažuriraj prikaz
-        });
-
-        // Click listener za brisanje (delete)
-        holder.deleteIcon.setOnClickListener(v -> {
-            comment.setStatus(StatusType.DENIED);
-            notifyItemChanged(position); // Ažuriraj prikaz
-        });
+        holder.editIcon.setOnClickListener(v -> listener.onApprove(comment));
+        holder.deleteIcon.setOnClickListener(v -> listener.onDelete(comment));
     }
-
     @Override
     public int getItemCount() {
         return comments.size();
+    }
+
+    public void updateData(List<CommentResponse> newComments) {
+        comments.clear();
+        comments.addAll(newComments);
+        notifyDataSetChanged();
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -70,4 +73,3 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 }
-
