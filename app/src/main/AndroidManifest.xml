@@ -12,17 +12,17 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:hardwareAccelerated="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EventPlanner"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".activities.profiles.EoProfileActivity"
@@ -36,9 +36,12 @@
         <activity
             android:name=".activities.startup.LoginActivity"
             android:exported="false" />
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+        <activity android:name=".activities.startup.QuickRegistrationActivity"
+            android:exported="false"/>
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+
         <activity
             android:name=".activities.startup.MainActivity"
             android:exported="true">
@@ -57,20 +60,20 @@
         <activity
             android:name=".activities.home.HomeActivity"
             android:exported="false" />
-        <activity android:name=".activities.startup.QuickRegistrationActivity"
+        <activity android:name=".activities.event.InvitationHandlerActivity"
             android:exported="true">
-            <intent-filter android:label="event confirmation">
-                <action android:name="android.intent.action.VIEW" />
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="http"
-                    android:host="localhost"
-                    android:path="/event-confirmation" />
-
-            </intent-filter>
+                    <data
+                        android:scheme="http"
+                        android:host="localhost"
+                        android:pathPrefix="/event-confirmation" />
+                </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

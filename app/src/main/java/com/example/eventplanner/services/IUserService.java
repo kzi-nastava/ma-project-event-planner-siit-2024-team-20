@@ -13,6 +13,8 @@ import com.example.eventplanner.model.registration.EoRegistrationRequest;
 import com.example.eventplanner.model.registration.EoRegistrationResponse;
 import com.example.eventplanner.model.registration.SppRegistrationRequest;
 import com.example.eventplanner.model.registration.SppRegistrationResponse;
+import com.example.eventplanner.model.users.QuickRegistrationRequest;
+import com.example.eventplanner.model.users.QuickUserResponse;
 
 import java.util.List;
 
@@ -74,4 +76,7 @@ public interface IUserService {
 
     @GET("users/{userId}/calendar")
     Call<List<EventDisplayResponse>> getCalendar(@Path("userId") int userId);
+
+    @POST("users/quick-registration")
+    Call<QuickUserResponse> quickRegister(@Body QuickRegistrationRequest request);
 }
