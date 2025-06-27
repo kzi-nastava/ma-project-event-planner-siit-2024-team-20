@@ -18,6 +18,7 @@ import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.activities.startup.QuickRegistrationActivity;
 import com.example.eventplanner.helpers.ErrorResponse;
 import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +39,12 @@ public class InvitationHandlerActivity extends AppCompatActivity {
             String email = data.getQueryParameter("email");
             String eventId = data.getQueryParameter("eventId");
 
+            if (email == null || eventId == null) {
+                Toast.makeText(this, "Invalid link: missing email or eventId", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+
             Call<ErrorResponse> call = ApiService.getEventService()
                     .confirmEventAttendance(email, Long.parseLong(eventId));
 
@@ -45,6 +52,7 @@ public class InvitationHandlerActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ErrorResponse> call, Response<ErrorResponse> response) {
                     Log.d("INVITATION_HANDLER", "Response code: " + response.code());
+
                     if (response.isSuccessful() && response.body() != null) {
                         String message = response.body().getMessage();
                         Log.d("INVITATION_HANDLER", "Message: " + message);
@@ -56,21 +64,21 @@ public class InvitationHandlerActivity extends AppCompatActivity {
                                 finish();
                                 break;
 
+                            case "You have already accepted this invitation.":
+                                Toast.makeText(InvitationHandlerActivity.this, "You already accepted this invitation.", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(InvitationHandlerActivity.this, HomeActivity.class));
+                                finish();
+                                break;
+
                             case "Please log in to confirm attendance.":
                                 Toast.makeText(InvitationHandlerActivity.this, message, Toast.LENGTH_SHORT).show();
-                                Intent loginIntent = new Intent(InvitationHandlerActivity.this, LoginActivity.class);
-                                loginIntent.putExtra("email", email);
-                                loginIntent.putExtra("eventId", eventId);
-                                startActivity(loginIntent);
+                                redirectToLogin(email, eventId);
                                 finish();
                                 break;
 
                             case "User not found. Please register.":
                                 Toast.makeText(InvitationHandlerActivity.this, message, Toast.LENGTH_SHORT).show();
-                                Intent regIntent = new Intent(InvitationHandlerActivity.this, QuickRegistrationActivity.class);
-                                regIntent.putExtra("email", email);
-                                regIntent.putExtra("eventId", eventId);
-                                startActivity(regIntent);
+                                redirectToQuickRegister(email, eventId);
                                 finish();
                                 break;
 
@@ -80,17 +88,15 @@ public class InvitationHandlerActivity extends AppCompatActivity {
                                 break;
                         }
 
+                    } else if (response.code() == 403) {
+                        handleForbidden(email, eventId, response);
                     } else {
-                        try {
-                            String errorBody = response.errorBody() != null ? response.errorBody().string() : "empty";
-                            Log.e("INVITATION_HANDLER", "Error response code: " + response.code() + ", body: " + errorBody);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                         Toast.makeText(InvitationHandlerActivity.this, "Something went wrong! Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Log.e("INVITATION_HANDLER", "Error code: " + response.code());
+                        finish(); // 👈 ostaje ovde za error
                     }
-                    finish();
                 }
+
 
                 @Override
                 public void onFailure(Call<ErrorResponse> call, Throwable t) {
@@ -100,11 +106,48 @@ public class InvitationHandlerActivity extends AppCompatActivity {
                 }
             });
 
-
         } else {
-            Toast.makeText(this, "Invalid link: missing email or eventId", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid link", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+    private void handleForbidden(String email, String eventId, Response<ErrorResponse> response) {
+        try {
+            String errorBody = response.errorBody() != null ? response.errorBody().string() : "";
+            JSONObject json = new JSONObject(errorBody);
+            String message = json.optString("message", "Unauthorized access");
+            if (message.equals("Your account is deactivated.")) {
+                Toast.makeText(this, "Your account is deactivated. Please contact support.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+            AuthService.logout();
+
+            redirectToLogin(email, eventId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Session mismatch. Please log in with correct email.", Toast.LENGTH_LONG).show();
+            AuthService.logout();
+            redirectToLogin(email, eventId);
+        }
+    }
+    private void redirectToLogin(String email, String eventId) {
+        Intent loginIntent = new Intent(InvitationHandlerActivity.this, LoginActivity.class);
+        loginIntent.putExtra("email", email);
+        loginIntent.putExtra("eventId", eventId);
+        startActivity(loginIntent);
+        finish();
+    }
+
+    private void redirectToQuickRegister(String email, String eventId) {
+        Intent regIntent = new Intent(InvitationHandlerActivity.this, QuickRegistrationActivity.class);
+        regIntent.putExtra("email", email);
+        regIntent.putExtra("eventId", eventId);
+        startActivity(regIntent);
+        finish();
     }
 
 }
