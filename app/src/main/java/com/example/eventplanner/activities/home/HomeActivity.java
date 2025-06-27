@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private Long currentUserID;
     private IProductService productService;
-
+    private String role;
 
     NavController navController;
     @Override
@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         productService = ApiService.getProductService();
         currentUserID = (long) AuthService.getUserIdFromToken();
-
+        role=AuthService.getRoleFromToken();
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_activity), (v, insets) -> {
@@ -78,7 +78,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (belongingsItem != null) {
             belongingsItem.setVisible("ROLE_SERVICE_PRODUCT_PROVIDER".equals(role));
         }
-
+        if(!role.equalsIgnoreCase("ROLE_ADMIN")) {
+            navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
+        }
         openChat();
     }
     private void openChat(){
@@ -111,8 +113,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             FragmentsTool.to(new NotificationFragment(), HomeActivity.this,false);
         }
         else if (item.getItemId() == R.id.nav_add) {
-            String role = AuthService.getRoleFromToken();
-
             if (role != null && role.equals("ROLE_ADMIN")) {
                 FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
             }
@@ -123,10 +123,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(item.getItemId() == R.id.nav_calendar){
-            FragmentsTool.to(new UserCalendarFragment(), HomeActivity.this, false);
+                FragmentsTool.to(new UserCalendarFragment(), HomeActivity.this, false);
         }
         else if(item.getItemId()==R.id.nav_edit_comments) {
-            FragmentsTool.to(new CommentManagementFragment(),HomeActivity.this,false);
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                FragmentsTool.to(new CommentManagementFragment(), HomeActivity.this, false);
+            }
         } else if (item.getItemId() == R.id.nav_belongings) {
             FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
         } else if(item.getItemId()==R.id.nav_logout){
