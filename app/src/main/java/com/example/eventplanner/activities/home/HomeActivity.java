@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (belongingsItem != null) {
             belongingsItem.setVisible("ROLE_SERVICE_PRODUCT_PROVIDER".equals(role));
         }
-        if(!role.equalsIgnoreCase("ROLE_ADMIN")) {
+        if( role!=null && !role.equalsIgnoreCase("ROLE_ADMIN")) {
             navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
         }
         openChat();

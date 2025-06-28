@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.AddToFavouritesEventFragment;
 import com.example.eventplanner.fragments.event.AdditionalInformationFragment;
+import com.example.eventplanner.fragments.profile.UserProfileFragment;
 import com.example.eventplanner.helpers.EventPdfGenerator;
 import com.example.eventplanner.model.eventCreation.AgendaCreationRequest;
 import com.example.eventplanner.model.eventPage.AgendaResponse;
@@ -91,9 +93,6 @@ public class EventDetailsActivity extends AppCompatActivity{
                     .replace(R.id.additional_info_fragment_container, additionalFragment)
                     .commit();
         }
-
-
-
     }
 
     private void initViews() {
@@ -128,6 +127,11 @@ public class EventDetailsActivity extends AppCompatActivity{
                 Log.d("API_RESPONSE", new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     populateUI(response.body());
+                    LinearLayout organizerContainer = findViewById(R.id.organizer_container);
+
+                    Long organizerId = lastEvent.getOrganizer().getId();
+
+                    organizerContainer.setOnClickListener(v -> openUserProfileFragment(organizerId));
                 } else {
                     Toast.makeText(EventDetailsActivity.this, "Failed to load event", Toast.LENGTH_SHORT).show();
                 }
@@ -200,6 +204,19 @@ public class EventDetailsActivity extends AppCompatActivity{
         tv.setPadding(10, 10, 10, 10);
         tv.setTextColor(getResources().getColor(R.color.black));
         return tv;
+    }
+    private void openUserProfileFragment(Long organizerId) {
+        UserProfileFragment userProfileFragment = new UserProfileFragment();
+        Bundle args = new Bundle();
+        args.putLong("userId", organizerId);
+        userProfileFragment.setArguments(args);
+        FrameLayout popupContainer = findViewById(R.id.fragment_popup_container);
+        popupContainer.setVisibility(View.VISIBLE);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_popup_container, userProfileFragment, "profile_popup")
+                .commit();
+
     }
 
 
