@@ -1,12 +1,14 @@
 package com.example.eventplanner.fragments.profile;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.eventplanner.R;
+import com.example.eventplanner.model.entities.User;
 import com.example.eventplanner.model.users.ReportUserRequest;
 import com.example.eventplanner.model.users.UserViewResponse;
 import com.example.eventplanner.services.spec.ApiService;
@@ -44,24 +47,32 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         profilePicture = view.findViewById(R.id.profile_picture);
         userFullName = view.findViewById(R.id.user_full_name);
         userEmail = view.findViewById(R.id.user_email);
         blockUserButton = view.findViewById(R.id.block_user_button);
         reportUserButton = view.findViewById(R.id.report_user_button);
         closeButton = view.findViewById(R.id.close_button);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             viewedUserId = bundle.getLong("userId");
         }
-
         // Učitaj podatke
         loadUserProfile(viewedUserId);
         closeButton.setOnClickListener(v -> {
             // zatvori fragment popup
             requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
+
+        Long currentUserId=(long)AuthService.getUserIdFromToken();
+        if (currentUserId.equals(viewedUserId)) {
+            blockUserButton.setEnabled(false);
+            reportUserButton.setEnabled(false);
+            blockUserButton.setVisibility(View.GONE);
+            reportUserButton.setVisibility(View.GONE);
+
+        }
         blockUserButton.setOnClickListener(v -> showBlockConfirmationDialog());
         reportUserButton.setOnClickListener(v -> showReportDialog());
     }

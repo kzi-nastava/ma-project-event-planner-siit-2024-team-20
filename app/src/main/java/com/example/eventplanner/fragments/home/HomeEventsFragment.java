@@ -376,5 +376,4 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
 
         loadPage(1);
     }
-
 }

@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.fragments.profile.UserProfileFragment;
 import com.example.eventplanner.model.entities.Product;
 import com.example.eventplanner.model.entities.Service;
 import com.example.eventplanner.model.productDetails.ProductDetailsResponse;
