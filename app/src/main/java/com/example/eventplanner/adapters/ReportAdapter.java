@@ -67,7 +67,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
                                     refreshCallback.run();
                                 } else {
                                     String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                                    Log.e("ReportAdapter", "Suspend failed: " + errorBody);
                                     Toast.makeText(v.getContext(), "Failed to suspend: " + errorBody, Toast.LENGTH_LONG).show();
                                 }
                             } catch (Exception e) {
