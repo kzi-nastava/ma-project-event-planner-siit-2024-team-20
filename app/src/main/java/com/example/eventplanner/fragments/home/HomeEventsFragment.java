@@ -376,4 +376,10 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
 
         loadPage(1);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPage(1);
+    }
+
 }

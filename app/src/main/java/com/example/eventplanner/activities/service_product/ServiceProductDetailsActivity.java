@@ -67,5 +67,19 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
     }
+    public void openUserProfileFragment(Long providerId) {
+        UserProfileFragment userProfileFragment = new UserProfileFragment();
+        Bundle args = new Bundle();
+        args.putLong("userId", providerId);
+        userProfileFragment.setArguments(args);
+
+        FrameLayout popupContainer = findViewById(R.id.fragment_popup_container);
+        popupContainer.setVisibility(View.VISIBLE);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_popup_container, userProfileFragment, "profile_popup")
+                .commit();
+    }
 
 }

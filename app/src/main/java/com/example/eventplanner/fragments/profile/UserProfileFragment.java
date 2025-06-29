@@ -141,7 +141,7 @@ public class UserProfileFragment extends Fragment {
                         ReportUserRequest reportUserDTO = new ReportUserRequest();
                         reportUserDTO.setReason(reason);
 
-                        Long currentUserId = AuthService.getCurrentUser().getId();
+                        Long currentUserId = (long)AuthService.getUserIdFromToken();
                         reportUserDTO.setReportedByUserId(currentUserId);
 
                         ApiService.getUserService()
