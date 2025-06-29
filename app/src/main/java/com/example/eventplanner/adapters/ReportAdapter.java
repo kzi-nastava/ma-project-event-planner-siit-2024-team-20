@@ -50,7 +50,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         holder.tvReportedUser.setText(report.getReportedUserEmail() );
         holder.tvReason.setText(report.getReason());
         LocalDateTime dateTime = report.getCreatedAt(); // već je LocalDateTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String formattedDate = dateTime.format(formatter);
         holder.tvDate.setText(formattedDate);
         holder.ivSuspend.setOnClickListener(v -> {
@@ -58,27 +58,31 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
                     .enqueue(new Callback<SuspensionResponse>() {
                         @Override
                         public void onResponse(Call<SuspensionResponse> call, Response<SuspensionResponse> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(v.getContext(), "User suspended", Toast.LENGTH_SHORT).show();
-                                removeReportById(report.getId());
-                            } else {
-                                try {
+                            try {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    Toast.makeText(v.getContext(), "User suspended", Toast.LENGTH_SHORT).show();
+                                    refreshCallback.run();
+                                } else if (response.code() == 401) {
+                                    Toast.makeText(v.getContext(), "User is already suspended", Toast.LENGTH_SHORT).show();
+                                    refreshCallback.run();
+                                } else {
                                     String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                                    Log.e("ReportAdapter", "Suspend failed: " + response.errorBody().string());
+                                    Log.e("ReportAdapter", "Suspend failed: " + errorBody);
                                     Toast.makeText(v.getContext(), "Failed to suspend: " + errorBody, Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(v.getContext(), "Failed to suspend (unknown error)", Toast.LENGTH_SHORT).show();
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(v.getContext(), "Failed to suspend (exception)", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<SuspensionResponse> call, Throwable t) {
+                            Log.e("SuspendUser", "onFailure called: " + t.toString(), t);
                             Toast.makeText(v.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        });
+            });
 
         holder.ivDelete.setOnClickListener(v -> {
             ApiService.getReportService().deleteReport(report.getId())
@@ -100,20 +104,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
                     });
         });
     }
-    public void removeReportById(Long reportId) {
-        int positionToRemove = -1;
-        for (int i = 0; i < reports.size(); i++) {
-            if (reports.get(i).getId().equals(reportId)) {
-                positionToRemove = i;
-                break;
-            }
-        }
-        if (positionToRemove != -1) {
-            reports.remove(positionToRemove);
-            notifyItemRemoved(positionToRemove);
-        }
-    }
-
 
     @Override
     public int getItemCount() {

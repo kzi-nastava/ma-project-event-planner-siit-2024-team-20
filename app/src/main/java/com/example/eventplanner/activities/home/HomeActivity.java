@@ -79,6 +79,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         if( role!=null && !role.equalsIgnoreCase("ROLE_ADMIN")) {
             navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_edit_reports).setVisible(false);
         }
         openChat();
     }

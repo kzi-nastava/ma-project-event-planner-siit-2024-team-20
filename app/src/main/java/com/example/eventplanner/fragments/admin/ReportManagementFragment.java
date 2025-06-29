@@ -59,6 +59,7 @@ public class ReportManagementFragment extends Fragment {
                     reportList.clear();
                     reportList.addAll(response.body());
                     adapter.notifyDataSetChanged();
+
                 } else {
                     Toast.makeText(getContext(), "Failed to load reports", Toast.LENGTH_SHORT).show();
                 }
