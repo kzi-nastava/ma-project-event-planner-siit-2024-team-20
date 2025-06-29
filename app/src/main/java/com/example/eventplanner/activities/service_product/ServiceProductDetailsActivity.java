@@ -2,6 +2,8 @@ package com.example.eventplanner.activities.service_product;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.profile.UserProfileFragment;
 import com.example.eventplanner.fragments.service_product.ServiceProductDetailFragment;
 import com.example.eventplanner.model.entities.Product;
 import com.example.eventplanner.model.entities.Service;
@@ -64,4 +67,19 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
     }
+    public void openUserProfileFragment(Long providerId) {
+        UserProfileFragment userProfileFragment = new UserProfileFragment();
+        Bundle args = new Bundle();
+        args.putLong("userId", providerId);
+        userProfileFragment.setArguments(args);
+
+        FrameLayout popupContainer = findViewById(R.id.fragment_popup_container);
+        popupContainer.setVisibility(View.VISIBLE);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_popup_container, userProfileFragment, "profile_popup")
+                .commit();
+    }
+
 }

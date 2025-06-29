@@ -41,8 +41,18 @@
                 android:text="@string/card_description"
                 android:textColor="@color/text_color"
                 android:textSize="16sp" />
-
-            <!-- Prazna slika -->
+            <!-- Provider link -->
+            <TextView
+                android:id="@+id/provider_name_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Provider Profile"
+                android:textSize="16sp"
+                android:textColor="@color/text_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom="16dp"
+                android:textStyle="bold"/>
 
             <!-- Ikone: Srce, Zvezda, Komentar -->
             <LinearLayout

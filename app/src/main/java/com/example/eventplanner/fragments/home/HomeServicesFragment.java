@@ -369,12 +369,15 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
         btnPreviousPage.setVisibility(currentPage > 1 ? View.VISIBLE : View.GONE);
         btnNextPage.setVisibility(hasMorePages ? View.VISIBLE : View.GONE);
     }
-
-
     private void openServiceProductDetailsActivity(ServiceProductHomeResponse serviceProduct) {
         Intent intent = new Intent(getContext(), ServiceProductDetailsActivity.class);
         intent.putExtra("itemId", serviceProduct.getId());
         intent.putExtra("itemType", serviceProduct.getType());
         startActivity(intent);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPage(1);
     }
 }

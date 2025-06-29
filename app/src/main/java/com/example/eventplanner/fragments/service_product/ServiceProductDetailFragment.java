@@ -1,5 +1,6 @@
 package com.example.eventplanner.fragments.service_product;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
+import com.example.eventplanner.fragments.profile.UserProfileFragment;
 import com.example.eventplanner.model.entities.Product;
 import com.example.eventplanner.model.entities.Service;
 import com.example.eventplanner.model.productDetails.ProductDetailsResponse;
@@ -145,6 +149,15 @@ public class ServiceProductDetailFragment extends Fragment {
         description += "\nProvider: " + serviceItem.getProvider().getName()+" "+serviceItem.getProvider().getLastName()+"\nEmail: "+serviceItem.getProvider().getEmail();
 
         descText.setText(description);
+        TextView providerLink = view.findViewById(R.id.provider_name_link);
+
+        String fullName = serviceItem.getProvider().getName() + " " + serviceItem.getProvider().getLastName();
+        providerLink.setText("View Provider: " + fullName);
+        providerLink.setPaintFlags(providerLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); // podvlači
+
+        providerLink.setOnClickListener(v -> {
+            openUserProfile(serviceItem.getProvider().getId());
+        });
 
         // Prikaz i funkcionalnost dugmeta
         if ("ROLE_EVENT_ORGANIZER".equalsIgnoreCase(role)) {
@@ -172,10 +185,19 @@ public class ServiceProductDetailFragment extends Fragment {
         String description = productItem.getDescription();
         description += "\nAvailable: " + productItem.isAvailable();
         description += "\nCategory: " + productItem.getCategory();
-        description += "\nProvider: " + productItem.getProvider().getName()+" "+productItem.getProvider().getLastName()+"\nEmail:"+productItem.getProvider().getEmail();
+        description += "\nProvider: " + productItem.getProvider().getName() + " " + productItem.getProvider().getLastName() + "\nEmail:" + productItem.getProvider().getEmail();
 
 
         descText.setText(description);
+        TextView providerLink = view.findViewById(R.id.provider_name_link);
+
+        String fullName = productItem.getProvider().getName() + " " + productItem.getProvider().getLastName();
+        providerLink.setText("View Provider: " + fullName);
+        providerLink.setPaintFlags(providerLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        providerLink.setOnClickListener(v -> {
+            openUserProfile(productItem.getProvider().getId());
+        });
 
         // Ikonica šoping kolica, ali bez klika
         if ("ROLE_EVENT_ORGANIZER".equalsIgnoreCase(role)) {
@@ -186,5 +208,9 @@ public class ServiceProductDetailFragment extends Fragment {
             bookIcon.setVisibility(View.GONE);
         }
     }
+    private void openUserProfile(Long providerId) {
+        ((ServiceProductDetailsActivity) requireActivity()).openUserProfileFragment(providerId);
+    }
+
 
 }
