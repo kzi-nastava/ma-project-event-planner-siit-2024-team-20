@@ -26,11 +26,10 @@ import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
-import com.example.eventplanner.fragments.service_product_provider.FilterProductDialogFragment;
 import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
+import com.example.eventplanner.fragments.admin.ReportManagementFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
-import com.example.eventplanner.model.productManage.ProvidersProductsResponse;
 import com.example.eventplanner.services.IProductService;
 import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
@@ -129,7 +128,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (role != null && role.equals("ROLE_ADMIN")) {
                 FragmentsTool.to(new CommentManagementFragment(), HomeActivity.this, false);
             }
-        } else if (item.getItemId() == R.id.nav_belongings) {
+        }
+        else if(item.getItemId() == R.id.nav_edit_reports) {
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                    FragmentsTool.to(new ReportManagementFragment(), HomeActivity.this, false);
+            }
+        }
+
+         else if (item.getItemId() == R.id.nav_belongings) {
             FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
         } else if(item.getItemId()==R.id.nav_logout){
             AuthService.logout();

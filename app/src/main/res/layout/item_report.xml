@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Reporter -->
+    <TextView
+        android:id="@+id/tv_reporter"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="reporter@email.com"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold" />
+
+    <!-- Reported User -->
+    <TextView
+        android:id="@+id/tv_reported_user"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="John Doe (john@example.com)"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <!-- Reason -->
+    <TextView
+        android:id="@+id/tv_reason"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Inappropriate content"
+        android:ellipsize="end"
+        android:maxLines="2" />
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="2024-06-28"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <!-- Suspend Action -->
+    <ImageView
+        android:id="@+id/iv_suspend"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_check"/>
+
+    <!-- Delete Action -->
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_delete" />
+
+</LinearLayout>

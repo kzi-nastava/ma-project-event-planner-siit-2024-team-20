@@ -13,6 +13,11 @@
             android:id="@+id/nav_edit_comments"
             android:title="@string/edit_comments"
             android:icon="@drawable/ic_comment"/>
+        <item
+            android:id="@+id/nav_edit_reports"
+            android:title="Edit Reports"
+            android:icon="@drawable/ic_comment"/>
+
     </group>
         <item android:title="@string/nb_profile">
             <menu>
