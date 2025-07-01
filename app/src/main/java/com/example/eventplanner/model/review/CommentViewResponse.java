@@ -11,11 +11,33 @@ public class CommentViewResponse {
         this.content=comment.getContent();
         if(comment.getUser()!=null)this.user=comment.getUser().getName()+" "+comment.getUser().getLastName();
     }
-
-    // response
     public CommentViewResponse(Long id,String content,String user) {
         this.id = id;
         this.content = content;
+        this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
         this.user = user;
     }
 }

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +21,17 @@ import android.widget.Toast;
 
 import com.example.eventplanner.R;
 import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
+import com.example.eventplanner.adapters.CommentViewAdapter;
 import com.example.eventplanner.fragments.profile.UserProfileFragment;
 import com.example.eventplanner.model.entities.Product;
 import com.example.eventplanner.model.entities.Service;
 import com.example.eventplanner.model.productDetails.ProductDetailsResponse;
 import com.example.eventplanner.model.productDetails.ServiceDetailsResponse;
+import com.example.eventplanner.model.review.CommentViewResponse;
 import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +91,7 @@ public class ServiceProductDetailFragment extends Fragment {
         } else {
             fetchProductDetails(view);
         }
+
     }
 
 
@@ -174,6 +181,7 @@ public class ServiceProductDetailFragment extends Fragment {
         } else {
             bookIcon.setVisibility(View.GONE);
         }
+        fetchComments(view);
     }
     private void populateProductUI(View view) {
         TextView nameText = view.findViewById(R.id.title);
@@ -207,9 +215,33 @@ public class ServiceProductDetailFragment extends Fragment {
         } else {
             bookIcon.setVisibility(View.GONE);
         }
+        fetchComments(view);
     }
     private void openUserProfile(Long providerId) {
         ((ServiceProductDetailsActivity) requireActivity()).openUserProfileFragment(providerId);
+    }
+    private void fetchComments(View view) {
+        ApiService.getCommentService().getItemComments(itemId).enqueue(new Callback<List<CommentViewResponse>>() {
+            @Override
+            public void onResponse(Call<List<CommentViewResponse>> call, Response<List<CommentViewResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    setupCommentsRecycler(view, response.body());
+                } else {
+                    Toast.makeText(getContext(), "Greška prilikom učitavanja komentara", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CommentViewResponse>> call, Throwable t) {
+                Toast.makeText(getContext(), "Greška: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void setupCommentsRecycler(View view, List<CommentViewResponse> comments) {
+        RecyclerView recyclerView = view.findViewById(R.id.comments_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        CommentViewAdapter adapter = new CommentViewAdapter(comments);
+        recyclerView.setAdapter(adapter);
     }
 
 

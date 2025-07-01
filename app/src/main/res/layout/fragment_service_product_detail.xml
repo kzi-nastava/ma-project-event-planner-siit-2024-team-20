@@ -45,8 +45,8 @@
             <TextView
                 android:id="@+id/provider_name_link"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Provider Profile"
+                android:layout_height="48dp"
+                android:text="@string/provider_profile"
                 android:textSize="16sp"
                 android:textColor="@color/text_color"
                 android:clickable="true"
@@ -152,6 +152,33 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+            <!-- Comments Section -->
+            <TextView
+                android:id="@+id/comments_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/comments"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comments_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                />
+
+            <TextView
+                android:id="@+id/no_comments_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_comment"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"/>
+
 
         </LinearLayout>
     </ScrollView>
