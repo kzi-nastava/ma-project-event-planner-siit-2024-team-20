@@ -11,7 +11,7 @@
         android:id="@+id/comment_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Author Name"
+        android:text="@string/author"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textColor="@color/black" />
@@ -21,7 +21,7 @@
         android:id="@+id/comment_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is a comment content."
+        android:text="@string/comment_content"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:layout_marginTop="4dp"/>

@@ -109,6 +109,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/calendar_solid" />
 
                     <TextView
@@ -136,6 +137,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/clock_solid" />
 
                     <TextView
@@ -175,6 +177,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/user_solid" />
 
                     <TextView
@@ -202,6 +205,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/location_dot_solid" />
 
                     <TextView
@@ -240,6 +244,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/person_walking_solid" />
 
                     <TextView
@@ -267,6 +272,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:contentDescription="@string/image"
                         android:src="@drawable/user_group_solid" />
 
                     <TextView
@@ -297,13 +303,14 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/file_pdf_solid" />
 
                 <TextView
                     android:id="@+id/pdf_download_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Download info"
+                    android:text="@string/download"
                     android:textColor="#f3eee9"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -313,7 +320,7 @@
                 android:id="@+id/agenda_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Agenda"
+                android:text="@string/ca"
                 android:textColor="#3C2956"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -340,7 +347,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Name"
+                            android:text="@string/ca_col1"
                             android:background="#E8C9F2"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -349,7 +356,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="From"
+                            android:text="@string/ca_col3"
                             android:background="#E8C9F2"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -358,7 +365,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="To"
+                            android:text="@string/ca_col4"
                             android:background="#E8C9F2"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -367,7 +374,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Location"
+                            android:text="@string/ca_col5"
                             android:background="#E8C9F2"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -376,7 +383,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Description"
+                            android:text="@string/ca_col2"
                             android:background="#E8C9F2"
                             android:padding="10dp"
                             android:textStyle="bold"
