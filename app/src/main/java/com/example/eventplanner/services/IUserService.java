@@ -77,7 +77,7 @@ public interface IUserService {
     @PUT("users/sp-providers/{id}/edit")
     Call<SppProfileResponse> editSppProfile(@Path("id") Long id, @Body SppUpdateRequest sppUpdateRequest);
 
-    @GET("users/{userId}/event-calendar")
+    @GET("users/{userId}/calendar")
     Call<List<EventDisplayResponse>> getCalendar(@Path("userId") int userId);
 
     @POST("users/quick-registration")
