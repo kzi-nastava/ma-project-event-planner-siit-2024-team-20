@@ -20,6 +20,7 @@ import com.example.eventplanner.UserCalendarFragment;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
+import com.example.eventplanner.fragments.blocked.BlockedUsersFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
 import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
 import com.example.eventplanner.fragments.home.ProfileFragment;
@@ -135,10 +136,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     FragmentsTool.to(new ReportManagementFragment(), HomeActivity.this, false);
             }
         }
-
          else if (item.getItemId() == R.id.nav_belongings) {
             FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
-        } else if(item.getItemId()==R.id.nav_logout){
+        }
+        else if (item.getItemId() == R.id.nav_blocked) {
+            FragmentsTool.to(new BlockedUsersFragment(), HomeActivity.this, false);
+        }
+         else if(item.getItemId()==R.id.nav_logout){
             AuthService.logout();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -180,6 +180,7 @@
     <string name="p_company_desc">Enter company description</string>
     <string name="provider_profile">Provider profile</string>
     <string name="sp_suggestions">Suggested service/product categories</string>
+    <string name="blocked_users">Blocked users</string>
 
     <string name="download_info">download info</string>
     <string name="date">Date:</string>

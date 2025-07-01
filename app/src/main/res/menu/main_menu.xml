@@ -43,6 +43,10 @@
                         android:title="@string/nb_notifications"
                         android:icon="@drawable/bell_icon"/>
                     <item
+                        android:id="@+id/nav_blocked"
+                        android:title="@string/blocked_users"
+                        android:icon="@drawable/ic_block"/>
+                    <item
                         android:id="@+id/nav_logout"
                         android:title="@string/nb_logout"
                         android:icon="@drawable/logout_icon"/>
