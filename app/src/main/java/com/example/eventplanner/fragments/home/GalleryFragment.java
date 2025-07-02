@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class GalleryFragment extends Fragment {
@@ -35,6 +39,8 @@ public class GalleryFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private GalleryAdapter adapter;
+
+    private final Map<Uri, String> uriBase64Map = new LinkedHashMap<>();
 
     @Nullable
     @Override
@@ -64,11 +70,21 @@ public class GalleryFragment extends Fragment {
 
     private void deleteSelectedImages() {
         List<Uri> selectedUris = adapter.getSelectedUris();
+
         if (selectedUris.isEmpty()) {
             Toast.makeText(getContext(), "No images selected", Toast.LENGTH_SHORT).show();
-        } else {
-            adapter.removeSelectedUris();
+            return;
         }
+
+        // Obriši iz adaptera
+        adapter.removeSelectedUris();
+
+        // Obriši iz base64 mape
+        for (Uri uri : selectedUris) {
+            uriBase64Map.remove(uri);
+        }
+
+        Toast.makeText(getContext(), "Selected images deleted", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -77,47 +93,48 @@ public class GalleryFragment extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             adapter.addUriImage(imageUri);
-        }
-    }
 
-    public Set<String> getAllImages() {
-        Set<String> base64Images = new HashSet<>();
-
-        for (Uri uri : adapter.getSelectedUris()) {
-            try {
-                InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+            try (InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri)) {
                 if (inputStream != null) {
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     byte[] imageBytes = outputStream.toByteArray();
                     String base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
-                    base64Images.add(base64Image);
+
+                    uriBase64Map.put(imageUri, base64Image);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        return base64Images;
+    public Set<String> getAllImages() {
+        return new HashSet<>(uriBase64Map.values());
     }
 
     public void setBase64Images(Set<String> base64Images) {
-        List<Bitmap> bitmaps = new ArrayList<>();
+        uriBase64Map.clear();
+        adapter.clearAllImages();
+
         for (String base64 : base64Images) {
             try {
                 byte[] decodedBytes = Base64.decode(base64, Base64.NO_WRAP);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 if (bitmap != null) {
-                    bitmaps.add(bitmap);
+                    Uri uri = saveBitmapToTempUri(bitmap);
+                    adapter.addUriImage(uri);
+                    uriBase64Map.put(uri, base64);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        adapter.clearAllImages();
-        adapter.addBitmapImages(bitmaps);
     }
 
+    private Uri saveBitmapToTempUri(Bitmap bitmap) {
+        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "TempImage", null);
+        return Uri.parse(path);
+    }
 }
