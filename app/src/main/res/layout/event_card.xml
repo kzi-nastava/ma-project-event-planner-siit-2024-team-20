@@ -6,28 +6,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <!-- Slika proizvoda -->
-        <ImageView
-            android:id="@+id/product_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/card_description"
-            android:src="@android:color/darker_gray"/>
 
         <LinearLayout
-            android:layout_width="261dp"
-            android:layout_height="98dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="15dp">
-            <!-- Naziv proizvoda -->
+            android:padding="7dp">
 
-            <!-- Opis proizvoda -->
             <TextView
-                android:id="@+id/product_name"
+                android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -35,7 +27,31 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/event_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/event_title"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/card_description"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/event_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/card_description"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

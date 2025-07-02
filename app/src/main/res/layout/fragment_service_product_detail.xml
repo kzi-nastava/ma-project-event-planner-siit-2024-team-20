@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Naslov (Event/Service/Product) -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/service_product_name"
+                android:textColor="@color/text_color"
+                android:textSize="24sp" />
+
+            <!-- Opis (Description) -->
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/card_description"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+            <!-- Provider link -->
+            <TextView
+                android:id="@+id/provider_name_link"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="@string/provider_profile"
+                android:textSize="16sp"
+                android:textColor="@color/text_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom="16dp"
+                android:textStyle="bold"/>
+
+            <!-- Ikone: Srce, Zvezda, Komentar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- Heart Icon -->
+                <ImageView
+                    android:id="@+id/heart_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/like"
+                    android:src="@drawable/ic_favorite" />
+
+                <!-- Star Icon -->
+                <ImageView
+                    android:id="@+id/star_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/review"
+                    android:src="@drawable/ic_review" />
+
+                <!-- Comment Icon -->
+                <ImageView
+                    android:id="@+id/comment_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/comment"
+                    android:src="@drawable/ic_comment" />
+
+                <ImageView
+                    android:id="@+id/shop_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/shop"
+                    android:src="@drawable/ic_shop" />
+            </LinearLayout>
+
+            <!-- Chat with organizer link -->
+            <TextView
+                android:id="@+id/chat_with_provider"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="@string/provider_chat"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+            <!-- Horizontal image slider -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- Image 1 -->
+                    <ImageView
+                        android:id="@+id/slider_image_1"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/image"
+                        android:src="@android:color/darker_gray" />
+
+                    <!-- Image 2 -->
+                    <ImageView
+                        android:id="@+id/slider_image_2"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/image"
+                        android:src="@android:color/darker_gray" />
+
+                    <!-- Image 3 -->
+                    <ImageView
+                        android:id="@+id/slider_image_3"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/image"
+                        android:src="@android:color/darker_gray" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+            <!-- Comments Section -->
+            <TextView
+                android:id="@+id/comments_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/comments"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comments_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                />
+
+            <TextView
+                android:id="@+id/no_comments_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_comment"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,8 @@
     <!-- registration -->
     <string name="registration_title">Registration</string>
     <string name="register">Register</string>
-    <string name="btn1">event organizer</string>
-    <string name="btn2">service and product provider</string>
+    <string name="btn1">organizer</string>
+    <string name="btn2">provider</string>
     <string name="register2">Already have an account? </string>
     <string name="register3">Log In</string>
     <!-- registration fragment 1 [rf1] -->
@@ -24,13 +24,17 @@
     <string name="rf1_phone_number">Phone number</string>
     <string name="rf1_password">Password</string>
     <string name="rf1_confirm_password">Confirm password</string>
+
     <!-- registration fragment 2 [rf2] -->
-    <string name="rf2_title">Provider Registration</string>
+    <string name="rf2_title">Service and product \n provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
+
     <!-- nav bar -->
     <string name="nb_home">Home</string>
+    <string name="nb_add">Add</string>
     <string name="nb_profile">Profile</string>
+    <string name="nb_belongings">Belongings</string>
     <string name="nb_logout">Log out</string>
     <string name="nb_calendar">My calendar</string>
     <string name="nb_favorite">Favorite</string>
@@ -38,6 +42,93 @@
     <string name="nb_close">Close navigation drawer</string>
     <string name="nb_notifications">Notifications</string>
 
+    <!-- add event type-->
+    <string name="aet_title">Add new event type</string>
+    <string name="aet_name">Event type name</string>
+    <string name="aet_description">Event type description</string>
+    <string name="aed_spt">service / product \n types</string>
+    <string name="aed_create">Create</string>
+    <string name="aed_existing">Existing event types</string>
+    <string name="aed_see">See existing types</string>
+
+    <!-- create product fragment -->
+    <string name="cpf_title">Create new product</string>
+    <string name="cpf_help">Select category</string>
+    <string name="cpf_new">New Category</string>
+    <string name="cpf_help2">New category name</string>
+    <string name="cpf_name">Product name</string>
+    <string name="cpf_description">Product description</string>
+    <string name="cpf_price">Product price (EUR)</string>
+    <string name="cpf_discount">Product discount (%)</string>
+    <string name="cpf_button">Upload images</string>
+    <string name="cpf_checkbox">Select related event types</string>
+    <string name="cpf_visibility">Visibility</string>
+    <string name="cpf_availability">Availability</string>
+    <string name="cpf_create">Create</string>
+    <string name="cpf_notFound">Product not found</string>
+
+
+    <!-- see my products fragment-->
+    <string name="smp_title">My Products</string>
+    <string name="smp_col1">Name</string>
+    <string name="smp_col2">Description</string>
+    <string name="smp_col3">Price</string>
+    <string name="smp_col4">Visible</string>
+    <string name="smp_col5">Available</string>
+    <string name="smp_category">Category name</string>
+    <string name="smp_save">Save changes</string>
+    <string name="smp_delete">Delete product</string>
+    <string name="smp_search">Search products by name</string>
+
+    <!-- fragment registration-->
+    <string name="password_change"> Change password</string>
+    <string name="oldp">Current password</string>
+    <string name="newp">New password</string>
+    <string name="newpc">Confirm new password</string>
+    <string name="deactivate">Deactivate account</string>
+    <string name="change">Confirm changes</string>
+
+
+    <!-- event -->
+    <string name="buttonpdf">download pdf stat</string>
+    <string name="grades">Graphical display of event grades</string>
+    <string name="attendance">Graphical display of likes</string>
+
+
+    <!-- fragment create event -->
+    <string name="ce_title">Create new event</string>
+    <string name="ce_select_type">Select event type</string>
+    <string name="ce_name">Event name</string>
+    <string name="ce_desc">Event description</string>
+    <string name="ce_num">Number of guests(needed for private)</string>
+    <string name="ce_city">City</string>
+    <string name="ce_address">Address</string>
+    <string name="ce_address_num">Address num</string>
+    <string name="ce_private">Private event</string>
+    <string name="ce_date">Select date</string>
+    <string name="ce_time">Select time</string>
+    <string name="ce_end_date">End Date</string>
+    <string name="ce_end_time">End Time</string>
+    <string name="ce_time_end">Select end time</string>
+    <string name="ce_time_start">Select start time</string>
+    <string name="ce_time2">00:00</string>
+    <string name="ce_date2">JAN-01-2001</string>
+    <string name="ce_create">Create</string>
+
+    <!--create agenda-->
+    <string name="ca">Agenda</string>
+    <string name="ca_name">Name</string>
+    <string name="ca_description">Description</string>
+    <string name="ca_location">Location</string>
+    <string name="ca_add">Add</string>
+    <string name="ca_col1">Name</string>
+    <string name="ca_col2">Description</string>
+    <string name="ca_col3">From</string>
+    <string name="ca_col4">To</string>
+    <string name="ca_col5">Location</string>
+    <string name="download">Download info</string>
+
+    <!--Homepage-->
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
@@ -46,12 +137,16 @@
     <string name="person_chat">Person</string>
     <string name="close_description">Close chats</string>
     <string name="back_description">Back from chat</string>
+
+    <!--chat-->
     <string name="scroll_chat_description">Chat with messages</string>
     <string name="chat">Chat</string>
     <string name="send_button">Send</string>
     <string name="input_message">Type a message</string>
     <string name="organizer_chat">Chat with organizer</string>
     <string name="provider_chat">Chat with provider</string>
+
+    <!--filer,sort,pagination-->
     <string name="event_name">Event name</string>
     <string name="service_product_name">Service/Product name</string>
     <string name="filter_menu">Filter menu</string>
@@ -68,4 +163,62 @@
     <string name="sort">Sort</string>
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
+
+    <string name="quick_registration">Quick registration</string>
+
+    <string name="add_event">Add event</string>
+    <string name="filter_category">Category</string>
+    <string name="edit_comments">Edit comments</string>
+
+    <!-- profile-->
+    <string name="p_name">Enter your name</string>
+    <string name="p_lastname">Enter your last name</string>
+    <string name="p_city">Enter your city</string>
+    <string name="p_address">Enter your address</string>
+    <string name="p_address_num">Enter your address num</string>
+    <string name="p_phone">Enter your phone number</string>
+    <string name="p_company_name">Enter company name</string>
+    <string name="p_company_desc">Enter company description</string>
+    <string name="provider_profile">Provider profile</string>
+    <string name="sp_suggestions">Suggested service/product categories</string>
+    <string name="blocked_users">Blocked users</string>
+
+    <string name="download_info">download info</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="organizer">Organizer:</string>
+    <string name="location">Location:</string>
+    <string name="is_private">Private:</string>
+    <string name="num_g">Guests:</string>
+
+    <!--user-report-management-->
+    <string name="report_manage">User report management</string>
+    <string name="reporter">reporter@gmail.com</string>
+    <string name="report_reason">Report reason</string>
+    <string name="report_date">2024–06–28 11:11</string>
+    <string name="suspend_button">Suspend button</string>
+    <string name="delete_button">Delete button</string>
+
+    <!--Comments-->
+    <string name="first_comment">No comments yet. Be the first to comment!</string>
+    <string name="comments">Comments</string>
+    <string name="author">Author Name</string>
+    <string name="comment_content">This is a comment content.</string>
+
+    <string name="event_organizer">Event Organizer</string>
+    <string name="spp">Service Product Provider</string>
+
+    <!--Blockin user-->
+    <string name="username">User Name</string>
+    <string name="unblock_button">Unblock</string>
+
+    <!--filter-->
+    <string name="product_category">Product category:</string>
+    <string name="event_type">Event type:</string>
+    <string name="max_price">Max price:</string>
+    <string name="input_max_price">Input max price</string>
+    <string name="availability">Availability:</string>
+    <string name="apply_button">Apply</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

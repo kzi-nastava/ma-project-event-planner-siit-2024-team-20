@@ -5,6 +5,19 @@
             android:id="@+id/nav_home"
             android:title="@string/nb_home"
             android:icon="@drawable/home_icon"/>
+        <item
+            android:id="@+id/nav_add"
+            android:title="@string/nb_add"
+            android:icon="@drawable/add"/>
+        <item
+            android:id="@+id/nav_edit_comments"
+            android:title="@string/edit_comments"
+            android:icon="@drawable/ic_comment"/>
+        <item
+            android:id="@+id/nav_edit_reports"
+            android:title="Edit Reports"
+            android:icon="@drawable/ic_comment"/>
+
     </group>
         <item android:title="@string/nb_profile">
             <menu>
@@ -13,6 +26,10 @@
                         android:id="@+id/nav_profile"
                         android:title="@string/nb_profile"
                         android:icon="@drawable/profile_icon"/>
+                    <item
+                        android:id="@+id/nav_belongings"
+                        android:title="@string/nb_belongings"
+                        android:icon="@drawable/eye_regular"/>
                     <item
                         android:id="@+id/nav_calendar"
                         android:title="@string/nb_calendar"
@@ -25,6 +42,10 @@
                         android:id="@+id/nav_notification"
                         android:title="@string/nb_notifications"
                         android:icon="@drawable/bell_icon"/>
+                    <item
+                        android:id="@+id/nav_blocked"
+                        android:title="@string/blocked_users"
+                        android:icon="@drawable/ic_block"/>
                     <item
                         android:id="@+id/nav_logout"
                         android:title="@string/nb_logout"

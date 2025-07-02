@@ -2,20 +2,10 @@ package com.example.eventplanner.activities.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -23,25 +13,52 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.activities.event.EventDetailsActivity;
-import com.example.eventplanner.activities.service_product.ServiceProductDetailsActivity;
-import com.example.eventplanner.fragments.ToolbarFragment;
+import com.example.eventplanner.UserCalendarFragment;
+import com.example.eventplanner.activities.startup.LoginActivity;
+import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
+import com.example.eventplanner.fragments.admin.CommentManagementFragment;
+import com.example.eventplanner.fragments.blocked.BlockedUsersFragment;
 import com.example.eventplanner.fragments.chat.ChatDialogFragment;
+import com.example.eventplanner.fragments.event.create_event.CreateEventFragment;
+import com.example.eventplanner.fragments.home.ProfileFragment;
+import com.example.eventplanner.fragments.home.HomeFragment;
+import com.example.eventplanner.fragments.notification.NotificationFragment;
+import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
+import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
+import com.example.eventplanner.fragments.admin.ReportManagementFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
-import com.example.eventplanner.helpers.FilterMenuManager;
-import com.example.eventplanner.helpers.SortMenuManager;
-import com.example.eventplanner.helpers.StatusLineTool;
+import com.example.eventplanner.helpers.FragmentsTool;
+import com.example.eventplanner.services.IProductService;
+import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private Long currentUserID;
+    private IProductService productService;
+    private String role;
+
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        productService = ApiService.getProductService();
+        currentUserID = (long) AuthService.getUserIdFromToken();
+        role=AuthService.getRoleFromToken();
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_activity), (v, insets) -> {
@@ -56,76 +73,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerSetupTool.setupDrawer(this, drawerLayout, navigationView, toolbar);
         navigationView.setNavigationItemSelectedListener(this);
-
+        String role = AuthService.getRoleFromToken();
+        MenuItem belongingsItem = navigationView.getMenu().findItem(R.id.nav_belongings);
+        if (belongingsItem != null) {
+            belongingsItem.setVisible("ROLE_SERVICE_PRODUCT_PROVIDER".equals(role));
+        }
+        if( role!=null && !role.equalsIgnoreCase("ROLE_ADMIN")) {
+            navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_edit_reports).setVisible(false);
+        }
         openChat();
-        eventDetails();
-        SortMenuManager sortMenuManager=new SortMenuManager(HomeActivity.this);
-        ImageView sortEventsButton= findViewById(R.id.sort_events);
-        sortEventsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            sortMenuManager.showEventSortMenu(sortEventsButton);
-        });
-
-        ImageView sortServicesProductsButton= findViewById(R.id.sort_products);
-        sortServicesProductsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            sortMenuManager.showServicesProductsSortMenu(sortServicesProductsButton);
-        });
-
-        FilterMenuManager filterMenuManager = new FilterMenuManager(HomeActivity.this);
-        ImageView filterEventsButton= findViewById(R.id.filter_events);
-        filterEventsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            filterMenuManager.showFilterEventsMenu(filterEventsButton);
-        });
-
-        ImageView filterServicesProductsButton= findViewById(R.id.filter_products);
-        filterServicesProductsButton.setOnClickListener(v -> {
-            // Prikazivanje filter menija
-            filterMenuManager.showFilterServicesProductsMenu(filterServicesProductsButton);
-        });
     }
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
-            // Otvaranje Chat dijaloga
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
     }
-    private void eventDetails(){
-        // Unutar tvoje aktivnosti ili fragmenta
-        View eventCard1 = findViewById(R.id.event_card_1);
-        View eventTopCard1 = findViewById(R.id.event5_card_1);
-        View productCard1 = findViewById(R.id.product_card_1);
-        View productTopCard1 = findViewById(R.id.product5_card_1);
-        eventCard1.setOnClickListener(v -> {
-            // Otvoriti novu aktivnost sa detaljima
-            Intent intent = new Intent(this, EventDetailsActivity.class);
-            intent.putExtra("event_id", "1");  // Dodaj sve potrebne podatke kao extra
-            startActivity(intent);
-        });
-        eventTopCard1.setOnClickListener(v -> {
-            // Otvoriti novu aktivnost sa detaljima
-            Intent intent = new Intent(this, EventDetailsActivity.class);
-            intent.putExtra("event_id", "1");  // Dodaj sve potrebne podatke kao extra
-            startActivity(intent);
-        });
-        productCard1.setOnClickListener(v -> {
-            // Otvoriti novu aktivnost sa detaljima
-            Intent intent = new Intent(this, ServiceProductDetailsActivity.class);
-            intent.putExtra("product_id", "1");  // Dodaj sve potrebne podatke kao extra
-            startActivity(intent);
-        });
-        productTopCard1.setOnClickListener(v -> {
-            // Otvoriti novu aktivnost sa detaljima
-            Intent intent = new Intent(this, ServiceProductDetailsActivity.class);
-            intent.putExtra("product_id", "1");  // Dodaj sve potrebne podatke kao extra
-            startActivity(intent);
-        });
-
-    }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -136,8 +101,57 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+    public boolean onNavigationItemSelected(@NotNull MenuItem item) {
+
+        if(item.getItemId() == R.id.nav_home){
+            FragmentsTool.to(new HomeFragment(), HomeActivity.this, false);
+        }
+        else if (item.getItemId() == R.id.nav_profile) {
+            FragmentsTool.to(new ProfileFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_notification) {
+            FragmentsTool.to(new NotificationFragment(), HomeActivity.this,false);
+        }
+        else if (item.getItemId() == R.id.nav_add) {
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                FragmentsTool.to(new AddEventTypeFragment(), HomeActivity.this, false);
+            }
+            else if(role != null && role.equals("ROLE_EVENT_ORGANIZER")){
+                FragmentsTool.to(new CreateEventFragment(), HomeActivity.this, false);
+            }else if(role != null && role.equals("ROLE_SERVICE_PRODUCT_PROVIDER")){
+                FragmentsTool.to(new CreateProductFragment(), HomeActivity.this, false);
+            }
+        }
+        else if(item.getItemId() == R.id.nav_calendar){
+                FragmentsTool.to(new UserCalendarFragment(), HomeActivity.this, false);
+        }
+        else if(item.getItemId()==R.id.nav_edit_comments) {
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                FragmentsTool.to(new CommentManagementFragment(), HomeActivity.this, false);
+            }
+        }
+        else if(item.getItemId() == R.id.nav_edit_reports) {
+            if (role != null && role.equals("ROLE_ADMIN")) {
+                    FragmentsTool.to(new ReportManagementFragment(), HomeActivity.this, false);
+            }
+        }
+         else if (item.getItemId() == R.id.nav_belongings) {
+            FragmentsTool.to(new SeeMyProductsFragment(), HomeActivity.this, false);
+        }
+        else if (item.getItemId() == R.id.nav_blocked) {
+            FragmentsTool.to(new BlockedUsersFragment(), HomeActivity.this, false);
+        }
+         else if(item.getItemId()==R.id.nav_logout){
+            AuthService.logout();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
     }
-    
+
 }
