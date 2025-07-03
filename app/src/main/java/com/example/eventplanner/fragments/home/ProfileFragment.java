@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.ref.Reference;
+import java.util.HashSet;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,7 +92,7 @@ public class ProfileFragment extends Fragment {
             IUserService userService = ApiService.getUserService();
 
             String imageBase64 = profileImageFragment.getImageBase64();
-
+            Set<String> images = galleryFragment.getAllImages();
             if (role == Role.ROLE_SERVICE_PRODUCT_PROVIDER) {
                 SppUpdateRequest request = new SppUpdateRequest(
                         (long) userId,
@@ -103,7 +106,7 @@ public class ProfileFragment extends Fragment {
                         imageBase64,
                         editTextCompanyName.getText().toString(),
                         editTextCompanyDescription.getText().toString(),
-                        galleryFragment.getAllImages()
+                        images.isEmpty() ? new HashSet<>() : images
                 );
                 userService.editSppProfile((long) userId, request).enqueue(new Callback<SppProfileResponse>() {
                     @Override

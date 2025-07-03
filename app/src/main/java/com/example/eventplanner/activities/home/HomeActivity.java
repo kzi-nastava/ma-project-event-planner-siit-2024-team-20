@@ -16,7 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.UserCalendarFragment;
+import com.example.eventplanner.fragments.calendar.UserCalendarFragment;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
@@ -26,23 +26,15 @@ import com.example.eventplanner.fragments.home.ProfileFragment;
 import com.example.eventplanner.fragments.home.HomeFragment;
 import com.example.eventplanner.fragments.notification.NotificationFragment;
 import com.example.eventplanner.fragments.service_product.create_product.CreateProductFragment;
-import com.example.eventplanner.fragments.service_product_provider.FilterProductDialogFragment;
 import com.example.eventplanner.fragments.service_product_provider.SeeMyProductsFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
-import com.example.eventplanner.model.productManage.ProvidersProductsResponse;
 import com.example.eventplanner.services.IProductService;
 import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
