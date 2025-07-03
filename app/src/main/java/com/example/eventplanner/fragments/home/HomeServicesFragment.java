@@ -60,14 +60,12 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
     private boolean hasMorePages = true;
     private String searchQuery = "";
     private List<String> selectedCategories = new ArrayList<>();
-    private String selectedType = "Service";
+    private String selectedType = null;
     private double minPrice = 0.0;
     private double maxPrice = 0.0;
     private List<String> selectedSortCriteria = new ArrayList<>();
     private String selectedSortOrder = "asc";
 
-    private enum ActiveFilterType { NONE, SEARCH, SORT,FILTER }
-    private ActiveFilterType activeFilterType = ActiveFilterType.NONE;
 
     public HomeServicesFragment() {
         // Required empty public constructor
@@ -165,7 +163,6 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
 
                 // Resetuj sve filtere
                 searchQuery = null;
-                activeFilterType = HomeServicesFragment.ActiveFilterType.NONE;
                 loadPage(1);
 
                 // Sakrij tastaturu i ukloni fokus
@@ -178,15 +175,7 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query != null && !query.trim().isEmpty()) {
-                    selectedCategories = new ArrayList<>();
-                    selectedType = "";
-                    minPrice = 0.0;
-                    maxPrice = 0.0; // ili neka podrazumevana maksimalna
-                    selectedSortCriteria = new ArrayList<>();
-                    selectedSortOrder = "";
-
                     searchQuery = query.trim();
-                    activeFilterType = HomeServicesFragment.ActiveFilterType.SEARCH;
                     loadPage(1);
 
                     searchView.clearFocus(); // bitno za skrivanje tastature
@@ -198,11 +187,9 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
-                    searchQuery = null;
-                    activeFilterType = HomeServicesFragment.ActiveFilterType.NONE;
+                    searchQuery = "";
                     loadPage(1);
 
-                    // Samo sakrij tastaturu, ali ne zatvaraj SearchView — jer je korisnik možda samo brisao
                     hideKeyboard(searchView);
                 }
                 return true;
@@ -271,42 +258,16 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
 
         Call<PagedResponse<ServiceProductHomeResponse>> call;
 
-        switch (activeFilterType) {
-            case SEARCH:
-                if (searchQuery == null || searchQuery.trim().isEmpty()) {
-                    call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
-                } else {
-                    call = ApiService.getProductService().searchServicesProducts(searchQuery.trim(), pageIndex, pageSize);
-                    Log.d("HomeServicesFragment", "Searching with query: " + searchQuery);
-                }
-                break;
-
-            case FILTER:
-                call = ApiService.getProductService().filterServicesProducts(
-                        selectedType, // "Service" ili "Product"
-                        selectedCategories, // List<String>
-                        minPrice, // Double
-                        maxPrice, // Double
+        call = ApiService.getProductService().getPagedProducts(
+                        searchQuery,
+                        selectedType,
+                        selectedCategories,
+                        minPrice,
+                        maxPrice,
+                        selectedSortCriteria,
+                        selectedSortOrder,
                         pageIndex, pageSize
-                );
-                break;
-
-            case SORT:
-                if (selectedSortCriteria == null || selectedSortCriteria.isEmpty()) {
-                    call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
-                } else {
-                    call = ApiService.getProductService().getSortedServicesProducts(
-                            selectedSortCriteria,
-                            selectedSortOrder, pageIndex, pageSize
-                    );
-                }
-                break;
-
-            case NONE:
-            default:
-                call = ApiService.getProductService().getPagedProducts(pageIndex, pageSize, "");
-                break;
-        }
+        );
 
         call.enqueue(new Callback<>() {
             @Override
@@ -337,7 +298,6 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        Log.d(TAG, "loadPage called with page=" + page + ", activeFilterType=" + activeFilterType);
         Log.d(TAG, "selectedType=" + selectedType + ", selectedCategories=" + selectedCategories.toString());
 
         if (page == 1) {
@@ -348,8 +308,6 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
     public void onSortSelected(List<String> criteria, String order) {
         this.selectedSortCriteria = criteria;
         this.selectedSortOrder = order;
-        this.searchQuery = "";
-        this.activeFilterType = ActiveFilterType.SORT;
         loadPage(1);
     }
     @Override
@@ -358,9 +316,6 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
         this.selectedType = type;
         this.minPrice = min;
         this.maxPrice = max;
-        this.searchQuery = "";
-        this.selectedSortCriteria.clear();
-        this.activeFilterType = ActiveFilterType.FILTER;
         loadPage(1);
     }
 
