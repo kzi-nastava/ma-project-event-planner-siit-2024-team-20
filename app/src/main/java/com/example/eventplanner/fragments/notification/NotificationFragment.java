@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import com.example.eventplanner.R;
 import com.example.eventplanner.adapters.NotificationAdapter;
 import com.example.eventplanner.model.entities.Notification;
 import com.example.eventplanner.model.notification.NotificationResponse;
+import com.example.eventplanner.model.notification.NotificationSettingsResponse;
+import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +36,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NotificationFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -41,6 +49,8 @@ public class NotificationFragment extends Fragment {
     private Button closeBtn;
     private Boolean allMuted = null;
 
+    private Long userId;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,9 +59,9 @@ public class NotificationFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        userId= (long) AuthService.getUserIdFromToken();
         recyclerView = view.findViewById(R.id.recycler_notifications);
         muteAllBtn = view.findViewById(R.id.button_mute_all);
-        closeBtn = view.findViewById(R.id.button_close);
 
         adapter = new NotificationAdapter(notifications, notification -> markAsRead(notification));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,23 +76,48 @@ public class NotificationFragment extends Fragment {
             updateMuteButton();
         });
 
-        closeBtn.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction().remove(NotificationFragment.this).commit();
-        });
+
     }
 
     private void loadNotifications() {
-        // TODO: pozovi API, sad simuliramo
-        notifications.clear();
-        adapter.notifyDataSetChanged();
+        ApiService.getNotificationService().getUserNotifications(userId).enqueue(new Callback<List<NotificationResponse>>() {
+            @Override
+            public void onResponse(Call<List<NotificationResponse>> call, Response<List<NotificationResponse>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    notifications.clear();
+                    notifications.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Error loading notifications", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NotificationResponse>> call, Throwable t) {
+                t.printStackTrace();
+                Log.d("HEEEJ", "API error: " + t.getMessage());
+                Toast.makeText(getContext(), "API failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void loadMuteStatus() {
+        ApiService.getNotificationService().getMuteStatus(userId).enqueue(new Callback<NotificationSettingsResponse>() {
+            @Override
+            public void onResponse(Call<NotificationSettingsResponse> call, Response<NotificationSettingsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allMuted = response.body().isNotificationsMuted();
+                    muteAllBtn.setVisibility(View.VISIBLE);
+                    updateMuteButton();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationSettingsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    private void loadMuteStatus() {
-        // TODO: API poziv
-        allMuted = false;
-        muteAllBtn.setVisibility(View.VISIBLE);
-        updateMuteButton();
-    }
 
     private void updateMuteButton() {
         if (allMuted != null && allMuted) {
@@ -93,14 +128,43 @@ public class NotificationFragment extends Fragment {
     }
 
     private void setMuteStatus(boolean mute) {
-        // TODO: pošalji mute status na backend
+        NotificationSettingsResponse dto = new NotificationSettingsResponse(mute);
+        ApiService.getNotificationService().muteNotifications(userId, dto).enqueue(new Callback<NotificationSettingsResponse>() {
+            @Override
+            public void onResponse(Call<NotificationSettingsResponse> call, Response<NotificationSettingsResponse> response) {
+                if (response.isSuccessful()) {
+                    allMuted = response.body().isNotificationsMuted();
+                    updateMuteButton();
+                    Toast.makeText(getContext(), mute ? "Notifications muted" : "Notifications unmuted", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationSettingsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
+
 
     private void markAsRead(NotificationResponse notification) {
         if (notification.isRead()) return;
 
-        // TODO: API poziv za označavanje kao pročitano
-        notification.setRead(true);
-        adapter.notifyDataSetChanged();
+        ApiService.getNotificationService().markNotificationAsRead(notification.getId()).enqueue(new Callback<NotificationResponse>() {
+            @Override
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                if (response.isSuccessful()) {
+                    notification.setRead(true);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Marked as read", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
+
 }

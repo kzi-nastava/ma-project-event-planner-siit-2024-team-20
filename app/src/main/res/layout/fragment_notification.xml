@@ -32,17 +32,12 @@ android:paddingBottom="8dp">
     android:layout_height="wrap_content"
     android:visibility="gone" />
 
-<Button
-    android:id="@+id/button_close"
-    android:text="X"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
 </LinearLayout>
 
     <!-- Lista notifikacija -->
 <androidx.recyclerview.widget.RecyclerView
 android:id="@+id/recycler_notifications"
 android:layout_width="match_parent"
-android:layout_height="300dp" />
+android:layout_height="700dp" />
     </LinearLayout>
 

@@ -274,6 +274,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
 
             @Override
             public void onFailure(Call<PagedResponse<EventHomeResponse>> call, Throwable t) {
+                Log.e("HIii", "Network or conversion error: " + t.getMessage(), t);
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

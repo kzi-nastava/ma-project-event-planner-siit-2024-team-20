@@ -11,7 +11,7 @@ public class NotificationResponse {
     private Long id;
     private String content;
     private LocalDateTime timeOfSending;
-    private boolean isRead;
+    private boolean read;
     private String type;
     private Long referenceId;
     public NotificationResponse(Long id,String content,LocalDateTime timeOfSending,
@@ -20,7 +20,7 @@ public class NotificationResponse {
         this.id = id;
         this.content = content;
         this.timeOfSending = timeOfSending;
-        this.isRead = isRead;
+        this.read = isRead;
         this.type = type;
         this.referenceId=referenceId;
     }
@@ -28,7 +28,7 @@ public class NotificationResponse {
         this.id = notification.getId();
         this.content = notification.getContent();
         this.timeOfSending = notification.getTimeOfSending();
-        this.isRead = notification.isRead();
+        this.read = notification.isRead();
         if(notification instanceof EventNotification) {
             EventNotification eventNotification = (EventNotification) notification;
             type="EVENT";
@@ -71,11 +71,11 @@ public class NotificationResponse {
     }
 
     public boolean isRead() {
-        return isRead;
+        return read;
     }
 
     public void setRead(boolean read) {
-        isRead = read;
+        this.read = read;
     }
 
     public String getType() {
