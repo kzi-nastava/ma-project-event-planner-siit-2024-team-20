@@ -55,16 +55,6 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
     private boolean hasMorePages = true;
     private Button btnPreviousPage, btnNextPage;
     private TextView currentPageText;
-    private enum ActiveFilterType {
-        NONE,
-        SEARCH,
-        FILTER,
-        SORT
-    }
-
-    private ActiveFilterType activeFilterType = ActiveFilterType.NONE;
-
-    // Podaci za kriterijume
     private String searchQuery = "";
     private List<String> filterTypes = new ArrayList<>();
     private List<String> filterCities = new ArrayList<>();
@@ -152,9 +142,6 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
                 // Resetuj tekst
                 searchView.setQuery("", false);
 
-                // Resetuj sve filtere
-                searchQuery = null;
-                activeFilterType = ActiveFilterType.NONE;
                 loadPage(1);
 
                 // Sakrij tastaturu i ukloni fokus
@@ -167,15 +154,7 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query != null && !query.trim().isEmpty()) {
-                    selectedSortCriteria = new ArrayList<>();
-                    selectedSortOrder = "";
-                    filterTypes = new ArrayList<>();
-                    filterCities = new ArrayList<>();
-                    filterDateAfter = null;
-                    filterDateBefore = null;
-
                     searchQuery = query.trim();
-                    activeFilterType = ActiveFilterType.SEARCH;
                     loadPage(1);
 
                     searchView.clearFocus(); // bitno za skrivanje tastature
@@ -188,7 +167,6 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
                     searchQuery = null;
-                    activeFilterType = ActiveFilterType.NONE;
                     loadPage(1);
 
                     // Samo sakrij tastaturu, ali ne zatvaraj SearchView — jer je korisnik možda samo brisao
@@ -256,45 +234,16 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
 
         Call<PagedResponse<EventHomeResponse>> call;
 
-        switch (activeFilterType) {
-            case SEARCH:
-                if (searchQuery == null || searchQuery.trim().isEmpty()) {
-                    // Ako je search prazan, učitaj sve
-                    call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
-
-
-                } else {
-                    call = ApiService.getEventService().searchEvents(searchQuery.trim(), pageIndex, pageSize, "");
-                    Log.d("HomeEventsFragment", "Searching with query: " + searchQuery);
-                }
-                break;
-
-            case FILTER:
-                call = ApiService.getEventService().filterEvents(
+                call = ApiService.getEventService().getAllEventsPaged(
+                        searchQuery,
                         filterTypes,
                         filterCities,
                         filterDateAfter,
                         filterDateBefore,
+                        selectedSortCriteria,
+                        selectedSortOrder,
                         pageIndex,
-                        pageSize,
-                        ""
-                );
-                break;
-
-            case SORT:
-                if (selectedSortCriteria == null || selectedSortCriteria.isEmpty()) {
-                    call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
-                } else {
-                    call = ApiService.getEventService().getSortedEvents(pageIndex, pageSize, selectedSortCriteria, selectedSortOrder);
-                }
-                break;
-
-            case NONE:
-            default:
-                call = ApiService.getEventService().getAllEventsPaged(pageIndex, pageSize, "");
-                break;
-        }
-        Log.d("HomeEventsFragment", "loadPage called. activeFilterType = " + activeFilterType + ", searchQuery = " + searchQuery);
+                        pageSize);
 
         call.enqueue(new Callback<PagedResponse<EventHomeResponse>>() {
             @Override
@@ -349,14 +298,6 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
     public void onSortSelected(List<String> criteria, String order) {
         this.selectedSortCriteria = criteria;
         this.selectedSortOrder = order;
-        this.activeFilterType = ActiveFilterType.SORT;
-
-        // Reset ostalog
-        this.searchQuery = "";
-        this.filterTypes = new ArrayList<>();
-        this.filterCities = new ArrayList<>();
-        this.filterDateAfter = null;
-        this.filterDateBefore = null;
 
         loadPage(1);
     }
@@ -367,12 +308,6 @@ public class HomeEventsFragment extends Fragment implements SortSelectionListene
         this.filterCities = cities;
         this.filterDateAfter = dateAfter;
         this.filterDateBefore = dateBefore;
-        this.activeFilterType = ActiveFilterType.FILTER;
-
-        // Reset ostalog
-        this.searchQuery = "";
-        this.selectedSortCriteria = new ArrayList<>();
-        this.selectedSortOrder = "asc";
 
         loadPage(1);
     }

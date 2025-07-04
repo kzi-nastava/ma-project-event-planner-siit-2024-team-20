@@ -166,6 +166,18 @@ public class FilterMenuManager {
         final LinearLayout dateBeforeContainer = popupView.findViewById(R.id.dateBeforeContainer);
         final LinearLayout dateAfterContainer = popupView.findViewById(R.id.dateAfterContainer);
 
+        if (dateAfter != null) {
+            checkboxDateAfter.setChecked(true);
+            dateAfterContainer.setVisibility(View.VISIBLE);
+            setSpinnerDateFromString(dateAfter, spinnerYearAfter.get(), spinnerMonthAfter.get(), spinnerDayAfter.get());
+        }
+
+        if (dateBefore != null) {
+            checkboxDateBefore.setChecked(true);
+            dateBeforeContainer.setVisibility(View.VISIBLE);
+            setSpinnerDateFromString(dateBefore, spinnerYearBefore, spinnerMonthBefore, spinnerDayBefore);
+        }
+
         checkboxDateBefore.setOnCheckedChangeListener((buttonView, isChecked) -> {
             dateBeforeContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
@@ -270,12 +282,40 @@ public class FilterMenuManager {
         RadioButton radioService = popupView.findViewById(R.id.radio_service);
         RadioButton radioProduct = popupView.findViewById(R.id.radio_product);
 
-        // Set prethodnog tipa
         if ("Product".equalsIgnoreCase(previouslySelectedType)) {
             radioProduct.setChecked(true);
-        } else {
+        } else if ("Service".equalsIgnoreCase(previouslySelectedType)) {
             radioService.setChecked(true);
+        } else {
+            radioProduct.setChecked(false);
+            radioService.setChecked(false);
         }
+        final boolean[] isServiceChecked = {radioService.isChecked()};
+        final boolean[] isProductChecked = {radioProduct.isChecked()};
+
+        radioService.setOnClickListener(v -> {
+            if (isServiceChecked[0]) {
+                radioService.setChecked(false);
+                isServiceChecked[0] = false;
+            } else {
+                radioService.setChecked(true);
+                radioProduct.setChecked(false);
+                isServiceChecked[0] = true;
+                isProductChecked[0] = false;
+            }
+        });
+
+        radioProduct.setOnClickListener(v -> {
+            if (isProductChecked[0]) {
+                radioProduct.setChecked(false);
+                isProductChecked[0] = false;
+            } else {
+                radioProduct.setChecked(true);
+                radioService.setChecked(false);
+                isProductChecked[0] = true;
+                isServiceChecked[0] = false;
+            }
+        });
 
         // Load kategorije iz API-ja i obeleži prethodno izabrane
         ApiService.getProductService().getFilterOptions().enqueue(new Callback<FilterItemsOptions>() {
@@ -322,8 +362,12 @@ public class FilterMenuManager {
                 float minPrice = (minValues != null && minValues.size() > 0) ? minValues.get(0) : 0f;
                 float maxPrice = (maxValues != null && maxValues.size() > 0) ? maxValues.get(0) : 0f;
 
-                String selectedType = radioService.isChecked() ? "Service" : "Product";
-
+                String selectedType = null;
+                if (radioService.isChecked()) {
+                    selectedType = "Service";
+                } else if (radioProduct.isChecked()) {
+                    selectedType = "Product";
+                }
                 if (filterServiceListener != null) {
                     filterServiceListener.onFilterSelected(selectedCategories, selectedType, minPrice, maxPrice);
                 }
