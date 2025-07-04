@@ -11,7 +11,7 @@
         android:id="@+id/textView3"
         android:layout_width="131dp"
         android:layout_height="54dp"
-        android:text="TextView"
+        android:text="@string/nb_profile"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

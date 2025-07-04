@@ -41,7 +41,7 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
         ImageView returnBack = findViewById(R.id.return_back);
         returnBack.setOnClickListener(v -> onBackPressed());
 
-        openChat(); // Ako koristiš chat ikonicu
+        //openChat(); // Ako koristiš chat ikonicu
 
         Long itemId = getIntent().getLongExtra("itemId", -1);
         String itemType = getIntent().getStringExtra("itemType");
@@ -60,13 +60,13 @@ public class ServiceProductDetailsActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void openChat(){
+    /*private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
             ChatDialogFragment chatDialog = ChatDialogFragment.newInstance();
             chatDialog.show(getSupportFragmentManager(), "ChatDialog");
         });
-    }
+    }*/
     public void openUserProfileFragment(Long providerId) {
         UserProfileFragment userProfileFragment = new UserProfileFragment();
         Bundle args = new Bundle();

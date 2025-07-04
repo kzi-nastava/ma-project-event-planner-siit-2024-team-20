@@ -24,10 +24,12 @@
     <string name="rf1_phone_number">Phone number</string>
     <string name="rf1_password">Password</string>
     <string name="rf1_confirm_password">Confirm password</string>
+
     <!-- registration fragment 2 [rf2] -->
     <string name="rf2_title">Service and product \n provider Registration</string>
     <string name="rf2_company_name">Company name</string>
     <string name="rf2_company_description">Company description</string>
+
     <!-- nav bar -->
     <string name="nb_home">Home</string>
     <string name="nb_add">Add</string>
@@ -124,7 +126,9 @@
     <string name="ca_col3">From</string>
     <string name="ca_col4">To</string>
     <string name="ca_col5">Location</string>
+    <string name="download">Download info</string>
 
+    <!--Homepage-->
     <string name="top_5_events">Top 5 events</string>
     <string name="top_5_services_products">Top 5 services and products</string>
     <string name="event_title">Event/Service/Product</string>
@@ -133,12 +137,16 @@
     <string name="person_chat">Person</string>
     <string name="close_description">Close chats</string>
     <string name="back_description">Back from chat</string>
+
+    <!--chat-->
     <string name="scroll_chat_description">Chat with messages</string>
     <string name="chat">Chat</string>
     <string name="send_button">Send</string>
     <string name="input_message">Type a message</string>
     <string name="organizer_chat">Chat with organizer</string>
     <string name="provider_chat">Chat with provider</string>
+
+    <!--filer,sort,pagination-->
     <string name="event_name">Event name</string>
     <string name="service_product_name">Service/Product name</string>
     <string name="filter_menu">Filter menu</string>
@@ -155,6 +163,7 @@
     <string name="sort">Sort</string>
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
+
     <string name="quick_registration">Quick registration</string>
 
     <string name="add_event">Add event</string>
@@ -170,8 +179,9 @@
     <string name="p_phone">Enter your phone number</string>
     <string name="p_company_name">Enter company name</string>
     <string name="p_company_desc">Enter company description</string>
-
+    <string name="provider_profile">Provider profile</string>
     <string name="sp_suggestions">Suggested service/product categories</string>
+    <string name="blocked_users">Blocked users</string>
 
     <string name="download_info">download info</string>
     <string name="date">Date:</string>
@@ -180,6 +190,35 @@
     <string name="location">Location:</string>
     <string name="is_private">Private:</string>
     <string name="num_g">Guests:</string>
+
+    <!--user-report-management-->
+    <string name="report_manage">User report management</string>
+    <string name="reporter">reporter@gmail.com</string>
+    <string name="report_reason">Report reason</string>
+    <string name="report_date">2024–06–28 11:11</string>
+    <string name="suspend_button">Suspend button</string>
+    <string name="delete_button">Delete button</string>
+
+    <!--Comments-->
+    <string name="first_comment">No comments yet. Be the first to comment!</string>
+    <string name="comments">Comments</string>
+    <string name="author">Author Name</string>
+    <string name="comment_content">This is a comment content.</string>
+
+    <string name="event_organizer">Event Organizer</string>
+    <string name="spp">Service Product Provider</string>
+
+    <!--Blockin user-->
+    <string name="username">User Name</string>
+    <string name="unblock_button">Unblock</string>
+
+    <!--filter-->
+    <string name="product_category">Product category:</string>
+    <string name="event_type">Event type:</string>
+    <string name="max_price">Max price:</string>
+    <string name="input_max_price">Input max price</string>
+    <string name="availability">Availability:</string>
+    <string name="apply_button">Apply</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

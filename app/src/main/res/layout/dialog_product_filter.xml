@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Product category:"
+            android:text="@string/product_category"
             android:textSize="16sp"
             android:textColor="#3C2956"
             android:layout_marginBottom="4dp"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="Event type:"
+            android:text="@string/event_type"
             android:textSize="16sp"
             android:textColor="#3C2956"
             android:layout_marginTop="16dp"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="Max Price:"
+            android:text="@string/max_price"
             android:textSize="16sp"
             android:textColor="#3C2956"
             android:layout_marginTop="16dp"
@@ -50,10 +50,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:hint="Input max price"/>
+            android:hint="@string/input_max_price"/>
 
         <TextView
-            android:text="Availability:"
+            android:text="@string/availability"
             android:textSize="16sp"
             android:textColor="#3C2956"
             android:layout_marginTop="16dp"
@@ -70,7 +70,7 @@
             android:id="@+id/btnApplyFilters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apply"
+            android:text="@string/apply_button"
             android:layout_marginTop="24dp"
             android:background="#5b4376"
             android:textColor="#f3eee9"/>

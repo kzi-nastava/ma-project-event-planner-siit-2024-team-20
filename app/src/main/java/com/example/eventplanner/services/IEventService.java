@@ -55,7 +55,7 @@ public interface IEventService {
 
     @GET("events/get-mine")
     Call<List<EventHomeResponse>> getMyEvents();
-    @GET("events/event-confirmation")
+    @PUT("events/event-confirmation")
     Call<ErrorResponse> confirmEventAttendance(
             @Query("email") String email,
             @Query("eventId") Long eventId

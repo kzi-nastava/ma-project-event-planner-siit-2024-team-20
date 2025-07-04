@@ -19,6 +19,8 @@ import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.example.eventplanner.services.spec.RetrofitClient;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +78,21 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login failed. Please check email and password.", Toast.LENGTH_SHORT).show();
+                    String message = "Login failed. Please check email and password.";
+
+                    if (response.code() == 403 && response.errorBody() != null) {
+                        try {
+                            String errorBody = response.errorBody().string();
+                            JSONObject jsonObject = new JSONObject(errorBody);
+                            if (jsonObject.has("message")) {
+                                message = jsonObject.getString("message");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                 }
             }
 

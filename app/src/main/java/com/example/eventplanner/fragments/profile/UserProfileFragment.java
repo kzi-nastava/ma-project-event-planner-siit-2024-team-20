@@ -38,6 +38,8 @@ public class UserProfileFragment extends Fragment {
     private Button blockUserButton, reportUserButton;
     private Long viewedUserId;
     private ImageButton closeButton;
+
+    private String roleOfProfile;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,10 +69,13 @@ public class UserProfileFragment extends Fragment {
 
         Long currentUserId=(long)AuthService.getUserIdFromToken();
         if (currentUserId.equals(viewedUserId)) {
-            blockUserButton.setEnabled(false);
             reportUserButton.setEnabled(false);
-            blockUserButton.setVisibility(View.GONE);
             reportUserButton.setVisibility(View.GONE);
+
+        }
+        if (currentUserId.equals(viewedUserId)) {
+            blockUserButton.setEnabled(false);
+            blockUserButton.setVisibility(View.GONE);
 
         }
         blockUserButton.setOnClickListener(v -> showBlockConfirmationDialog());
@@ -86,6 +91,7 @@ public class UserProfileFragment extends Fragment {
                     UserViewResponse user = response.body();
                     userFullName.setText(user.getName() + " " + user.getLastName());
                     userEmail.setText(user.getEmail());
+                    roleOfProfile=user.getRole();
                     Glide.with(requireContext())
                             .load(user.getProfileImage())
                             .placeholder(R.drawable.profile_icon)

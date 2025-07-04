@@ -16,6 +16,7 @@ import com.example.eventplanner.model.registration.SppRegistrationResponse;
 import com.example.eventplanner.model.users.QuickRegistrationRequest;
 import com.example.eventplanner.model.users.QuickUserResponse;
 import com.example.eventplanner.model.users.ReportUserRequest;
+import com.example.eventplanner.model.users.UserResponse;
 import com.example.eventplanner.model.users.UserViewResponse;
 
 import java.util.List;
@@ -84,6 +85,12 @@ public interface IUserService {
 
     @POST("users/block/{blockedId}")
     Call<UserViewResponse> blockUser(@Path("blockedId") Long blockedId);
+
+    @DELETE("users/{id}/blocked/{blockedId}")
+    Call<Void> unblockUser(@Path("id") Long userId, @Path("blockedId") Long blockedId);
+
+    @GET("users/{id}/blocked")
+    Call<List<UserResponse>> getBlockedUsers(@Path("id") Long userId);
 
     @GET("users/{id}")
     Call<UserViewResponse> getUserById(@Path("id") Long id);
