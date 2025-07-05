@@ -25,8 +25,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eventplanner.R;
+import com.example.eventplanner.activities.home.HomeActivity;
 import com.example.eventplanner.model.notification.FcmTokenRequest;
 import com.example.eventplanner.services.spec.ApiService;
+import com.example.eventplanner.services.spec.AuthService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Timer;
@@ -42,17 +44,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        AuthService.init(this);
+
+        if (AuthService.isLoggedIn() && hasInternetConnection()) {
+            startActivity(new Intent(this, HomeActivity.class));
+        } else if(hasInternetConnection()) {
+            runSplash();
+        }
+        else{
+            openWiFiDialog();
+        }
+        finish();
+
+
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        if (hasInternetConnection()){
-            runSplash();
-        }else{
-            openWiFiDialog();
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == 1001) { 
+        if (requestCode == 1001) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getFcmTokenAndRegister();
             } else {
