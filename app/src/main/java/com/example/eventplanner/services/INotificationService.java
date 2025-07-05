@@ -1,5 +1,6 @@
 package com.example.eventplanner.services;
 
+import com.example.eventplanner.model.notification.FcmTokenRequest;
 import com.example.eventplanner.model.notification.NotificationResponse;
 import com.example.eventplanner.model.notification.NotificationSettingsResponse;
 
@@ -9,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface INotificationService {
@@ -23,4 +25,7 @@ public interface INotificationService {
 
     @GET("notifications/{userId}/mute")
     Call<NotificationSettingsResponse> getMuteStatus(@Path("userId") Long userId);
+
+    @POST("/api/fcm/register")
+    Call<Void> registerFcmToken(@Body FcmTokenRequest token);
 }
