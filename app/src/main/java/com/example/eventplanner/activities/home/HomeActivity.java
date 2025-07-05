@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -79,6 +80,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_reports).setVisible(false);
         }
+        NotificationManagerCompat.from(this).cancelAll();
+
+        // Ako koristiš ShortcutBadger, možeš i ovako:
+        //ShortcutBadger.removeCount(this);
         openChat();
         createNotificationChannel();
     }
