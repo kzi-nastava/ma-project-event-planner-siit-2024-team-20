@@ -1,5 +1,6 @@
 package com.example.eventplanner.adapters;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.eventplanner.model.entities.Notification;
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.notification.NotificationResponse;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
@@ -50,21 +52,34 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(NotificationViewHolder holder, int position) {
         NotificationResponse notification = notifications.get(position);
-        /*holder.typeText.setText(notification.getType());
+        holder.typeText.setText(notification.getType());
         holder.contentText.setText(notification.getContent());
-        holder.timeText.setText(notification.getTimeOfSending());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String formattedTime = notification.getTimeOfSending().format(formatter);
+        holder.timeText.setText(formattedTime);
 
         if (notification.isRead()) {
-            holder.container.setAlpha(0.5f);
+            holder.typeText.setAlpha(0.5f);
+            holder.contentText.setAlpha(0.5f);
+            holder.timeText.setAlpha(0.5f);
+
+            holder.typeText.setTypeface(null, Typeface.NORMAL);
+            holder.contentText.setTypeface(null, Typeface.NORMAL);
         } else {
-            holder.container.setAlpha(1.0f);
+            holder.typeText.setAlpha(1.0f);
+            holder.contentText.setAlpha(1.0f);
+            holder.timeText.setAlpha(1.0f);
+
+            holder.typeText.setTypeface(null, Typeface.BOLD);
+            holder.contentText.setTypeface(null, Typeface.BOLD);
         }
+
 
         holder.container.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onNotificationClick(notification);
             }
-        });*/
+        });
     }
 
     @Override
