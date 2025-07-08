@@ -147,7 +147,7 @@ public class CreateEventFragment extends Fragment {
 
     private void fetchEventTypes() {
         IEventTypeService service = ApiService.getEventTypeService();
-        service.getAllEventTypes().enqueue(new Callback<List<EventType>>() {
+        service.getAllActiveEventTypes().enqueue(new Callback<List<EventType>>() {
             @Override
             public void onResponse(@NonNull Call<List<EventType>> call, @NonNull Response<List<EventType>> response) {
                 if (response.isSuccessful() && response.body() != null) {
