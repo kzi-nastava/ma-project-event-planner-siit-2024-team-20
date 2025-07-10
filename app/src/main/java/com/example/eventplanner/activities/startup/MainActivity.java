@@ -49,10 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (AuthService.isLoggedIn() && hasInternetConnection()) {
             startActivity(new Intent(this, HomeActivity.class));
-        } else if(hasInternetConnection()) {
+        } else if (hasInternetConnection()) {
             runSplash();
-        }
-        else{
+        } else {
             openWiFiDialog();
         }
         finish();
@@ -64,59 +63,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1001);
-            } else {
-                getFcmTokenAndRegister();
-            }
-        } else {
-            getFcmTokenAndRegister();
-        }
     }
-    private void getFcmTokenAndRegister() {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
-                        return;
-                    }
-
-                    String token = task.getResult();
-                    Log.d("FCM", "Manual token: " + token);
-
-                    ApiService.getNotificationService().registerFcmToken(new FcmTokenRequest(token))
-                            .enqueue(new Callback<Void>() {
-                                @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    Log.d("FCM", "Token registered on backend!");
-                                }
-
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-                                    Log.e("FCM", "Failed to register token: " + t.getMessage());
-                                }
-                            });
-                });
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 1001) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getFcmTokenAndRegister();
-            } else {
-                Toast.makeText(this, "Bez dozvole za notifikacije nećete ih primati.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
 
     public boolean hasInternetConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
