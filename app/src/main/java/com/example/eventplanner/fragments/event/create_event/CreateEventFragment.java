@@ -329,6 +329,7 @@ public class CreateEventFragment extends Fragment {
                 return;
             }
         }
+        if (!validateInputFields(name, numOfGuests, city, address)) return;
         EventCreationRequest eventRequest = new EventCreationRequest(
                 name, description, city, address, num,
                 numOfGuests, isPrivate, guestEmails,
@@ -373,6 +374,34 @@ public class CreateEventFragment extends Fragment {
                     return false;
                 }
             }
+        }
+
+        return true;
+    }
+    private boolean validateInputFields(String name, int numOfGuests, String city, String address) {
+        if (name.isEmpty()) {
+            Toast.makeText(getContext(), "Event name is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (name.length() > 100) {
+            Toast.makeText(getContext(), "Event name must be 100 characters or less", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (numOfGuests <= 0) {
+            Toast.makeText(getContext(), "Number of guests must be greater than zero", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (numOfGuests > 1000) {
+            Toast.makeText(getContext(), "Number of guests cannot exceed 1000", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (city.isEmpty()) {
+            Toast.makeText(getContext(), "City is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (address.isEmpty()) {
+            Toast.makeText(getContext(), "Address is required", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         return true;
