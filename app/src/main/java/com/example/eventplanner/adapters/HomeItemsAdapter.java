@@ -48,12 +48,12 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.Prod
         ServiceProductHomeResponse product = productList.get(position);
         holder.name.setText(product.getName());
         holder.description.setText(product.getDescription());
-        holder.price.setText(String.format("%.2f RSD", product.getPrice()));
+        holder.price.setText(String.format("%.2f EURO", product.getPrice()));
         holder.category.setText(product.getCategory());
         holder.type.setText(product.getType());
         String imageUrl = product.getImage();
         if (imageUrl != null) {
-            imageUrl = imageUrl.replace("localhost", "192.168.1.12"); // ako si na emulatoru
+            imageUrl = imageUrl.replace("localhost", "192.168.8.104"); // ako si na emulatoru
             // ili: imageUrl = imageUrl.replace("localhost", "192.168.1.5"); // ako si na telefonu
         }
 

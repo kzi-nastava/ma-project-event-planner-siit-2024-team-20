@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.util.Base64;
 
 import com.example.eventplanner.model.entities.User;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
@@ -85,11 +86,15 @@ public class AuthService {
 
 
     public static void logout() {
+        if(currentUser!=null){
+            ApiService.getUserService().logoutFcmToken(currentUser.getEmail());
+        }
         accessToken = null;
         currentUser = null;
         if (sharedPreferences != null) {
             sharedPreferences.edit().remove(KEY_TOKEN).apply();
         }
+
     }
     public static boolean isLoggedIn() {
         return getToken() != null;

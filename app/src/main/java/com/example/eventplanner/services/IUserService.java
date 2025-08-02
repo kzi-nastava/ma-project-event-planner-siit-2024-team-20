@@ -29,6 +29,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IUserService {
     @Headers({
@@ -97,4 +98,7 @@ public interface IUserService {
 
     @POST("users/{id}/report")
     Call<Void> reportUser(@Path("id") Long id,@Body ReportUserRequest reportData);
+
+    @PUT("users/logout-fcm")
+    Call<Void> logoutFcmToken(@Query("email") String email);
 }
