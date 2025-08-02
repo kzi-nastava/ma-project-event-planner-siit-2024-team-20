@@ -100,5 +100,5 @@ public interface IUserService {
     Call<Void> reportUser(@Path("id") Long id,@Body ReportUserRequest reportData);
 
     @PUT("users/logout-fcm")
-    Call<Void> logoutFcmToken(@Query("email") String email);
+    Call<Void> logoutFcmToken();
 }
