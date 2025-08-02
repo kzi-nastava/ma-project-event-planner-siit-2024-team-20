@@ -24,8 +24,8 @@ import retrofit2.http.Query;
 
 public interface IProductService {
 
-    @GET("users/admins/sp-categories")
-    Call<Set<CategoryResponse>> getActiveSPCategories();
+    @GET("users/sp-providers/sp-categories/list")
+    Call<List<String>> getActiveSPCategories();
 
     @GET("events/event-types/all/active")
     Call<List<String>> getAllActiveEventTypesNames();
