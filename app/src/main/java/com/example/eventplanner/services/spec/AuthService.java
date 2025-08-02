@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Base64;
+import android.util.Log;
 
 import com.example.eventplanner.model.entities.User;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -11,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONObject;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 public class AuthService {
     private static User currentUser;
@@ -86,8 +88,13 @@ public class AuthService {
 
 
     public static void logout() {
-        if(currentUser!=null){
-            ApiService.getUserService().logoutFcmToken(currentUser.getEmail());
+        try {
+            Call<Void> logoutCall = ApiService.getUserService().logoutFcmToken();
+            logoutCall.execute();
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
         }
         accessToken = null;
         currentUser = null;
