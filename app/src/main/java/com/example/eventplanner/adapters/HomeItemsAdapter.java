@@ -53,7 +53,7 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.Prod
         holder.type.setText(product.getType());
         String imageUrl = product.getImage();
         if (imageUrl != null) {
-            imageUrl = imageUrl.replace("localhost", "192.168.8.104"); // ako si na emulatoru
+            imageUrl = imageUrl.replace("localhost", "192.168.8.101"); // ako si na emulatoru
             // ili: imageUrl = imageUrl.replace("localhost", "192.168.1.5"); // ako si na telefonu
         }
 
