@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -268,6 +269,22 @@ public class BookingServiceFragment extends Fragment {
     {
         Toast.makeText(getContext(), "Start time or end time cannot be null", Toast.LENGTH_SHORT).show();
         return;
+    }
+    if (service.getDuration() != 0) {
+            long minutesBetween = Duration.between(startTime, endTime).toMinutes();
+            if (minutesBetween != service.getDuration()) {
+                Toast.makeText(getContext(),
+                        "Selected time range must be exactly " + service.getDuration() + " minutes.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+    } else {
+            if (endTime.isBefore(startTime) || endTime.equals(startTime)) {
+                Toast.makeText(getContext(),
+                        "Please select a valid duration for the booking.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
     }
 
     // 3. Dohvati eventId iz liste

@@ -334,5 +334,6 @@ public class HomeServicesFragment extends Fragment implements SortServiceProduct
     public void onResume() {
         super.onResume();
         loadPage(1);
+        loadTopServicesProducts();
     }
 }
