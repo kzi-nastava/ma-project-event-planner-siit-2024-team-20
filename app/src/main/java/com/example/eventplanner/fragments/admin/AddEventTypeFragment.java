@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddEventTypeFragment extends Fragment {
+    private ScrollView scrollView;
     private TableLayout tableLayout;
     private Button suggestionsButton;
     private List<String> suggestionsList = new ArrayList<>();
@@ -70,7 +72,7 @@ public class AddEventTypeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_event_type, container, false);
-
+        scrollView = rootView.findViewById(R.id.scrollView);
         tableLayout = rootView.findViewById(R.id.tableLayout);
         suggestionsButton = rootView.findViewById(R.id.button3);
 
@@ -211,7 +213,7 @@ public class AddEventTypeFragment extends Fragment {
         selectedEventType = eventType;
 
         editSection.setVisibility(View.VISIBLE);
-
+        scrollView.post(() -> scrollView.smoothScrollTo(0, editSection.getTop()));
 
         editTitle.setText(eventType.getName());
         editDescription.setText(eventType.getDescription());
@@ -250,6 +252,7 @@ public class AddEventTypeFragment extends Fragment {
                     Snackbar.make(requireView(), "Changes saved successfully!", Snackbar.LENGTH_SHORT).show();
                     editSection.setVisibility(View.GONE);
                     loadEventTypes();
+                    scrollView.post(() -> scrollView.smoothScrollTo(0, tableLayout.getTop()));
                 } else {
                     Snackbar.make(requireView(), "Failed to save changes", Snackbar.LENGTH_SHORT).show();
                 }
@@ -333,11 +336,9 @@ public class AddEventTypeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (root != null) {
                         Snackbar.make(root, "Event type created successfully!", Snackbar.LENGTH_SHORT).show();
+
                     }
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    requireActivity().finish();
+                    loadEventTypes();
                 } else {
                     if (root != null) {
                         Snackbar.make(root, "Failed to create event type", Snackbar.LENGTH_SHORT).show();
