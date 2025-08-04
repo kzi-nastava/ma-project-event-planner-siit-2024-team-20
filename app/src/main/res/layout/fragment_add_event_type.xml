@@ -6,6 +6,7 @@
     tools:context=".fragments.admin.AddEventTypeFragment">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -106,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="1dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"

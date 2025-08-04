@@ -24,8 +24,8 @@ import retrofit2.http.Query;
 
 public interface IProductService {
 
-    @GET("users/admins/sp-categories")
-    Call<Set<CategoryResponse>> getActiveSPCategories();
+    @GET("users/sp-providers/sp-categories/list")
+    Call<List<String>> getActiveSPCategories();
 
     @GET("events/event-types/all/active")
     Call<List<String>> getAllActiveEventTypesNames();
@@ -55,12 +55,11 @@ public interface IProductService {
     Call<List<ServiceProductHomeResponse>> getTop5ServicesProducts();
     @GET("services-products")
     Call<PagedResponse<ServiceProductHomeResponse>> getPagedProducts(
-            @Query("page") int page,
-            @Query("size") int size,
-            @Query("sort") String sort
-    );
-    @GET("services-products/sorted")
-    Call<PagedResponse<ServiceProductHomeResponse>> getSortedServicesProducts(
+            @Query("query") String query,
+            @Query("type") String type,
+            @Query("category") List<String> category,
+            @Query("min") Double min,
+            @Query("max") Double max,
             @Query("sortCriteria") List<String> sortCriteria,
             @Query("sortOrder") String sortOrder,
             @Query("page") int page,
@@ -68,21 +67,6 @@ public interface IProductService {
     );
     @GET("services-products/filter-options")
     Call<FilterItemsOptions> getFilterOptions();
-    @GET("services-products/filter")
-    Call<PagedResponse<ServiceProductHomeResponse>> filterServicesProducts(
-            @Query("type") String type,
-            @Query("category") List<String> category,
-            @Query("min") Double min,
-            @Query("max") Double max,
-            @Query("page") int page,
-            @Query("size") int size
-    );
-    @GET("services-products/search")
-    Call<PagedResponse<ServiceProductHomeResponse>> searchServicesProducts(
-            @Query("query") String query,
-            @Query("page") int page,
-            @Query("size") int size
-    );
     @GET("products/{id}")
     Call<ProductDetailsResponse> getProductDetails(@Path("id") Long id);
 }

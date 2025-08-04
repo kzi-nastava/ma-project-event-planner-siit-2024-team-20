@@ -1,18 +1,32 @@
 package com.example.eventplanner.services.spec;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Base64;
+import android.util.Log;
 
 import com.example.eventplanner.model.entities.User;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 public class AuthService {
     private static User currentUser;
     private static String accessToken;
+    private static SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "MyAppPrefs";
+    private static final String KEY_TOKEN = "JWT_TOKEN";
 
+    public static void init(Context context) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            accessToken = sharedPreferences.getString(KEY_TOKEN, null);
+        }
+    }
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -22,6 +36,7 @@ public class AuthService {
     }
 
     public static void setToken(String accessToken) {
+        sharedPreferences.edit().putString(KEY_TOKEN, accessToken).apply();
         AuthService.accessToken = accessToken;
     }
 
@@ -73,8 +88,22 @@ public class AuthService {
 
 
     public static void logout() {
+        try {
+            Call<Void> logoutCall = ApiService.getUserService().logoutFcmToken();
+            logoutCall.execute();
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
         accessToken = null;
         currentUser = null;
-    }
+        if (sharedPreferences != null) {
+            sharedPreferences.edit().remove(KEY_TOKEN).apply();
+        }
 
+    }
+    public static boolean isLoggedIn() {
+        return getToken() != null;
+    }
 }

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id ("com.google.gms.google-services")
 }
 
 android {
@@ -54,5 +55,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation ("com.prolificinteractive:material-calendarview:1.4.3")
-
+    implementation ("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation ("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation ("com.google.firebase:firebase-messaging:23.4.1")
 }
+

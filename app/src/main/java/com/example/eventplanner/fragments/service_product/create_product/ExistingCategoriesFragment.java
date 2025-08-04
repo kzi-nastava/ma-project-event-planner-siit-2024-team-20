@@ -61,15 +61,15 @@ public class ExistingCategoriesFragment extends Fragment {
 
     private void fetchCategories() {
         IProductService service = ApiService.getProductService();
-        Call<Set<CategoryResponse>> call = service.getActiveSPCategories();
+        Call<List<String>> call = service.getActiveSPCategories();
 
-        call.enqueue(new Callback<Set<CategoryResponse>>() {
+        call.enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<Set<CategoryResponse>> call, Response<Set<CategoryResponse>> response) {
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     categoryNames.clear();
-                    for (CategoryResponse category : response.body()) {
-                        categoryNames.add(category.getName());
+                    for (String category : response.body()) {
+                        categoryNames.add(category);
                     }
 
                     adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, categoryNames);
@@ -80,7 +80,7 @@ public class ExistingCategoriesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Set<CategoryResponse>> call, Throwable t) {
+            public void onFailure(Call<List<String>> call, Throwable t) {
                 Toast.makeText(requireContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

@@ -24,6 +24,9 @@ public interface IEventTypeService {
     @GET("users/admins/event-type/get/all")
     Call<List<EventType>> getAllEventTypes();
 
+    @GET("events/event-type/get/all/active")
+    Call<List<EventType>> getAllActiveEventTypes();
+
     @POST("users/admins/event-type/create")
     Call<EventType> createEventType(@Body EventTypeCreationRequest eventTypeCreationRequest);
 

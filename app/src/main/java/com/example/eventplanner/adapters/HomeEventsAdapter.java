@@ -43,7 +43,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         holder.eventName.setText(event.getName());
         holder.eventDescription.setText(event.getDescription());
         holder.eventType.setText(event.getEventType());
-        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
+        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String formattedDate = event.getStartDate().format(displayFormatter);
         holder.eventDate.setText(formattedDate);
         holder.eventLocation.setText(event.getLocation());

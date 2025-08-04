@@ -27,40 +27,20 @@ public interface IEventService {
     Call<Void> createEvent(@Body EventCreationRequest eventCreationRequest);
     @GET("events/top-5")
     Call<List<EventHomeResponse>> getTop5Events();
-    @GET("events/all")
-    Call<List<EventDetailsResponse>> getAllEvents();
     @GET("events")
     Call<PagedResponse<EventHomeResponse>> getAllEventsPaged(
-            @Query("page") int page,
-            @Query("size") int size,
-            @Query("sort") String sort
-    );
-    @GET("events/search")
-    Call<PagedResponse<EventHomeResponse>> searchEvents(
             @Query("query") String query,
+            @Query("type") List<String> type,
+            @Query("city") List<String> city,
+            @Query("dateAfter") String dateAfter,
+            @Query("dateBefore") String dateBefore,
+            @Query("sortCriteria") List<String> sortCriteria,
+            @Query("sortOrder") String sortOrder,
             @Query("page") int page,
-            @Query("size") int size,
-            @Query("sort") String sort
+            @Query("size") int size
     );
     @GET("events/filter-options")
     Call<FilterEventResponse> getFilterOptions();
-    @GET("events/filter")
-    Call<PagedResponse<EventHomeResponse>> filterEvents(
-            @Query("type") List<String> types,
-            @Query("city") List<String> cities,
-            @Query("dateAfter") String dateAfter,     // format: yyyy-MM-dd
-            @Query("dateBefore") String dateBefore,   // format: yyyy-MM-dd
-            @Query("page") int page,
-            @Query("size") int size,
-            @Query("sort") String sort
-    );
-    @GET("events/sorted")
-    Call<PagedResponse<EventHomeResponse>> getSortedEvents(
-            @Query("page") int page,
-            @Query("size") int size,
-            @Query("sortCriteria") List<String> sortCriteria,
-            @Query("sortOrder") String sortOrder
-    );
     @GET("events/{id}")
     Call<EventDisplayResponse> getEvent(@Path("id") Long id);
 

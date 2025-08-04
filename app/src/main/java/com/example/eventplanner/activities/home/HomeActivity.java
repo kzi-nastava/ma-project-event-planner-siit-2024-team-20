@@ -1,13 +1,24 @@
 package com.example.eventplanner.activities.home;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -16,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 
 import com.example.eventplanner.R;
-import com.example.eventplanner.UserCalendarFragment;
+import com.example.eventplanner.fragments.calendar.UserCalendarFragment;
 import com.example.eventplanner.activities.startup.LoginActivity;
 import com.example.eventplanner.fragments.admin.AddEventTypeFragment;
 import com.example.eventplanner.fragments.admin.CommentManagementFragment;
@@ -31,14 +42,14 @@ import com.example.eventplanner.fragments.service_product_provider.SeeMyProducts
 import com.example.eventplanner.fragments.admin.ReportManagementFragment;
 import com.example.eventplanner.helpers.DrawerSetupTool;
 import com.example.eventplanner.helpers.FragmentsTool;
+import com.example.eventplanner.model.notification.FcmTokenRequest;
 import com.example.eventplanner.services.IProductService;
 import com.example.eventplanner.services.spec.ApiService;
 import com.example.eventplanner.services.spec.AuthService;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,8 +93,65 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.nav_edit_comments).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_edit_reports).setVisible(false);
         }
+        NotificationManagerCompat.from(this).cancelAll();
+
+        // Ako koristiš ShortcutBadger, možeš i ovako:
+        //ShortcutBadger.removeCount(this);
         openChat();
+        createNotificationChannel();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1001);
+            } else {
+                getFcmTokenAndRegister();
+            }
+        } else {
+            getFcmTokenAndRegister();
+        }
     }
+    private void getFcmTokenAndRegister() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    String token = task.getResult();
+                    Log.d("FCM", "Manual token: " + token);
+
+                    ApiService.getNotificationService().registerFcmToken(new FcmTokenRequest(token))
+                            .enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    Log.d("FCM", "Token registered on backend!");
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Log.e("FCM", "Failed to register token: " + t.getMessage());
+                                }
+                            });
+                });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getFcmTokenAndRegister();
+            } else {
+                Toast.makeText(this, "Bez dozvole za notifikacije nećete ih primati.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void openChat(){
         ImageView chatBubble= findViewById(R.id.chat_icon);
         chatBubble.setOnClickListener(v -> {
@@ -152,6 +220,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
 
+    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "default",                      // ID kanala
+                    "General Notifications",        // Ime kanala (vidi se u Settings)
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
     }
 
 }

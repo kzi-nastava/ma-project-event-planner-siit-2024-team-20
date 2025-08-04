@@ -101,15 +101,15 @@ public class FilterProductDialogFragment extends DialogFragment {
     }
 
     private void loadCategories() {
-        productService.getActiveSPCategories().enqueue(new Callback<Set<CategoryResponse>>() {
+        productService.getActiveSPCategories().enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<Set<CategoryResponse>> call, Response<Set<CategoryResponse>> response) {
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     categories.clear();
                     categories.add("");
 
-                    for (CategoryResponse category : response.body()) {
-                        categories.add(category.getName());
+                    for (String category : response.body()) {
+                        categories.add(category);
                     }
 
                     if (categoryAdapter != null) {
@@ -119,7 +119,8 @@ public class FilterProductDialogFragment extends DialogFragment {
             }
 
             @Override
-            public void onFailure(Call<Set<CategoryResponse>> call, Throwable t) {
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
             }
         });
     }
