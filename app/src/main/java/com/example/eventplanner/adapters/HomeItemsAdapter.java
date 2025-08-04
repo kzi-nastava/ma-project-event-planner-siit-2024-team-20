@@ -1,5 +1,8 @@
 package com.example.eventplanner.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.eventplanner.R;
 import com.example.eventplanner.model.homepage.ServiceProductHomeResponse;
 
@@ -51,17 +55,19 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.Prod
         holder.price.setText(String.format("%.2f EURO", product.getPrice()));
         holder.category.setText(product.getCategory());
         holder.type.setText(product.getType());
-        String imageUrl = product.getImage();
-        if (imageUrl != null) {
-            imageUrl = imageUrl.replace("localhost", "192.168.8.101"); // ako si na emulatoru
-            // ili: imageUrl = imageUrl.replace("localhost", "192.168.1.5"); // ako si na telefonu
+        String base64Image = product.getImage();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            try {
+                byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                holder.imageView.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                holder.imageView.setImageResource(R.drawable.placeholder_image); // fallback
+                Log.e("HomeItemsAdapter", "Failed to decode Base64 image", e);
+            }
+        } else {
+            holder.imageView.setImageResource(R.drawable.placeholder_image); // ako nema slike
         }
-
-        Glide.with(holder.itemView.getContext())
-                .load(imageUrl) // mora biti validan URL
-                .placeholder(R.drawable.placeholder_image) // dok se učitava
-                .error(R.drawable.placeholder_image)             // ako pukne
-                .into(holder.imageView);
 
         Log.d("HomeItemsAdapter", "Loading image: " + product.getImage());
 
@@ -88,4 +94,5 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<HomeItemsAdapter.Prod
 
         }
     }
+
 }
